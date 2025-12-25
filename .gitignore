@@ -1,0 +1,20 @@
+# Moonrepo artifacts
+.moon/cache/
+.moon/docker/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# OS
+dist/
+build/
+coverage/
