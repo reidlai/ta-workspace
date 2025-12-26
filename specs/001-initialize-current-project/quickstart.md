@@ -31,14 +31,23 @@
 2. Add a `moon.yml` file to the directory.
 3. Run `moon sync` to regenerate project graph.
 
+## Verification Steps
+
+The following steps were performed to validate the workspace initialization:
+
+1. **Configuration Integrity**: Verified using `moon sync` (validates `workspace.yml` and `toolchain.yml`).
+2. **Project Discovery**: Verified by creating dummy projects in `apps/` and `packages/` and confirming `moon` detected them.
+3. **Task Execution**: Verified by creating a dummy app with a `build` task and confirming `moon run :build` executed successfully and produced outputs.
+
 ## Running Tasks
 
 - **Build all projects**:
   ```bash
-  moon run :build
+  npm run moon run :build
   ```
 
 - **Run tests for specific project**:
   ```bash
-  moon run app-name:test
+  npm run moon run app-name:test
   ```
+

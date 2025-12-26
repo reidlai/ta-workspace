@@ -1,0 +1,31 @@
+$schema: 'https://moonrepo.dev/schemas/tasks.json'
+
+fileGroups:
+  sources:
+    - 'src/**/*'
+    - 'types/**/*'
+  tests:
+    - 'tests/**/*'
+    - '**/__tests__/**/*'
+
+tasks:
+  build:
+    command: 'npm run build'
+    inputs:
+      - '@group(sources)'
+    outputs:
+      - 'dist'
+      - 'build'
+
+  test:
+    command: 'npm run test'
+    inputs:
+      - '@group(tests)'
+      - '@group(sources)'
+
+  lint:
+    command: 'npm run lint'
+    inputs:
+      - '@group(sources)'
+      - '.eslintrc.*'
+      - 'tsconfig.json'

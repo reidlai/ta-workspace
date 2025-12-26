@@ -48,9 +48,9 @@ description: "Task list for initializing Moonrepo"
 
 ### Implementation for User Story 1
 
-- [ ] T007 [US1] Run `moon init` (simulated via manual config or re-validation of previous steps)
-- [ ] T008 [US1] Run `moon doctor` to validate configuration integrity
-- [ ] T009 [US1] Update `package.json` with scripts for `moon` commands
+- [x] T007 [US1] Run `moon init` (simulated via manual config or re-validation of previous steps)
+- [x] T008 [US1] Run `moon doctor` to validate configuration integrity
+- [x] T009 [US1] Update `package.json` with scripts for `moon` commands
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -64,10 +64,10 @@ description: "Task list for initializing Moonrepo"
 
 ### Implementation for User Story 2
 
-- [ ] T010 [P] [US2] Create dummy app in `apps/demo-app/moon.yml` to verify discovery
-- [ ] T011 [P] [US2] Create dummy package in `packages/demo-pkg/moon.yml` to verify discovery
-- [ ] T012 [US2] Run `moon sync` to verify project graph generation
-- [ ] T013 [US2] Clean up dummy projects (optional/verification step)
+- [x] T010 [P] [US2] Create dummy app in `apps/demo-app/moon.yml` to verify discovery
+- [x] T011 [P] [US2] Create dummy package in `packages/demo-pkg/moon.yml` to verify discovery
+- [x] T012 [US2] Run `moon sync` to verify project graph generation
+- [x] T013 [US2] Clean up dummy projects (optional/verification step)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -81,10 +81,10 @@ description: "Task list for initializing Moonrepo"
 
 ### Implementation for User Story 3
 
-- [ ] T014 [US3] Define global `build` task in `.moon/tasks.yml`
-- [ ] T015 [US3] Define global `test` task in `.moon/tasks.yml`
-- [ ] T016 [US3] Define global `lint` task in `.moon/tasks.yml`
-- [ ] T017 [US3] Validate task execution via `moon run :build` (dry run or on dummy project)
+- [x] T014 [US3] Define global `build` task in `.moon/tasks.yml`
+- [x] T015 [US3] Define global `test` task in `.moon/tasks.yml`
+- [x] T016 [US3] Define global `lint` task in `.moon/tasks.yml`
+- [x] T017 [US3] Validate task execution via `moon run :build` (dry run or on dummy project)
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -94,9 +94,11 @@ description: "Task list for initializing Moonrepo"
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T018 Document Moonrepo usage in `README.md`
-- [ ] T019 [P] Update `quickstart.md` with verification steps performed
-- [ ] T020 Security check on toolchain download URLs (implicit in moon)
+- [x] T018 Document Moonrepo usage in `README.md`
+- [x] T019 [P] Update `quickstart.md` with verification steps performed
+- [x] T020 Security check on toolchain download URLs (implicit in moon)
+- [x] T021 Create `docs/ARCHITECTURE.md`
+- [x] T022 Link Architecture doc in `README.md`
 
 ---
 
