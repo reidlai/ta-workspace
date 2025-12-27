@@ -1,0 +1,15 @@
+language: 'typescript'
+type: 'library'
+id: 'ts-registry'
+
+dependsOn:
+  - 'ts-types'
+
+tasks:
+  build:
+    command: 'pnpm run build'
+    inputs:
+      - 'src/**/*'
+      - 'tsconfig.json'
+    outputs:
+      - 'dist'
