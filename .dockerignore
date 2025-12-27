@@ -1,0 +1,9 @@
+node_modules/
+.git/
+.svelte-kit/
+.env*
+.moon/cache/
+coverage/
+build/
+dist/
+*.log

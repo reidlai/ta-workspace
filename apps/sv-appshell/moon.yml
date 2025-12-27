@@ -1,0 +1,34 @@
+language: 'typescript'
+type: 'application'
+id: 'sv-appshell'
+
+dependsOn:
+  - 'ts-types'
+  - 'ts-di'
+  - 'ts-registry'
+  - 'svelte-demo'
+
+tasks:
+  dev:
+    command: 'vite dev --host'
+    local: true
+
+  build:
+    command: 'npx vite build'
+    inputs:
+      - 'src/**/*'
+      - 'static/**/*'
+      - 'svelte.config.js'
+      - 'vite.config.ts'
+    outputs:
+      - 'build'
+      - '.svelte-kit'
+
+  test:
+    command: 'vitest run'
+    inputs:
+      - 'src/**/*'
+      - 'tests/**/*'
+
+  lint:
+    command: 'svelte-check --tsconfig ./tsconfig.json'

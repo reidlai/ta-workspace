@@ -2,7 +2,8 @@ $schema: 'https://moonrepo.dev/schemas/workspace.json'
 
 projects:
   - 'apps/*'
-  - 'packages/*'
+  - 'packages/ts/*'
+  - 'packages/ts/svelte/features/*'
 
 vcs:
   manager: 'git'

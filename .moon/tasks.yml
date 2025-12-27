@@ -14,8 +14,8 @@ tasks:
     inputs:
       - '@group(sources)'
     outputs:
-      - 'dist'
-      - 'build'
+      - 'dist/**'
+      - 'build/**'
 
   test:
     command: 'npm run test'

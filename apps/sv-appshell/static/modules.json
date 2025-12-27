@@ -1,0 +1,9 @@
+{
+    "modules": [
+        {
+            "id": "demo-feature",
+            "enabled": true,
+            "src": "@svelte/demo"
+        }
+    ]
+}
