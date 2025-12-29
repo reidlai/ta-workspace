@@ -4,9 +4,9 @@ import { Registry } from '@core/registry'; // For typing, though we might not us
 export class FeatureLoader {
     // Glob pattern to find feature entry points across the workspace
     // Adjust depth based on file location: src/lib/loader/FeatureLoader.ts
-    // ../../../../../modules/*/src/index.ts -> workspace/modules/*/src/index.ts
-    // This matches modules/demo/src/index.ts but NOT modules/core/types/src/index.ts (which is nested deeper)
-    private static featureGlob = import.meta.glob('../../../../../modules/*/src/index.ts');
+    // ../../../../../modules/*/*/src/index.ts -> workspace/modules/<domain>/<lang>/src/index.ts
+    // Matches modules/demo/svelte/src/index.ts
+    private static featureGlob = import.meta.glob('../../../../../modules/*/*/src/index.ts');
 
     static async loadFeatures(context: IContext, config: IAppConfig[]): Promise<void> {
         console.log('FeatureLoader: discoverable modules', Object.keys(this.featureGlob));
@@ -24,9 +24,9 @@ export class FeatureLoader {
             // Assume moduleConfig.src is like "features/demo" or just "demo"
             // We search for a key in glob that includes this string.
             // Start with simplest match heuristic: matches /<src>/ segment in path
-            // e.g. src="demo" -> matches .../modules/demo/src/...
+            // e.g. src="demo" -> matches .../modules/demo/svelte/src/...
             const matchedKey = Object.keys(this.featureGlob).find(key =>
-                key.includes(`/${moduleConfig.src}/`)
+                key.includes(`/${moduleConfig.src}/`) && key.includes('/src/index.ts')
             );
 
             if (matchedKey) {

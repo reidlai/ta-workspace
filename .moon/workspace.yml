@@ -2,8 +2,8 @@ $schema: 'https://moonrepo.dev/schemas/workspace.json'
 
 projects:
   - 'apps/*'
-  - 'modules/*'
-  - 'modules/ts/core/*'
+  - 'modules/demo/*'
+  - 'modules/core/ts/*'
 
 vcs:
   manager: 'git'
