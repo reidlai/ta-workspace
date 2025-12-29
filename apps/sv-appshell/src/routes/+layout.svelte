@@ -35,7 +35,7 @@
         <a class="mr-6 flex items-center space-x-2" href="/">
           <span class="hidden font-bold sm:inline-block">App Shell</span>
         </a>
-        <nav class="flex items-center space-x-6 text-sm font-medium">
+        <!-- <nav class="flex items-center space-x-6 text-sm font-medium">
           {#each handlers as handler}
             <button
               class="transition-colors hover:text-foreground/80 text-foreground/60"
@@ -44,7 +44,7 @@
               {handler.title}
             </button>
           {/each}
-        </nav>
+        </nav> -->
       </div>
     </div>
   </header>
