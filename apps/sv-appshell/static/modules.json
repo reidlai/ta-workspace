@@ -1,7 +1,7 @@
 {
     "modules": [
         {
-            "id": "demo-feature",
+            "id": "demo-module",
             "enabled": true,
             "src": "demo"
         }

@@ -30,9 +30,9 @@ The app shell uses a **dynamic module loading system** to inject feature package
    {
      "modules": [
        {
-         "id": "demo-feature",
+         "id": "demo-module",
          "enabled": true,
-         "src": "@features/demo-feature"
+         "src": "@modules/demo-module"
        }
      ]
    }
@@ -53,7 +53,7 @@ The app shell uses a **dynamic module loading system** to inject feature package
      ```typescript
      export default async function init(context: IContext): Promise<IFeatureBundle> {
        return {
-         id: 'demo-feature',
+         id: 'demo-module',
          routes: [{ path: '/demo', component: DemoPage }],
          services: { 'DemoService': { sayHello: () => 'Hello!' } }
        };
@@ -76,8 +76,8 @@ The app shell uses a **dynamic module loading system** to inject feature package
 Visit **http://localhost:5173/demo** to see the demo feature in action.
 
 Check console logs to see:
-- `[DemoFeature] Initializing with context: DIContainer`
-- `[Registry] Registered module: demo-feature`
+- `[DemoModule] Initializing with context: DIContainer`
+- `[Registry] Registered module: demo-module`
 
 
 

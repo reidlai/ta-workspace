@@ -4,7 +4,7 @@ export class Registry {
     private static instance: Registry;
     private modules = new Map<string, IModuleBundle>();
     // Flattened registries for easy access
-    private widgets: IWidget[] = [];
+    private widgetMap = new Map<string, IWidget>();
     private handlers: IHandler[] = [];
     private servicesMap = new Map<string, any>();
     private stateStores = new Map<string, any>();
@@ -28,7 +28,13 @@ export class Registry {
 
         // Auto-register widgets
         if (bundle.widgets) {
-            this.widgets.push(...bundle.widgets);
+            for (const widget of bundle.widgets) {
+                if (this.widgetMap.has(widget.id)) {
+                    console.warn(`[Registry] Duplicate widget ID found: ${widget.id}. Skipping registration.`);
+                    continue;
+                }
+                this.widgetMap.set(widget.id, widget);
+            }
         }
 
         // Auto-register handlers
@@ -52,8 +58,12 @@ export class Registry {
         return this.modules.get(id);
     }
 
+    getWidget(id: string): IWidget | undefined {
+        return this.widgetMap.get(id);
+    }
+
     getWidgets(): IWidget[] {
-        return this.widgets;
+        return Array.from(this.widgetMap.values());
     }
 
     getHandlers(): IHandler[] {
@@ -67,7 +77,7 @@ export class Registry {
     clear(): void {
         this.modules.clear();
         this.servicesMap.clear();
-        this.widgets = [];
+        this.widgetMap.clear();
         this.handlers = [];
         this.stateStores.clear();
     }

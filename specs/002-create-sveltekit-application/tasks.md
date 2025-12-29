@@ -70,8 +70,8 @@ description: "Implementation tasks for SvelteKit App Shell with custom DI"
 - [x] T018 [US2] Implement Dynamic Router catch-all in `apps/sv-appshell/src/routes/[...rest]/+page.svelte` (delegating to `@shared/core`)
 - [x] T019 [US2] Create example `modules.json` in `apps/sv-appshell/static/modules.json`
 - [x] T020 [US2] Implement App Initialization logic in `apps/sv-appshell/src/routes/+layout.ts` to boot Registry
-- [x] T021 [US2] Create demo feature package in `packages/features/demo-feature/package.json`
-- [x] T022 [US2] Implement `IFeatureBundle` in `packages/features/demo-feature/src/index.ts`
+- [x] T021 [US2] Create demo feature package in `packages/features/demo-module/package.json`
+- [x] T022 [US2] Implement `IFeatureBundle` in `packages/features/demo-module/src/index.ts`
 - [x] T023 [US2] Build demo feature `moon run feature-demo:build`
 - [x] T024 [US2] Register demo feature in `modules.json` and verify routing
 

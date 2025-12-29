@@ -19,7 +19,7 @@ export const init: ModuleInit = async (context: IContext): Promise<IModuleBundle
     const demoService = new DemoService();
 
     return {
-        id: 'demo-feature',
+        id: 'demo-module',
         routes: [
             { path: '/demo', component: DemoPage }
         ],
