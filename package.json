@@ -3,8 +3,8 @@
   "private": true,
   "workspaces": [
     "apps/*",
-    "modules/*",
-    "modules/ts/core/*"
+    "modules/demo/*",
+    "modules/core/ts/*"
   ],
   "scripts": {
     "moon": "moon",
