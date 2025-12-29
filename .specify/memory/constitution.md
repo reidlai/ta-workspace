@@ -129,7 +129,8 @@ AI coding agents MUST:
 - `pre-commit-config.yaml`
 - `features/` (Cucumber specs)
 - `tests/integration/`, `tests/contract/` (integration and contract tests)
-- `src/` (unit tests co-located with source code for SvelteKit projects)
+- `apps/**/src/` (Source code for applications)
+- `modules/**/<lang>/src/` (Polyglot source code for modules, where <lang> means different languages like ts, go, rust, etc.)
 - `threat_modelling/` (incl. `reports/`)
 - `deploy/docker/` (Dockerfile, entrypoint.sh, etc.)
 - `local-devsecops.sh` (local pipeline script)
@@ -190,9 +191,8 @@ before expiry. Re-review required at expiry.
 - **Toolchain Consistency**: All environments (Local Dev & CI) must use Moonrepo's toolchain management to pin specific versions of Node.js and Golang, ensuring zero "works on my machine" issues.
 
 ### Authorized Tech Stack
-- **Frontend Layer**: **Next.js** is the mandated framework for all web interfaces and client-side applications.
-  - **Exception**: **SvelteKit** is authorized for modular application shells that implement a plugin/module architecture (e.g., `apps/sv-appshell`), where the shell serves as a host for dynamically loaded feature modules. New standalone web applications MUST use Next.js unless approved via waiver.
-- **Backend Layer**: **Golang** is the mandated language for core API services, focusing on performance and concurrency.
+- **Frontend Layer**: **Next.js** or **SvelteKit** are two options for all web interfaces and client-side applications.
+- **Backend Layer**: **Golang**, **Python**, or **Rust** are the authorized languages for core API services, focusing on performance and concurrency.
 - **Unified CI/CD**: CI pipelines must utilize Moonrepo's caching (`moon ci`) to only build/test affected projects, preventing redundant computation across the Frontend and Backend.
 
 ## Out of Scope
