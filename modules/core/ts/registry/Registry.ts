@@ -90,8 +90,23 @@ export class Registry {
     // State Store Support (Mock/Simple implementation)
     getStateStore(id: string): any {
         if (!this.stateStores.has(id)) {
-            // Best effort: Return a mock store object
-            this.stateStores.set(id, { subscribe: () => { }, set: () => { }, update: () => { } });
+            // Best effort: Return a mock ModuleStateStore object
+            this.stateStores.set(id, {
+                subscribe: () => { },
+                set: () => { },
+                update: () => { },
+                getChannel: (key: string, initial: any) => {
+                    return {
+                        subscribe: (run: (val: any) => void) => {
+                            run(initial);
+                            return () => { };
+                        }
+                    };
+                },
+                updateState: (key: string, val: any, src: string) => {
+                    console.log(`[MockStore] Update ${key}:`, val, src);
+                }
+            });
         }
         return this.stateStores.get(id);
     }

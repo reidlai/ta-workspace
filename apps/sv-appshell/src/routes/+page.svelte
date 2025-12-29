@@ -10,14 +10,15 @@
 </script>
 
 <div class="flex flex-1 flex-col gap-4">
-  <SectionCards />
+  <!-- <h1>Debug Page</h1>
+  <p>Widget Count: {widgets.length}</p> -->
+
+  <!-- <SectionCards /> -->
 
   {#if widgets.length > 0}
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {#each widgets as widget}
         <div class="rounded-xl bg-card text-card-foreground shadow border p-4">
-          <h3 class="font-semibold">{widget.title}</h3>
-          <p class="text-sm text-muted-foreground mb-4">{widget.description}</p>
           <svelte:component this={widget.component} {...widget.props} />
         </div>
       {/each}

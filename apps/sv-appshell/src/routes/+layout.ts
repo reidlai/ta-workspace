@@ -9,11 +9,14 @@ import { FeatureLoader } from '$lib/loader/FeatureLoader';
 export const ssr = false; // Disable SSR for MVP to avoid singleton state issues across requests for now
 
 export const load: LayoutLoad = async ({ fetch }) => {
+    console.log("DEBUG: +layout.ts load start");
     const registry = Registry.getInstance();
 
     // Check if already loaded (client-side nav)
     if (registry.getModules().length > 0) {
-        return { modules: registry.getModules() };
+        console.log("DEBUG: Modules already loaded");
+        // return { modules: registry.getModules() };
+        return {}; // Return empty to bypass serialization check
     }
 
     try {
@@ -22,6 +25,7 @@ export const load: LayoutLoad = async ({ fetch }) => {
 
         if (res.ok) {
             const config = await res.json();
+            console.log("DEBUG: Loaded modules.json", config);
 
             // App Config & Context
             const appConfig: IAppConfig = {
@@ -34,6 +38,7 @@ export const load: LayoutLoad = async ({ fetch }) => {
 
             // Use FeatureLoader to dynamic load
             await FeatureLoader.loadFeatures(container, config.modules);
+            console.log("DEBUG: FeatureLoader done");
         }
     } catch (e) {
         console.error("Failed to initialize app registry", e);
