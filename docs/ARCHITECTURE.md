@@ -8,8 +8,8 @@ We use [Moonrepo](https://moonrepo.dev) as our primary build system and monorepo
 
 ## Directory Structure
 
-- **`apps/`**: Contains end-user application projects (e.g., web apps, services).
-- **`packages/`**: Contains shared libraries and utilities used by apps.
+- **`apps/`**: Contains end-user application projects (e.g., `sv-appshell`).
+- **`apps/sv-appshell/src/lib/`**: Contains shared core logic, feature modules, and utilities (formerly `packages/`).
 - **`.moon/`**: Contains the workspace configuration files.
 
 ## Toolchain Configuration

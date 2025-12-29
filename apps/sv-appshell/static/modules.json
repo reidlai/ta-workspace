@@ -3,7 +3,7 @@
         {
             "id": "demo-feature",
             "enabled": true,
-            "src": "@svelte/demo"
+            "src": "demo"
         }
     ]
 }

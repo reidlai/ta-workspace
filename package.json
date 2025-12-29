@@ -3,8 +3,8 @@
   "private": true,
   "workspaces": [
     "apps/*",
-    "packages/shared/*",
-    "packages/features/*"
+    "modules/*",
+    "modules/core/*"
   ],
   "scripts": {
     "moon": "moon",
@@ -13,7 +13,7 @@
   },
   "packageManager": "pnpm@8.12.0",
   "engines": {
-    "node": "20.19.1"
+    "node": ">=20.19.0"
   },
   "pnpm": {
     "overrides": {
