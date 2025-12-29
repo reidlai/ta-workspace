@@ -109,7 +109,7 @@ packages/ts/
     └── demo/
         └── src/
             ├── DemoPage.svelte                 # Already exists
-            ├── DemoGadget.svelte               # NEW: Dashboard gadget
+            ├── DemoWidget.svelte               # NEW: Dashboard gadget
             └── index.ts                        # UPDATE: Export gadget
 
 features/

@@ -2,8 +2,7 @@ language: 'typescript'
 type: 'library'
 id: 'svelte-demo'
 
-dependsOn:
-  - 'ts-types'
+
 
 tasks:
   build:

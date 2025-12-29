@@ -1,4 +1,4 @@
-import type { IAppConfig, IContext, IFeatureBundle, ModuleInit } from '@core/types';
+import type { IAppConfig, IContext, IModuleBundle, ModuleInit } from '@core/types';
 import { Registry } from '@core/registry'; // For typing, though we might not use it directly
 
 export class FeatureLoader {
