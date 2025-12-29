@@ -1,34 +1,40 @@
 <script lang="ts">
-  import { page } from '$app/stores';
-  import { onMount } from 'svelte';
-  import { Registry, RouterService } from '@ts/registry';
-  import type { IParamsRoute } from '@ts/types';
+  import { page } from "$app/stores";
+  import { onMount } from "svelte";
 
-  let currentRoute: IParamsRoute | null = null;
-  let routeParams: Record<string, string> = {};
+  // This catch-all route handles nested module routing
+  // The actual module content is determined by the path segments
 
-  $: {
+  let moduleComponent: any = null;
+  let error: string | null = null;
+
+  import { Registry } from "@core/registry";
+
+  onMount(async () => {
     const path = $page.url.pathname;
     const registry = Registry.getInstance();
-    const router = new RouterService(registry);
-    
-    console.log('[AppShell] Matching path:', path);
-    // Debug: log registered modules
-    console.log('[AppShell] Registry modules:', registry.getModules().map(m => m.id));
 
-    const match = router.match(path);
-    if (match) {
-        currentRoute = match.route;
-        routeParams = match.params;
-    } else {
-        currentRoute = null;
+    // Look up route in registry
+    moduleComponent = registry.getRoute(path);
+
+    if (!moduleComponent) {
+      error = "Module route not found";
     }
-  }
+  });
 </script>
 
-{#if currentRoute}
-  <svelte:component this={currentRoute.component} {routeParams} />
+{#if error}
+  <div class="p-8 text-center">
+    <h1 class="text-2xl font-bold text-destructive">Route Error</h1>
+    <p class="text-muted-foreground mt-2">{error}</p>
+    <a href="/" class="inline-block mt-4 text-primary hover:underline"
+      >Return to Dashboard</a
+    >
+  </div>
+{:else if moduleComponent}
+  <svelte:component this={moduleComponent} />
 {:else}
-  <h1>404 - Not Found</h1>
-  <p>No module found for {$page.url.pathname}</p>
+  <div class="p-8 text-center">
+    <p class="text-muted-foreground">Loading...</p>
+  </div>
 {/if}

@@ -2,11 +2,6 @@ language: 'typescript'
 type: 'application'
 id: 'sv-appshell'
 
-dependsOn:
-  - 'ts-types'
-  - 'ts-di'
-  - 'ts-registry'
-  - 'svelte-demo'
 
 tasks:
   dev:

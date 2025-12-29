@@ -191,6 +191,7 @@ before expiry. Re-review required at expiry.
 
 ### Authorized Tech Stack
 - **Frontend Layer**: **Next.js** is the mandated framework for all web interfaces and client-side applications.
+  - **Exception**: **SvelteKit** is authorized for modular application shells that implement a plugin/module architecture (e.g., `apps/sv-appshell`), where the shell serves as a host for dynamically loaded feature modules. New standalone web applications MUST use Next.js unless approved via waiver.
 - **Backend Layer**: **Golang** is the mandated language for core API services, focusing on performance and concurrency.
 - **Unified CI/CD**: CI pipelines must utilize Moonrepo's caching (`moon ci`) to only build/test affected projects, preventing redundant computation across the Frontend and Backend.
 

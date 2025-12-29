@@ -5,13 +5,13 @@ The `sv-appshell` is a SvelteKit application designed as a modular host for feat
 ## Core Concepts
 
 ### 1. Dependency Injection (DI)
-The shell uses a custom, lightweight DI container (`@shared/core/src/di/Container.ts`) to manage services and configuration.
+The shell uses a custom, lightweight DI container (`src/lib/di/Container.ts`) to manage services and configuration.
 
 - **Container**: Holds service instances.
 - **Context**: Passed to module initialization functions.
 
 ### 2. Module Registry
-The `Registry` (`@shared/core/src/registry/Registry.ts`) is a singleton that stores loaded feature bundles.
+The `Registry` (`src/lib/registry/Registry.ts`) is a singleton that stores loaded feature bundles.
 
 - **Feature Bundle**: Defines routes, state, and services.
 - **Registration**: Modules are registered at runtime (e.g., in `+layout.ts`).
@@ -24,7 +24,7 @@ The shell handles routing via a catch-all route (`src/routes/[...rest]/+page.sve
 
 ## Module Structure
 
-Modules are strictly typed via `@shared/typescripts`.
+Modules are strictly typed via `$lib/types`.
 
 ```typescript
 export const init: ModuleInit = async (context) => {
@@ -37,7 +37,6 @@ export const init: ModuleInit = async (context) => {
 
 ## Adding a New Module
 
-1. Create a package in `packages/features/`.
+1. Create a folder in `apps/sv-appshell/src/lib/features/`.
 2. Implement `src/index.ts` conforming to `ModuleInit`.
-3. Add the package dependency to `apps/sv-appshell/package.json`.
-4. Update `apps/sv-appshell/static/modules.json` to enable it.
+3. Update `apps/sv-appshell/static/modules.json` to enable it (referencing `$lib` path).

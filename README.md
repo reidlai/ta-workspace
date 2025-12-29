@@ -10,13 +10,11 @@ Packages are organized by **tech stack** for better scalability in a multi-frame
 
 - `apps/`: Application projects
   - `sv-appshell/`: SvelteKit application shell
-- `packages/core/`: Framework-agnostic TypeScript packages
-  - `types/`: Shared type definitions (`@core/types`)
-  - `di/`: Dependency injection container (`@core/di`)
-  - `registry/`: Feature registry and router (`@core/registry`)
-- `packages/svelte/`: Svelte-specific packages
-  - `features/demo/`: Demo feature module (`@svelte/demo`)
-  - `components/`: Shared Svelte components (future)
+    - `src/lib/`: Shared code & core modules
+      - `types/`: Shared type definitions
+      - `di/`: Dependency injection container
+      - `registry/`: Feature registry and router
+      - `features/`: Feature modules (e.g., `demo/`)
 - `.moon/`: Moonrepo configuration
 
 See [Architecture Documentation](docs/appshell-architecture.md) for deeper details.
@@ -46,7 +44,7 @@ The app shell uses a **dynamic module loading system** to inject feature package
    - Calls the feature's `init()` function with app context
    - Registers the feature bundle (routes, services) in the global Registry
 
-3. **Feature Package** ([`packages/features/demo-feature`](packages/features/demo-feature))
+3. **Feature Module** ([`src/lib/features/demo`](apps/sv-appshell/src/lib/features/demo))
    - Exports a default `init()` function
    - Returns a bundle containing:
      - **Routes**: Path and component mappings
@@ -62,15 +60,15 @@ The app shell uses a **dynamic module loading system** to inject feature package
      }
      ```
 
-4. **Registry & Router** ([`@shared/core`](packages/shared/core))
+4. **Registry & Router** ([`src/lib`](apps/sv-appshell/src/lib))
    - `Registry`: Singleton that stores all loaded feature bundles
    - `RouterService`: Matches paths to feature routes and renders components
 
 ### Adding a New Feature
 
-1. Create a new package in `packages/features/your-feature`
+1. Create a new folder in `apps/sv-appshell/src/lib/features/your-feature`
 2. Export a default `init()` function returning an `IFeatureBundle`
-3. Add your feature to `apps/sv-appshell/static/modules.json`
+3. Add your feature to `apps/sv-appshell/static/modules.json` using the `$lib` path or logical ID
 4. Rebuild and the app shell will auto-load it!
 
 ### Example: Demo Feature

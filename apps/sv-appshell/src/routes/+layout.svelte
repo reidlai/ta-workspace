@@ -1,41 +1,17 @@
 <script>
-  import '../app.css';
+  import "../app.css";
+
+  // Simple utilities to manage light & dark mode in your SvelteKit app
+  import { ModeWatcher } from "mode-watcher";
+
+  let favicon = "/favicon.ico";
+  let { children } = $props();
 </script>
 
-<div class="app-shell">
-  <header>
-    <h1>SV App Shell</h1>
-    <nav>
-      <a href="/">Home</a>
-      <!-- Links could be dynamic based on registry -->
-    </nav>
-  </header>
+<svelte:head>
+  <link rel="icon" href={favicon} />
+</svelte:head>
 
-  <main>
-    <slot />
-  </main>
-</div>
+<ModeWatcher />
 
-<style>
-  .app-shell {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  header {
-    background: #333;
-    color: white;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-  }
-  header a {
-    color: white;
-    text-decoration: none;
-    margin-left: 1rem;
-  }
-  main {
-    flex: 1;
-    padding: 1rem;
-  }
-</style>
+{@render children?.()}
