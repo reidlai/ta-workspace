@@ -6,24 +6,34 @@
   import type { IWidget } from "@core/types";
 
   const registry = Registry.getInstance();
-  const widgets: IWidget[] = registry.getWidgets();
+  const demoWidget = registry.getWidget("demo-widget");
 </script>
 
 <div class="flex flex-1 flex-col gap-4">
   <!-- <h1>Debug Page</h1>
   <p>Widget Count: {widgets.length}</p> -->
 
-  <!-- <SectionCards /> -->
+  <!-- Dashboard Gadget Section -->
 
-  {#if widgets.length > 0}
-    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {#each widgets as widget}
-        <div class="rounded-xl bg-card text-card-foreground shadow border p-4">
-          <svelte:component this={widget.component} {...widget.props} />
-        </div>
-      {/each}
-    </div>
-  {/if}
+  <div class="grid gap-4 md:grid-cols-3">
+
+    {#if demoWidget}
+      <div class="aspect-video rounded-xl bg-muted/50">
+        <svelte:component this={demoWidget.component} {...demoWidget.props} />
+      </div>
+    {/if}
+    {#if demoWidget}
+      <div class="aspect-video rounded-xl bg-muted/50">
+        <svelte:component this={demoWidget.component} {...demoWidget.props} />
+      </div>
+    {/if}
+    {#if demoWidget}
+      <div class="aspect-video rounded-xl bg-muted/50">
+        <svelte:component this={demoWidget.component} {...demoWidget.props} />
+      </div>
+    {/if}
+
+  </div>  
 
   <div class="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min">
     <ChartAreaInteractive />

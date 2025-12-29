@@ -81,7 +81,7 @@ packages/
 
 packages/
 └── features/
-    └── demo-feature/         # [NEW] MVP Feature for verification
+    └── demo-module/         # [NEW] MVP Feature for verification
         ├── package.json
         └── src/
             ├── index.ts      # Exports IFeatureBundle
@@ -107,7 +107,7 @@ packages/
 ### Application Layer
 #### [NEW] [sv-appshell](file:///C:/Users/reidl/GitLocal/appshell-workspace/apps/sv-appshell/package.json)
 - SvelteKit app using `adapter-node`.
-- Dependency on `@shared/core`, `@shared/typescripts`, and `@features/demo-feature` (for demo).
+- Dependency on `@shared/core`, `@shared/typescripts`, and `@modules/demo-module` (for demo).
 - Dynamic route catch-all delegates to `@shared/core/router`.
 
 ### Shared Layer
@@ -120,7 +120,7 @@ packages/
 - Implement `RouterService`.
 
 ### Feature Layer
-#### [NEW] [packages/features/demo-feature](file:///C:/Users/reidl/GitLocal/appshell-workspace/packages/features/demo-feature/package.json)
+#### [NEW] [packages/features/demo-module](file:///C:/Users/reidl/GitLocal/appshell-workspace/packages/features/demo-module/package.json)
 - Implementation of `IFeatureBundle` for verification.
 
 

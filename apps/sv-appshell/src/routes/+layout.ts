@@ -4,7 +4,7 @@ import { Registry } from '@core/registry';
 import { DIContainer } from '@core/di';
 import type { LayoutLoad } from './$types';
 import type { IAppConfig } from '@core/types';
-import { FeatureLoader } from '$lib/loader/FeatureLoader';
+import { ModuleLoader } from '$lib/loader/ModuleLoader';
 
 export const ssr = false; // Disable SSR for MVP to avoid singleton state issues across requests for now
 
@@ -36,9 +36,9 @@ export const load: LayoutLoad = async ({ fetch }) => {
 
             const container = new DIContainer(appConfig);
 
-            // Use FeatureLoader to dynamic load
-            await FeatureLoader.loadFeatures(container, config.modules);
-            console.log("DEBUG: FeatureLoader done");
+            // Use ModuleLoader to dynamic load
+            await ModuleLoader.loadModules(container, config.modules);
+            console.log("DEBUG: ModuleLoader done");
         }
     } catch (e) {
         console.error("Failed to initialize app registry", e);

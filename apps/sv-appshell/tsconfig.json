@@ -21,8 +21,8 @@
 			"$lib/*": [
 				"./src/lib/*"
 			],
-			"@features/*": [
-				"../../modules/demo/*"
+			"@modules/*": [
+				"../../modules/*"
 			],
 			"@core/*": [
 				"../../modules/core/ts/*"
