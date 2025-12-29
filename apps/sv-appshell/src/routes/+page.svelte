@@ -16,24 +16,22 @@
   <!-- Dashboard Gadget Section -->
 
   <div class="grid gap-4 md:grid-cols-3">
-
     {#if demoWidget}
-      <div class="aspect-video rounded-xl bg-muted/50">
+      <div class="h-full rounded-xl bg-muted/50">
         <svelte:component this={demoWidget.component} {...demoWidget.props} />
       </div>
     {/if}
     {#if demoWidget}
-      <div class="aspect-video rounded-xl bg-muted/50">
+      <div class="h-full rounded-xl bg-muted/50">
         <svelte:component this={demoWidget.component} {...demoWidget.props} />
       </div>
     {/if}
     {#if demoWidget}
-      <div class="aspect-video rounded-xl bg-muted/50">
+      <div class="h-full rounded-xl bg-muted/50">
         <svelte:component this={demoWidget.component} {...demoWidget.props} />
       </div>
     {/if}
-
-  </div>  
+  </div>
 
   <div class="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min">
     <ChartAreaInteractive />
