@@ -22,7 +22,10 @@
 				"./src/lib/*"
 			],
 			"@features/*": [
-				"../../modules/features/*"
+				"../../modules/demo/*"
+			],
+			"@core/*": [
+				"../../modules/ts/core/*"
 			]
 		}
 	}

@@ -15,13 +15,13 @@ importers:
     dependencies:
       '@core/di':
         specifier: workspace:*
-        version: link:../../modules/core/di
+        version: link:../../modules/ts/core/di
       '@core/registry':
         specifier: workspace:*
-        version: link:../../modules/core/registry
+        version: link:../../modules/ts/core/registry
       '@core/types':
         specifier: workspace:*
-        version: link:../../modules/core/types
+        version: link:../../modules/ts/core/types
     devDependencies:
       '@cucumber/cucumber':
         specifier: ^12.5.0
@@ -99,28 +99,14 @@ importers:
         specifier: ^4.0.16
         version: 4.0.16(@types/node@25.0.3)(jsdom@27.4.0)
 
-  modules/core/di:
-    dependencies:
-      '@core/types':
-        specifier: workspace:*
-        version: link:../types
-
-  modules/core/registry:
-    dependencies:
-      '@core/types':
-        specifier: workspace:*
-        version: link:../types
-
-  modules/core/types: {}
-
   modules/demo:
     dependencies:
       '@core/registry':
         specifier: workspace:*
-        version: link:../core/registry
+        version: link:../ts/core/registry
       '@core/types':
         specifier: workspace:*
-        version: link:../core/types
+        version: link:../ts/core/types
     devDependencies:
       svelte:
         specifier: ^5.0.0
@@ -128,6 +114,20 @@ importers:
       typescript:
         specifier: ^5.4.5
         version: 5.9.3
+
+  modules/ts/core/di:
+    dependencies:
+      '@core/types':
+        specifier: workspace:*
+        version: link:../types
+
+  modules/ts/core/registry:
+    dependencies:
+      '@core/types':
+        specifier: workspace:*
+        version: link:../types
+
+  modules/ts/core/types: {}
 
 packages:
 

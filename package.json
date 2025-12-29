@@ -4,7 +4,7 @@
   "workspaces": [
     "apps/*",
     "modules/*",
-    "modules/core/*"
+    "modules/ts/core/*"
   ],
   "scripts": {
     "moon": "moon",

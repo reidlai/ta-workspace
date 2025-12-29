@@ -1,4 +1,4 @@
 packages:
   - 'apps/*'
   - 'modules/*'
-  - 'modules/core/*'
+  - 'modules/ts/core/*'
