@@ -21,7 +21,7 @@
   function increment() {
     if (stateStore) {
       // Update state via store (Last-Writer-Wins)
-      stateStore.updateState("demo.counter", count + 1, "demo-gadget");
+      stateStore.updateState("demo.counter", count + 1, "demo-widget");
     } else {
       console.warn("State store not available");
       count++; // Fallback local state

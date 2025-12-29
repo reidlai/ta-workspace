@@ -54,8 +54,8 @@
 - [x] T015 [P] [US1] Create `GadgetGrid.svelte` using ShadCN UI layout primitives in `apps/sv-appshell/src/lib/components/dashboard/GadgetGrid.svelte`
 - [x] T016 [US1] Implement `Dashboard.svelte` main container in `apps/sv-appshell/src/lib/components/dashboard/Dashboard.svelte`
 - [x] T017 [US1] Update `apps/sv-appshell/src/routes/+page.svelte` to render the `Dashboard` component
-- [x] T018 [P] [US1] Create `DemoGadget.svelte` organism in `packages/ts/svelte/features/demo/src/DemoGadget.svelte`
-- [x] T019 [US1] Update `packages/ts/svelte/features/demo/src/index.ts` to register and export the `DemoGadget`
+- [x] T018 [P] [US1] Create `DemoWidget.svelte` organism in `packages/ts/svelte/features/demo/src/DemoWidget.svelte`
+- [x] T019 [US1] Update `packages/ts/svelte/features/demo/src/index.ts` to register and export the `DemoWidget`
 - [x] T020 [US1] Update `apps/sv-appshell/src/routes/+layout.ts` to initialize Gadget registration during module loading
 - [x] T021 [P] [US1] Create unit tests for `GadgetRegistry` in `packages/ts/registry/src/GadgetRegistry.spec.ts`
 
@@ -76,7 +76,7 @@
 ### Implementation for User Story 2
 
 - [x] T024 [US2] Extend `GadgetRegistry` to provide shared state and shell configuration (`fr-012`) to modules during `init`
-- [x] T025 [US2] Update `DemoGadget.svelte` to display and modify a shared state value from `ModuleStateStore`
+- [x] T025 [US2] Update `DemoWidget.svelte` to display and modify a shared state value from `ModuleStateStore`
 - [x] T026 [US2] Add reactive state monitoring to `Dashboard.svelte` for global feedback
 
 **Checkpoint**: User Story 2 functional - Modules correctly synchronize state through the shell

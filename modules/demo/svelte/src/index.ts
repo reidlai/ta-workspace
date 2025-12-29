@@ -1,10 +1,10 @@
 import DemoPage from './DemoPage.svelte';
-import DemoGadget from './DemoGadget.svelte';
+import DemoWidget from './DemoWidget.svelte';
 import { DemoService } from './DemoService';
 import { gadgetRegistry } from '@core/registry';
 
 // Module Initialization
-import type { IContext, IFeatureBundle, ModuleInit } from '@core/types';
+import type { IContext, IModuleBundle, ModuleInit, IWidget } from '@core/types';
 
 // Register routes (conceptually, though SvelteKit handles file-based routing primarily, 
 // this could be for dynamic validation or metadata)
@@ -12,24 +12,12 @@ export const routes = {
     '/demo': DemoPage
 };
 
-// Register Gadget immediately upon module import
-gadgetRegistry.registerGadget({
-    id: 'demo-gadget',
-    title: 'Demo Gadget',
-    description: 'A sample gadget from the demo feature module.',
-    component: DemoGadget,
-    icon: 'Zap',
-    priority: 10,
-    size: 'medium'
-});
+// Removed side-effect gadget registration. Service registration removed in favor of bundle return.
 
-// Register Service
-const demoService = new DemoService();
-gadgetRegistry.registerService('DemoService', demoService);
+export const init: ModuleInit = async (context: IContext): Promise<IModuleBundle> => {
+    // Instantiate services
+    const demoService = new DemoService();
 
-export const init: ModuleInit = async (context: IContext): Promise<IFeatureBundle> => {
-    // Services are already registered by side-effect above, or we can explicit register here if we move logic
-    // For now, adhering to bundle interface
     return {
         id: 'demo-feature',
         routes: [
@@ -37,8 +25,18 @@ export const init: ModuleInit = async (context: IContext): Promise<IFeatureBundl
         ],
         services: {
             'DemoService': demoService
-        }
+        },
+        widgets: [
+            {
+                id: 'demo-widget',
+                title: 'Demo Widget',
+                description: 'A sample widget from the demo feature module.',
+                component: DemoWidget,
+                location: 'dashboard',
+                size: 'medium'
+            }
+        ]
     };
 };
 
-export { DemoPage, DemoGadget, DemoService };
+export { DemoPage, DemoWidget, DemoService };

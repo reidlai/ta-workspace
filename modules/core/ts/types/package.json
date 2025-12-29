@@ -2,5 +2,11 @@
     "name": "@core/types",
     "version": "0.0.1",
     "main": "index.ts",
-    "types": "index.ts"
+    "types": "index.ts",
+    "scripts": {
+        "build": "node ../../../../node_modules/typescript/bin/tsc --noEmit"
+    },
+    "devDependencies": {
+        "typescript": "^5.0.0"
+    }
 }

@@ -1,8 +1,13 @@
-import type { IFeatureBundle, IGadget } from '@core/types';
+import type { IModuleBundle, IWidget, IHandler } from '@core/types';
 
 export class Registry {
     private static instance: Registry;
-    private modules = new Map<string, IFeatureBundle>();
+    private modules = new Map<string, IModuleBundle>();
+    // Flattened registries for easy access
+    private widgets: IWidget[] = [];
+    private handlers: IHandler[] = [];
+    private servicesMap = new Map<string, any>();
+    private stateStores = new Map<string, any>();
 
     private constructor() { }
 
@@ -13,48 +18,58 @@ export class Registry {
         return Registry.instance;
     }
 
-    register(bundle: IFeatureBundle): void {
+    register(bundle: IModuleBundle): void {
         if (this.modules.has(bundle.id)) {
             console.warn(`[Registry] Module '${bundle.id}' is already registered. Skipping.`);
             return;
         }
         console.log(`[Registry] Registered module: ${bundle.id}`);
         this.modules.set(bundle.id, bundle);
+
+        // Auto-register widgets
+        if (bundle.widgets) {
+            this.widgets.push(...bundle.widgets);
+        }
+
+        // Auto-register handlers
+        if (bundle.handlers) {
+            this.handlers.push(...bundle.handlers);
+        }
+
+        // Auto-register services
+        if (bundle.services) {
+            for (const [key, service] of Object.entries(bundle.services)) {
+                this.servicesMap.set(key, service);
+            }
+        }
     }
 
-    getModules(): IFeatureBundle[] {
+    getModules(): IModuleBundle[] {
         return Array.from(this.modules.values());
     }
 
-    getModule(id: string): IFeatureBundle | undefined {
+    getModule(id: string): IModuleBundle | undefined {
         return this.modules.get(id);
+    }
+
+    getWidgets(): IWidget[] {
+        return this.widgets;
+    }
+
+    getHandlers(): IHandler[] {
+        return this.handlers;
+    }
+
+    getService<T = any>(id: string): T {
+        return this.servicesMap.get(id);
     }
 
     clear(): void {
         this.modules.clear();
         this.servicesMap.clear();
-        this.gadgets = [];
-    }
-
-    // Gadget Registry Support
-    private gadgets: any[] = []; // Typed as any[] to avoid dragging IGadget dependency if generic, or use IGadget
-    private servicesMap = new Map<string, any>();
-    private stateStores = new Map<string, any>();
-
-    registerGadget(gadget: any): void {
-        this.gadgets.push(gadget);
-    }
-
-    getGadgets(): any[] {
-        return this.gadgets;
-    }
-
-    registerService(id: string, service: any): void {
-        this.servicesMap.set(id, service);
-    }
-
-    getService<T = any>(id: string): T {
-        return this.servicesMap.get(id);
+        this.widgets = [];
+        this.handlers = [];
+        this.stateStores.clear();
     }
 
     // Routing Support
@@ -63,7 +78,6 @@ export class Registry {
             if (bundle.routes) {
                 for (const route of bundle.routes) {
                     // Simple exact match or startsWith for sub-routes
-                    // For now, exact match for the demo route '/demo'
                     if (route.path === path || path.startsWith(route.path + '/')) {
                         return route.component;
                     }
@@ -76,9 +90,6 @@ export class Registry {
     // State Store Support (Mock/Simple implementation)
     getStateStore(id: string): any {
         if (!this.stateStores.has(id)) {
-            // We can't use svelte/store here if we want to be agnostic.
-            // But existing code expects a writable.
-            // For now, return a simple object or mock, or assume caller handles it.
             // Best effort: Return a mock store object
             this.stateStores.set(id, { subscribe: () => { }, set: () => { }, update: () => { } });
         }

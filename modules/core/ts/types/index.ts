@@ -13,24 +13,37 @@ export interface IParamsRoute {
     component: any;
 }
 
-export interface IFeatureBundle {
-    id: string;
-    routes: IParamsRoute[];
-    services?: Record<string, any>;
-}
-
-export type ModuleInit = (context: IContext) => Promise<IFeatureBundle>;
-
-export interface IGadget {
+export interface IWidget {
     id: string;
     title: string;
     description?: string;
+    /** The actual Svelte component constructor/class */
     component: any;
-    icon?: string;
-    priority?: number;
+    /** Suggested location: 'dashboard', 'sidebar', 'header' */
+    location?: string;
+    /** Size hint: 'small', 'medium', 'large' */
     size?: 'small' | 'medium' | 'large';
     props?: Record<string, any>;
 }
+
+export interface IHandler {
+    id: string;
+    title: string;
+    icon?: string;
+    execute: (context: IContext) => void | Promise<void>;
+}
+
+export interface IModuleBundle {
+    id: string;
+    /** Defines usage of dynamic widgets (Dashboard tiles, etc.) */
+    widgets?: IWidget[];
+    /** Optional imperative handlers (e.g. for menu actions) */
+    handlers?: IHandler[];
+    services?: Record<string, any>;
+    routes?: IParamsRoute[];
+}
+
+export type ModuleInit = (context: IContext) => Promise<IModuleBundle>;
 
 export interface IThemeConfig {
     mode: 'light' | 'dark' | 'system';
