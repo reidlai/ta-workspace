@@ -23,6 +23,12 @@
   });
 </script>
 
+<!-- 
+  Dynamic Routing Logic:
+  1. ERROR: If the module failed to load or route is invalid, show error state.
+  2. SUCCESS: If moduleComponent is loaded, use <svelte:component> to render it dynamically. This is the core "App Shell" mechanism.
+  3. LOADING: Waiting for async resolution.
+-->
 {#if error}
   <div class="p-8 text-center">
     <h1 class="text-2xl font-bold text-destructive">Route Error</h1>
