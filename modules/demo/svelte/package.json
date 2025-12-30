@@ -13,7 +13,8 @@
     },
     "dependencies": {
         "@core/types": "workspace:*",
-        "@core/registry": "workspace:*"
+        "@core/registry": "workspace:*",
+        "@modules/demo-ts": "workspace:*"
     },
     "devDependencies": {
         "typescript": "^5.4.5",

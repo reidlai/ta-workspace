@@ -1,6 +1,6 @@
 import DemoPage from './DemoPage.svelte';
-import DemoWidget from './DemoWidget.svelte';
-import { DemoService } from './DemoService';
+import DemoWidget from './widgets/DemoWidget.svelte';
+import { DemoService, demoService } from '@modules/demo-ts';
 import { gadgetRegistry } from '@core/registry';
 
 // Module Initialization
@@ -15,8 +15,7 @@ export const routes = {
 // Removed side-effect gadget registration. Service registration removed in favor of bundle return.
 
 export const init: ModuleInit = async (context: IContext): Promise<IModuleBundle> => {
-    // Instantiate services
-    const demoService = new DemoService();
+    // Use singleton service instance
 
     return {
         id: 'demo-module',
