@@ -11,6 +11,7 @@ export default defineConfig({
 		setupFiles: ['./vitest.setup.ts']
 	},
 	server: {
+		host: true,
 		fs: {
 			allow: ['../../modules']
 		},
