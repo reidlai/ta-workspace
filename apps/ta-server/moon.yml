@@ -1,0 +1,24 @@
+language: 'go'
+type: 'application'
+id: 'ta-server'
+
+tasks:
+  build:
+    command: 'cmd /c "go build -o ta-server.exe ."'
+    inputs:
+      - '**/*.go'
+      - 'go.mod'
+      - 'go.sum'
+    outputs:
+      - 'ta-server.exe'
+    local: true
+
+  test:
+    command: 'cmd /c "go test ./..."'
+    inputs:
+      - '**/*.go'
+      - 'go.mod'
+
+  run:
+    command: 'go run .'
+    local: true

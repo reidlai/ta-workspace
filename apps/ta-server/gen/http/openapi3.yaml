@@ -1,0 +1,243 @@
+openapi: 3.0.3
+info:
+    title: Technical Analysis Assistant API
+    description: API for managing watchlist and providing strategy insights
+    version: 0.0.1
+servers:
+    - url: http://localhost:8080
+paths:
+    /insights:
+        get:
+            tags:
+                - insights
+            summary: list insights
+            operationId: insights#list
+            parameters:
+                - name: X-User-ID
+                  in: header
+                  description: User ID
+                  allowEmptyValue: true
+                  required: true
+                  schema:
+                    type: string
+                    description: User ID
+                    example: Maiores nesciunt eaque asperiores voluptatem aut nulla.
+                  example: Quam enim.
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Insight'
+                                example:
+                                    - action: Eum voluptatum quia recusandae aut porro velit.
+                                      sentiment: neutral
+                                      summary: Et nesciunt.
+                                      symbol: Earum autem qui.
+                                    - action: Eum voluptatum quia recusandae aut porro velit.
+                                      sentiment: neutral
+                                      summary: Et nesciunt.
+                                      symbol: Earum autem qui.
+                            example:
+                                - action: Eum voluptatum quia recusandae aut porro velit.
+                                  sentiment: neutral
+                                  summary: Et nesciunt.
+                                  symbol: Earum autem qui.
+                                - action: Eum voluptatum quia recusandae aut porro velit.
+                                  sentiment: neutral
+                                  summary: Et nesciunt.
+                                  symbol: Earum autem qui.
+                                - action: Eum voluptatum quia recusandae aut porro velit.
+                                  sentiment: neutral
+                                  summary: Et nesciunt.
+                                  symbol: Earum autem qui.
+    /watchlist:
+        get:
+            tags:
+                - watchlist
+            summary: list watchlist
+            operationId: watchlist#list
+            parameters:
+                - name: X-User-ID
+                  in: header
+                  description: User ID
+                  allowEmptyValue: true
+                  required: true
+                  schema:
+                    type: string
+                    description: User ID
+                    example: Exercitationem architecto et sit.
+                  example: Et repudiandae sed aut.
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/TickerItem'
+                                example:
+                                    - created_at: "2023-10-27T10:00:00Z"
+                                      on_hand: true
+                                      symbol: AAPL
+                                    - created_at: "2023-10-27T10:00:00Z"
+                                      on_hand: true
+                                      symbol: AAPL
+                                    - created_at: "2023-10-27T10:00:00Z"
+                                      on_hand: true
+                                      symbol: AAPL
+                            example:
+                                - created_at: "2023-10-27T10:00:00Z"
+                                  on_hand: true
+                                  symbol: AAPL
+                                - created_at: "2023-10-27T10:00:00Z"
+                                  on_hand: true
+                                  symbol: AAPL
+                                - created_at: "2023-10-27T10:00:00Z"
+                                  on_hand: true
+                                  symbol: AAPL
+        post:
+            tags:
+                - watchlist
+            summary: add watchlist
+            operationId: watchlist#add
+            parameters:
+                - name: X-User-ID
+                  in: header
+                  description: User ID
+                  allowEmptyValue: true
+                  required: true
+                  schema:
+                    type: string
+                    description: User ID
+                    example: Voluptates officiis dolorum ut.
+                  example: Officiis quis deserunt maiores aut iusto.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AddRequestBody'
+                        example:
+                            on_hand: false
+                            symbol: Sequi quibusdam quidem est voluptatem vitae.
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/TickerItem'
+                            example:
+                                created_at: "2023-10-27T10:00:00Z"
+                                on_hand: true
+                                symbol: AAPL
+    /watchlist/{symbol}:
+        delete:
+            tags:
+                - watchlist
+            summary: remove watchlist
+            operationId: watchlist#remove
+            parameters:
+                - name: symbol
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                    example: Voluptatem aperiam vitae nisi atque sit.
+                  example: Laborum quos deserunt debitis officia tempore.
+                - name: X-User-ID
+                  in: header
+                  description: User ID
+                  allowEmptyValue: true
+                  required: true
+                  schema:
+                    type: string
+                    description: User ID
+                    example: Fugit odio aut.
+                  example: Repellat natus suscipit veritatis ea nobis.
+            responses:
+                "204":
+                    description: No Content response.
+components:
+    schemas:
+        AddRequestBody:
+            type: object
+            properties:
+                on_hand:
+                    type: boolean
+                    example: false
+                symbol:
+                    type: string
+                    example: Nam repudiandae itaque mollitia voluptatem et aliquam.
+            example:
+                on_hand: false
+                symbol: Ducimus hic.
+            required:
+                - symbol
+                - on_hand
+        Insight:
+            type: object
+            properties:
+                action:
+                    type: string
+                    description: Recommended Action
+                    example: Suscipit tempore omnis et ipsa nam.
+                sentiment:
+                    type: string
+                    description: Market Sentiment
+                    example: neutral
+                    enum:
+                        - bullish
+                        - bearish
+                        - neutral
+                summary:
+                    type: string
+                    description: Analysis Summary
+                    example: Qui at quo voluptatem reiciendis quod similique.
+                symbol:
+                    type: string
+                    description: Stock Symbol
+                    example: Provident nam sint.
+            example:
+                action: Laboriosam porro nihil.
+                sentiment: neutral
+                summary: Explicabo aspernatur eos possimus veniam veniam vel.
+                symbol: Quia tenetur libero voluptas eaque laudantium.
+            required:
+                - symbol
+                - sentiment
+                - summary
+                - action
+        TickerItem:
+            type: object
+            properties:
+                created_at:
+                    type: string
+                    description: Creation timestamp
+                    example: "2023-10-27T10:00:00Z"
+                    format: date-time
+                on_hand:
+                    type: boolean
+                    description: Whether user holds the stock
+                    example: true
+                symbol:
+                    type: string
+                    description: Stock Symbol
+                    example: AAPL
+            example:
+                created_at: "2023-10-27T10:00:00Z"
+                on_hand: true
+                symbol: AAPL
+            required:
+                - symbol
+                - on_hand
+tags:
+    - name: watchlist
+      description: Manage user watchlist
+    - name: insights
+      description: Provide AI insights

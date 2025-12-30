@@ -5,7 +5,7 @@ import (
 	"log"
 	"math/rand"
 
-	insights "example.com/taassistant/api/gen/insights"
+	insights "github.com/reidlai/ta-workspace/apps/ta-server/gen/insights"
 )
 
 // insights service implementation.

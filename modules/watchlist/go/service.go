@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	watchlist "example.com/taassistant/api/gen/watchlist"
+	watchlist "github.com/reidlai/ta-workspace/apps/ta-server/gen/watchlist"
 )
 
 // watchlist service implementation.

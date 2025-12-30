@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"context"
@@ -7,19 +7,20 @@ import (
 	"sync"
 	"time"
 
-	insightssvr "example.com/taassistant/api/gen/http/insights/server"
-	watchlistsvr "example.com/taassistant/api/gen/http/watchlist/server"
-	insights "example.com/taassistant/api/gen/insights"
-	watchlist "example.com/taassistant/api/gen/watchlist"
+	insightssvr "github.com/reidlai/ta-workspace/apps/ta-server/gen/http/insights/server"
+	watchlistsvr "github.com/reidlai/ta-workspace/apps/ta-server/gen/http/watchlist/server"
+	insights "github.com/reidlai/ta-workspace/apps/ta-server/gen/insights"
+	watchlist "github.com/reidlai/ta-workspace/apps/ta-server/gen/watchlist"
 
+	chimiddleware "github.com/go-chi/chi/v5/middleware"
 	"goa.design/clue/debug"
 	"goa.design/clue/log"
 	goahttp "goa.design/goa/v3/http"
 )
 
-// handleHTTPServer starts configures and starts a HTTP server on the given
+// HandleHTTPServer starts configures and starts a HTTP server on the given
 // URL. It shuts down the server if any error is received in the error channel.
-func handleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watchlist.Endpoints, insightsEndpoints *insights.Endpoints, wg *sync.WaitGroup, errc chan error, dbg bool) {
+func HandleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watchlist.Endpoints, insightsEndpoints *insights.Endpoints, wg *sync.WaitGroup, errc chan error, dbg bool) {
 
 	// Provide the transport specific request decoder and response encoder.
 	// The goa http package has built-in support for JSON, XML and gob.
@@ -30,8 +31,7 @@ func handleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watch
 		enc = goahttp.ResponseEncoder
 	)
 
-	// Build the service HTTP request multiplexer and mount debug and profiler
-	// endpoints in debug mode.
+	// Build the Goa muxer (uses Chi internally)
 	var mux goahttp.Muxer
 	{
 		mux = goahttp.NewMuxer()
@@ -62,6 +62,10 @@ func handleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watch
 	insightssvr.Mount(mux, insightsServer)
 
 	var handler http.Handler = mux
+	// Apply Chi middleware for performance and resilience
+	handler = chimiddleware.RequestID(handler)
+	handler = chimiddleware.RealIP(handler)
+	handler = chimiddleware.Recoverer(handler)
 	if dbg {
 		// Log query and response bodies if debug logs are enabled.
 		handler = debug.HTTP()(handler)

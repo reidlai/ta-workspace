@@ -5,5 +5,9 @@
     "types": "index.ts",
     "dependencies": {
         "@core/types": "workspace:*"
+    },
+    "scripts": {
+        "test": "echo \"No tests specified\" && exit 0",
+        "lint": "echo \"No lint specified\" && exit 0"
     }
 }
