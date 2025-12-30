@@ -4,10 +4,10 @@ import (
 	. "goa.design/goa/v3/dsl"
 )
 
-var _ = API("taassistant", func() {
-	Title("Technical Analysis Assistant API")
+var _ = API("ta-server", func() {
+	Title("Technical Analysis API")
 	Description("API for managing watchlist and providing strategy insights")
-	Server("taassistant", func() {
+	Server("ta-server", func() {
 		Host("localhost", func() {
 			URI("http://localhost:8080")
 		})
@@ -95,6 +95,63 @@ var _ = Service("insights", func() {
 		HTTP(func() {
 			GET("/insights")
 			Header("user_id:X-User-ID")
+			Response(StatusOK)
+		})
+	})
+})
+
+var Exchange = Type("Exchange", func() {
+	Description("A financial market or institution")
+	Attribute("operating_mic", String, "4-character ISO 10383 code", func() {
+		Example("XNYS")
+		MinLength(4)
+		MaxLength(4)
+	})
+	Attribute("exchange_name", String, "Full descriptive name", func() {
+		Example("New York Stock Exchange")
+	})
+	Attribute("display_name", String, "Formatted name for UI", func() {
+		Example("NYSE - New York Stock Exchange (US)")
+	})
+	Attribute("country", String, "ISO 3166 alpha-2 country code", func() {
+		Example("US")
+		MinLength(2)
+		MaxLength(2)
+	})
+	Attribute("city", String, "City location", func() {
+		Example("New York")
+	})
+	Attribute("acronym", String, "Short identifier", func() {
+		Example("NYSE")
+	})
+	Required("operating_mic", "exchange_name", "display_name", "country", "city")
+})
+
+var _ = Service("exchange", func() {
+	Description("Manage financial exchanges")
+
+	Method("list", func() {
+		Payload(func() {
+			Attribute("query", String, "Optional search query (name or country)")
+		})
+		Result(ArrayOf(Exchange))
+		HTTP(func() {
+			GET("/exchanges")
+			Params(func() {
+				Param("query")
+			})
+			Response(StatusOK)
+		})
+	})
+
+	Method("get", func() {
+		Payload(func() {
+			Attribute("operating_mic", String, "Operating MIC of the exchange")
+			Required("operating_mic")
+		})
+		Result(Exchange)
+		HTTP(func() {
+			GET("/exchanges/{operating_mic}")
 			Response(StatusOK)
 		})
 	})

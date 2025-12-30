@@ -16,6 +16,7 @@ import (
 	watchlist "github.com/reidlai/ta-workspace/modules/watchlist/go"
 
 	// Generated Interfaces
+	exchangeGen "github.com/reidlai/ta-workspace/apps/ta-server/gen/exchange"
 	insightsGen "github.com/reidlai/ta-workspace/apps/ta-server/gen/insights"
 	watchlistGen "github.com/reidlai/ta-workspace/apps/ta-server/gen/watchlist"
 
@@ -78,12 +79,14 @@ func runAPIServer(cmd *cobra.Command, args []string) error {
 	var (
 		watchlistSvc watchlistGen.Service
 		insightsSvc  insightsGen.Service
+		exchangeSvc  exchangeGen.Service
 	)
 	{
 		stdLogger := stdlog.New(os.Stderr, "[ta-server] ", stdlog.LstdFlags)
 		// Services are instantiated here as pure dependencies, unaware of HTTP/Chi.
 		watchlistSvc = watchlist.NewWatchlist(stdLogger)
 		insightsSvc = insights.NewInsights(stdLogger)
+		exchangeSvc = watchlist.NewExchange()
 	}
 
 	// Wrap the services in endpoints
@@ -93,6 +96,7 @@ func runAPIServer(cmd *cobra.Command, args []string) error {
 	var (
 		watchlistEndpoints *watchlistGen.Endpoints
 		insightsEndpoints  *insightsGen.Endpoints
+		exchangeEndpoints  *exchangeGen.Endpoints
 	)
 	{
 		watchlistEndpoints = watchlistGen.NewEndpoints(watchlistSvc)
@@ -101,6 +105,9 @@ func runAPIServer(cmd *cobra.Command, args []string) error {
 		insightsEndpoints = insightsGen.NewEndpoints(insightsSvc)
 		insightsEndpoints.Use(debug.LogPayloads())
 		insightsEndpoints.Use(log.Endpoint)
+		exchangeEndpoints = exchangeGen.NewEndpoints(exchangeSvc)
+		exchangeEndpoints.Use(debug.LogPayloads())
+		exchangeEndpoints.Use(log.Endpoint)
 	}
 
 	// Create channel for signal handling
@@ -132,7 +139,7 @@ func runAPIServer(cmd *cobra.Command, args []string) error {
 	// The internal/server/http.go implementation uses a Chi router (mux) that allows
 	// multiple independent modules to be "mounted". We can extend the system with a new module
 	// just by passing a new endpoint set here, without rewriting the core transport logic handling.
-	server.HandleHTTPServer(ctx, u, watchlistEndpoints, insightsEndpoints, &wg, errc, dbg)
+	server.HandleHTTPServer(ctx, u, watchlistEndpoints, insightsEndpoints, exchangeEndpoints, &wg, errc, dbg)
 
 	// Wait for signal
 	log.Printf(ctx, "exiting (%v)", <-errc)

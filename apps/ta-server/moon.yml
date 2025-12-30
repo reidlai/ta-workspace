@@ -18,6 +18,14 @@ tasks:
     inputs:
       - '**/*.go'
       - 'go.mod'
+    options:
+      runInCI: true
+
+  gen:
+    command: 'goa gen github.com/reidlai/ta-workspace/apps/ta-server/design'
+    inputs:
+      - 'design/**/*.go'
+      - 'go.mod'
 
   run:
     command: 'go run .'

@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-    title: Technical Analysis Assistant API
+    title: Technical Analysis API
     description: API for managing watchlist and providing strategy insights
     version: 0.0.1
 host: localhost:8080
@@ -13,6 +13,52 @@ produces:
     - application/xml
     - application/gob
 paths:
+    /exchanges:
+        get:
+            tags:
+                - exchange
+            summary: list exchange
+            operationId: exchange#list
+            parameters:
+                - name: query
+                  in: query
+                  description: Optional search query (name or country)
+                  required: false
+                  type: string
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/ExchangeResponse'
+            schemes:
+                - http
+    /exchanges/{operating_mic}:
+        get:
+            tags:
+                - exchange
+            summary: get exchange
+            operationId: exchange#get
+            parameters:
+                - name: operating_mic
+                  in: path
+                  description: Operating MIC of the exchange
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/ExchangeGetResponseBody'
+                        required:
+                            - operating_mic
+                            - exchange_name
+                            - display_name
+                            - country
+                            - city
+            schemes:
+                - http
     /insights:
         get:
             tags:
@@ -31,7 +77,7 @@ paths:
                     schema:
                         type: array
                         items:
-                            $ref: '#/definitions/Insight'
+                            $ref: '#/definitions/InsightResponse'
             schemes:
                 - http
     /watchlist:
@@ -52,7 +98,7 @@ paths:
                     schema:
                         type: array
                         items:
-                            $ref: '#/definitions/TickerItem'
+                            $ref: '#/definitions/TickerItemResponse'
             schemes:
                 - http
         post:
@@ -78,7 +124,7 @@ paths:
                 "200":
                     description: OK response.
                     schema:
-                        $ref: '#/definitions/TickerItem'
+                        $ref: '#/definitions/WatchlistAddResponseBody'
                         required:
                             - symbol
                             - on_hand
@@ -106,14 +152,105 @@ paths:
             schemes:
                 - http
 definitions:
-    Insight:
-        title: Insight
+    ExchangeGetResponseBody:
+        title: ExchangeGetResponseBody
+        type: object
+        properties:
+            acronym:
+                type: string
+                description: Short identifier
+                example: NYSE
+            city:
+                type: string
+                description: City location
+                example: New York
+            country:
+                type: string
+                description: ISO 3166 alpha-2 country code
+                example: US
+                minLength: 2
+                maxLength: 2
+            display_name:
+                type: string
+                description: Formatted name for UI
+                example: NYSE - New York Stock Exchange (US)
+            exchange_name:
+                type: string
+                description: Full descriptive name
+                example: New York Stock Exchange
+            operating_mic:
+                type: string
+                description: 4-character ISO 10383 code
+                example: XNYS
+                minLength: 4
+                maxLength: 4
+        example:
+            acronym: NYSE
+            city: New York
+            country: US
+            display_name: NYSE - New York Stock Exchange (US)
+            exchange_name: New York Stock Exchange
+            operating_mic: XNYS
+        required:
+            - operating_mic
+            - exchange_name
+            - display_name
+            - country
+            - city
+    ExchangeResponse:
+        title: ExchangeResponse
+        type: object
+        properties:
+            acronym:
+                type: string
+                description: Short identifier
+                example: NYSE
+            city:
+                type: string
+                description: City location
+                example: New York
+            country:
+                type: string
+                description: ISO 3166 alpha-2 country code
+                example: US
+                minLength: 2
+                maxLength: 2
+            display_name:
+                type: string
+                description: Formatted name for UI
+                example: NYSE - New York Stock Exchange (US)
+            exchange_name:
+                type: string
+                description: Full descriptive name
+                example: New York Stock Exchange
+            operating_mic:
+                type: string
+                description: 4-character ISO 10383 code
+                example: XNYS
+                minLength: 4
+                maxLength: 4
+        description: A financial market or institution
+        example:
+            acronym: NYSE
+            city: New York
+            country: US
+            display_name: NYSE - New York Stock Exchange (US)
+            exchange_name: New York Stock Exchange
+            operating_mic: XNYS
+        required:
+            - operating_mic
+            - exchange_name
+            - display_name
+            - country
+            - city
+    InsightResponse:
+        title: InsightResponse
         type: object
         properties:
             action:
                 type: string
                 description: Recommended Action
-                example: Quasi eligendi optio.
+                example: Eveniet nostrum dolorem.
             sentiment:
                 type: string
                 description: Market Sentiment
@@ -125,23 +262,23 @@ definitions:
             summary:
                 type: string
                 description: Analysis Summary
-                example: Suscipit sapiente culpa laboriosam tempore.
+                example: Pariatur autem commodi.
             symbol:
                 type: string
                 description: Stock Symbol
-                example: Enim eius.
+                example: Sed quia nobis sed exercitationem.
         example:
-            action: Est exercitationem rerum.
-            sentiment: neutral
-            summary: Dicta quia.
-            symbol: Qui vel ullam quia autem ut.
+            action: Est quibusdam a.
+            sentiment: bullish
+            summary: Est dolorem alias blanditiis repellendus.
+            symbol: Sit sunt aspernatur alias.
         required:
             - symbol
             - sentiment
             - summary
             - action
-    TickerItem:
-        title: TickerItem
+    TickerItemResponse:
+        title: TickerItemResponse
         type: object
         properties:
             created_at:
@@ -173,10 +310,34 @@ definitions:
                 example: false
             symbol:
                 type: string
-                example: Eos harum omnis voluptas.
+                example: Dolorem cumque et ipsum.
         example:
             on_hand: false
-            symbol: Non impedit adipisci impedit rem voluptas.
+            symbol: Consequatur dolores.
+        required:
+            - symbol
+            - on_hand
+    WatchlistAddResponseBody:
+        title: WatchlistAddResponseBody
+        type: object
+        properties:
+            created_at:
+                type: string
+                description: Creation timestamp
+                example: "2023-10-27T10:00:00Z"
+                format: date-time
+            on_hand:
+                type: boolean
+                description: Whether user holds the stock
+                example: true
+            symbol:
+                type: string
+                description: Stock Symbol
+                example: AAPL
+        example:
+            created_at: "2023-10-27T10:00:00Z"
+            on_hand: true
+            symbol: AAPL
         required:
             - symbol
             - on_hand

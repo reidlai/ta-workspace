@@ -19,6 +19,9 @@ type watchlistsrvc struct {
 
 // NewWatchlist returns the watchlist service implementation.
 func NewWatchlist(logger *log.Logger) watchlist.Service {
+	// Initialize exchange data (Fail Fast)
+	LoadExchanges()
+
 	return &watchlistsrvc{
 		logger: logger,
 		store:  make(map[string]map[string]*watchlist.TickerItem),
