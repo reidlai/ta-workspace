@@ -2,3 +2,8 @@ packages:
   - 'apps/*'
   - 'modules/demo/*'
   - 'modules/core/ts/*'
+  - 'modules/watchlist/ts'
+  - 'modules/watchlist/svelte'
+  - 'modules/insights/ts'
+  - 'modules/insights/svelte'
+  - 'modules/demo/ts'

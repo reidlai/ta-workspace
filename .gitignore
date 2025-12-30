@@ -19,5 +19,14 @@ dist/
 build/
 coverage/
 
+
 # SvelteKit
 .svelte-kit/
+
+# Go
+/apps/taassistant-api/gen/
+*.exe
+*.test
+vendor/
+go.work
+

@@ -4,6 +4,16 @@
             "id": "demo-module",
             "enabled": true,
             "src": "demo"
+        },
+        {
+            "id": "watchlist-module",
+            "enabled": true,
+            "src": "watchlist"
+        },
+        {
+            "id": "insights-module",
+            "enabled": true,
+            "src": "insights"
         }
     ]
 }

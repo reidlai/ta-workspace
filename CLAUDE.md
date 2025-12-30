@@ -1,29 +1,12 @@
-# appshell-workspace Development Guidelines
+# CLAUDE.md
 
-Auto-generated from all feature plans. Last updated: 2025-12-29
+> **CRITICAL INSTRUCTION**: The core operating procedures for this project have been moved to **`AGENTS.md`**.
+
+1.  **Read `AGENTS.md` immediately.**
+2.  Adopt the **"Claude Code"** identity defined in the "Identity & Configuration Resolution" table in that file.
+3.  Use `.agent/workflows/` as your `{WORKFLOW_DIR}`.
 
 ## Active Technologies
+- Node.js v20 (LTS) (managed via toolchain) + Moonrepo, pnpm (001-initialize-current-project)
+- N/A (Configuration files only) (001-initialize-current-project)
 
-- TypeScript 5.0+ (as per existing `modules/core/ts`) + SvelteKit (Frontend), Moonrepo (Build System) (004-refactor-featurebundle-modulebundle)
-
-## Project Structure
-
-```text
-src/
-tests/
-```
-
-## Commands
-
-npm test && npm run lint
-
-## Code Style
-
-TypeScript 5.0+ (as per existing `modules/core/ts`): Follow standard conventions
-
-## Recent Changes
-
-- 004-refactor-featurebundle-modulebundle: Added TypeScript 5.0+ (as per existing `modules/core/ts`) + SvelteKit (Frontend), Moonrepo (Build System)
-
-<!-- MANUAL ADDITIONS START -->
-<!-- MANUAL ADDITIONS END -->
