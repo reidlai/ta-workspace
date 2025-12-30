@@ -165,6 +165,43 @@ The main SvelteKit application shell.
 - **Preview Production Build**: `npx @moonrepo/cli run sv-appshell:preview`
   - Previews the production build locally
 
+### ta-server
+A Go-based server built with [Goa framework](https://goa.design/) and [Cobra](https://github.com/spf13/cobra) CLI.
+
+Supports multiple server types:
+- `api-server`: REST API (Goa)
+- `mcp-server`: MCP protocol (future)
+
+#### Running the API
+
+```bash
+cd apps/ta-server
+
+# Start the REST API server (default: localhost:8080)
+go run . api-server
+
+# With custom port
+go run . api-server --port 9000
+
+# View help
+go run . --help
+go run . api-server --help
+```
+
+#### Configuration
+
+The CLI supports multiple configuration sources (highest precedence first):
+1. **CLI flags**: `--port 9000`
+2. **Environment variables**: `TAASSISTANT_API_SERVER_PORT=9000`
+3. **Config file**: `taassistant.yaml`
+
+#### API Endpoints
+
+- **Watchlist Service** (`/watchlist`): Manage user watchlist entries
+- **Insights Service** (`/insights`): Get AI-powered trading insights
+
+> **Note**: Goa generates OpenAPI specs—use Swagger UI or Postman for API testing.
+
 ---
 
 ## Common Workflows

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount, onDestroy } from "svelte";
-    import { insightsService, type Insight } from "@modules/insights-ts";
+    import { insightsService, type Insight } from "../../../ts/src/index";
 
     // We can show all insights, or just a few.
     let insightsMap: Record<string, Insight> = {};

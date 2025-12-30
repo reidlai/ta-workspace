@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount, onDestroy } from "svelte";
-    import { watchlistService, type TickerItem } from "@modules/watchlist-ts";
+    import { watchlistService, type TickerItem } from "../../../ts/src/index";
 
     let tickers: TickerItem[] = [];
     let newSymbol = "";

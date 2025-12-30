@@ -1,6 +1,6 @@
 import DemoPage from './DemoPage.svelte';
 import DemoWidget from './widgets/DemoWidget.svelte';
-import { DemoService, demoService } from '@modules/demo-ts';
+import { DemoService, demoService } from '@modules/demo/ts';
 import { gadgetRegistry } from '@core/registry';
 
 // Module Initialization
