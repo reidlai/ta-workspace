@@ -28,5 +28,5 @@ tasks:
       - 'go.mod'
 
   run:
-    command: 'go run .'
+    command: 'go run . api-server'
     local: true
