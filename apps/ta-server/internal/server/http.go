@@ -7,12 +7,10 @@ import (
 	"sync"
 	"time"
 
-	exchange "github.com/reidlai/ta-workspace/apps/ta-server/gen/exchange"
-	exchangesvr "github.com/reidlai/ta-workspace/apps/ta-server/gen/http/exchange/server"
-	insightssvr "github.com/reidlai/ta-workspace/apps/ta-server/gen/http/insights/server"
-	watchlistsvr "github.com/reidlai/ta-workspace/apps/ta-server/gen/http/watchlist/server"
-	insights "github.com/reidlai/ta-workspace/apps/ta-server/gen/insights"
-	watchlist "github.com/reidlai/ta-workspace/apps/ta-server/gen/watchlist"
+	portfoliosvr "github.com/reidlai/ta-workspace/modules/portfolio/go/gen/http/portfolio/server"
+	portfolio "github.com/reidlai/ta-workspace/modules/portfolio/go/gen/portfolio"
+	watchlistsvr "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/http/watchlist/server"
+	watchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/watchlist"
 
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
 	"goa.design/clue/debug"
@@ -22,7 +20,7 @@ import (
 
 // HandleHTTPServer starts configures and starts a HTTP server on the given
 // URL. It shuts down the server if any error is received in the error channel.
-func HandleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watchlist.Endpoints, insightsEndpoints *insights.Endpoints, exchangeEndpoints *exchange.Endpoints, wg *sync.WaitGroup, errc chan error, dbg bool) {
+func HandleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watchlist.Endpoints, portfolioEndpoints *portfolio.Endpoints, wg *sync.WaitGroup, errc chan error, dbg bool) {
 
 	// Provide the transport specific request decoder and response encoder.
 	// The goa http package has built-in support for JSON, XML and gob.
@@ -51,20 +49,17 @@ func HandleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watch
 	// responses.
 	var (
 		watchlistServer *watchlistsvr.Server
-		insightsServer  *insightssvr.Server
-		exchangeServer  *exchangesvr.Server
+		portfolioServer *portfoliosvr.Server
 	)
 	{
 		eh := errorHandler(ctx)
 		watchlistServer = watchlistsvr.New(watchlistEndpoints, mux, dec, enc, eh, nil)
-		insightsServer = insightssvr.New(insightsEndpoints, mux, dec, enc, eh, nil)
-		exchangeServer = exchangesvr.New(exchangeEndpoints, mux, dec, enc, eh, nil)
+		portfolioServer = portfoliosvr.New(portfolioEndpoints, mux, dec, enc, eh, nil)
 	}
 
 	// Configure the mux.
 	watchlistsvr.Mount(mux, watchlistServer)
-	insightssvr.Mount(mux, insightsServer)
-	exchangesvr.Mount(mux, exchangeServer)
+	portfoliosvr.Mount(mux, portfolioServer)
 
 	var handler http.Handler = mux
 	// Apply Chi middleware for performance and resilience
@@ -83,10 +78,7 @@ func HandleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watch
 	for _, m := range watchlistServer.Mounts {
 		log.Printf(ctx, "HTTP %q mounted on %s %s", m.Method, m.Verb, m.Pattern)
 	}
-	for _, m := range insightsServer.Mounts {
-		log.Printf(ctx, "HTTP %q mounted on %s %s", m.Method, m.Verb, m.Pattern)
-	}
-	for _, m := range exchangeServer.Mounts {
+	for _, m := range portfolioServer.Mounts {
 		log.Printf(ctx, "HTTP %q mounted on %s %s", m.Method, m.Verb, m.Pattern)
 	}
 

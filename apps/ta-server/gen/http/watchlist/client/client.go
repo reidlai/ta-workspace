@@ -3,7 +3,7 @@
 // watchlist client HTTP transport
 //
 // Command:
-// $ goa gen github.com/reidlai/ta-workspace/apps/ta-server/design
+// $ goa gen github.com/reidlai/ta-workspace/modules/watchlist/go/design
 
 package client
 

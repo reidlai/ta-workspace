@@ -11,9 +11,9 @@
             "src": "watchlist"
         },
         {
-            "id": "insights-module",
+            "id": "portfolio-module",
             "enabled": true,
-            "src": "insights"
+            "src": "portfolio"
         }
     ]
 }

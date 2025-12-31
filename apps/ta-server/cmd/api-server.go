@@ -12,13 +12,12 @@ import (
 	"syscall"
 
 	// Internal Modules
-	insights "github.com/reidlai/ta-workspace/modules/insights/go"
-	watchlist "github.com/reidlai/ta-workspace/modules/watchlist/go"
+	portfolio "github.com/reidlai/ta-workspace/modules/portfolio/go/pkg"
+	watchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/pkg"
 
 	// Generated Interfaces
-	exchangeGen "github.com/reidlai/ta-workspace/apps/ta-server/gen/exchange"
-	insightsGen "github.com/reidlai/ta-workspace/apps/ta-server/gen/insights"
-	watchlistGen "github.com/reidlai/ta-workspace/apps/ta-server/gen/watchlist"
+	portfolioGen "github.com/reidlai/ta-workspace/modules/portfolio/go/gen/portfolio"
+	watchlistGen "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/watchlist"
 
 	// Internal Server
 	"github.com/reidlai/ta-workspace/apps/ta-server/internal/server"
@@ -78,15 +77,13 @@ func runAPIServer(cmd *cobra.Command, args []string) error {
 	// It constructs the object graph (Services -> Endpoints -> Server) but contains no business or transport logic.
 	var (
 		watchlistSvc watchlistGen.Service
-		insightsSvc  insightsGen.Service
-		exchangeSvc  exchangeGen.Service
+		portfolioSvc portfolioGen.Service
 	)
 	{
 		stdLogger := stdlog.New(os.Stderr, "[ta-server] ", stdlog.LstdFlags)
 		// Services are instantiated here as pure dependencies, unaware of HTTP/Chi.
 		watchlistSvc = watchlist.NewWatchlist(stdLogger)
-		insightsSvc = insights.NewInsights(stdLogger)
-		exchangeSvc = watchlist.NewExchange()
+		portfolioSvc = portfolio.NewPortfolio(stdLogger)
 	}
 
 	// Wrap the services in endpoints
@@ -95,19 +92,15 @@ func runAPIServer(cmd *cobra.Command, args []string) error {
 	// This allows us to inject any implementation (real, mock, decorator) that satisfies the interface.
 	var (
 		watchlistEndpoints *watchlistGen.Endpoints
-		insightsEndpoints  *insightsGen.Endpoints
-		exchangeEndpoints  *exchangeGen.Endpoints
+		portfolioEndpoints *portfolioGen.Endpoints
 	)
 	{
 		watchlistEndpoints = watchlistGen.NewEndpoints(watchlistSvc)
 		watchlistEndpoints.Use(debug.LogPayloads())
 		watchlistEndpoints.Use(log.Endpoint)
-		insightsEndpoints = insightsGen.NewEndpoints(insightsSvc)
-		insightsEndpoints.Use(debug.LogPayloads())
-		insightsEndpoints.Use(log.Endpoint)
-		exchangeEndpoints = exchangeGen.NewEndpoints(exchangeSvc)
-		exchangeEndpoints.Use(debug.LogPayloads())
-		exchangeEndpoints.Use(log.Endpoint)
+		portfolioEndpoints = portfolioGen.NewEndpoints(portfolioSvc)
+		portfolioEndpoints.Use(debug.LogPayloads())
+		portfolioEndpoints.Use(log.Endpoint)
 	}
 
 	// Create channel for signal handling
@@ -139,7 +132,7 @@ func runAPIServer(cmd *cobra.Command, args []string) error {
 	// The internal/server/http.go implementation uses a Chi router (mux) that allows
 	// multiple independent modules to be "mounted". We can extend the system with a new module
 	// just by passing a new endpoint set here, without rewriting the core transport logic handling.
-	server.HandleHTTPServer(ctx, u, watchlistEndpoints, insightsEndpoints, exchangeEndpoints, &wg, errc, dbg)
+	server.HandleHTTPServer(ctx, u, watchlistEndpoints, portfolioEndpoints, &wg, errc, dbg)
 
 	// Wait for signal
 	log.Printf(ctx, "exiting (%v)", <-errc)

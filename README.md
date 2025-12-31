@@ -188,6 +188,18 @@ go run . --help
 go run . api-server --help
 ```
 
+#### Using Moonrepo (Recommended)
+
+To run via Moonrepo (ensures correct environment), use `--` to pass arguments:
+
+```bash
+# Start API server
+npx @moonrepo/cli run ta-server:run -- api-server
+
+# With flags
+npx @moonrepo/cli run ta-server:run -- api-server --port 9000
+```
+
 #### Configuration
 
 The CLI supports multiple configuration sources (highest precedence first):

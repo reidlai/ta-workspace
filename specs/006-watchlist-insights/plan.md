@@ -11,7 +11,7 @@ Implement two new core modules: `watchlist` (stock tracking) and `insights` (AI 
 - **Backend**: Go 1.21+ with Goa Design (v3).
 - **Architecture**: 
   - `modules/watchlist/svelte`: Providers `WatchlistService` (REST Client) and "My Tickers" widget.
-  - `modules/insights/svelte`: Provides `InsightsService` (REST Client) and "Strategy Summary" widget.
+  - `modules/portfolio/svelte`: Provides `PortfolioService` (REST Client) and "Portfolio" widget.
   - `apps/taassistant-api`: Polyglot backend service.
 - **Dependencies**: `@core/types`, `@core/registry`.
 
@@ -28,10 +28,10 @@ Implement two new core modules: `watchlist` (stock tracking) and `insights` (AI 
    - `src/WatchlistService.ts`: REST client for `taassistant-api`.
    - `src/widgets/MyTickersWidget.svelte`: UI component.
 
-2. **Insights Module** (`modules/insights/svelte`)
+2. **Portfolio Module** (`modules/portfolio/svelte`)
    - `src/index.ts`: Module entry point (init, registration).
-   - `src/InsightsService.ts`: REST client for `taassistant-api`.
-   - `src/widgets/StrategySummaryWidget.svelte`: UI component.
+   - `src/PortfolioService.ts`: REST client for `taassistant-api`.
+   - `src/widgets/PortfolioWidget.svelte`: UI component.
 
 ### New Application
 

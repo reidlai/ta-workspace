@@ -7,6 +7,8 @@
 
   const registry = Registry.getInstance();
   const demoWidget = registry.getWidget("demo-widget");
+  const portfolioSummaryWidget = registry.getWidget("portfolio-summary"); // ID from index.ts
+  const myTickersWidget = registry.getWidget("my-tickers");
 </script>
 
 <div class="flex flex-1 flex-col gap-4">
@@ -21,14 +23,17 @@
         <svelte:component this={demoWidget.component} {...demoWidget.props} />
       </div>
     {/if}
-    {#if demoWidget}
-      <div class="h-full rounded-xl bg-muted/50">
-        <svelte:component this={demoWidget.component} {...demoWidget.props} />
+    {#if portfolioSummaryWidget}
+      <div class="h-full rounded-xl bg-card">
+        <svelte:component
+          this={portfolioSummaryWidget.component}
+          {...portfolioSummaryWidget.props}
+        />
       </div>
     {/if}
-    {#if demoWidget}
+    {#if myTickersWidget}
       <div class="h-full rounded-xl bg-muted/50">
-        <svelte:component this={demoWidget.component} {...demoWidget.props} />
+        <svelte:component this={myTickersWidget.component} {...myTickersWidget.props} />
       </div>
     {/if}
   </div>

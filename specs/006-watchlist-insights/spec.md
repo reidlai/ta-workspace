@@ -25,7 +25,7 @@ As a User, I want to see high-level, actionable advice ("Today's Strategy Summar
 ## Clarifications
 
 ### Session 2025-12-29
-- Q: Persistence Strategy → A: **Backend (Go/Goa)** - Data persists to a new Go application `apps/taassistant-api` designed with Goa (OpenAPI).
+- Q: Persistence Strategy → A: **Backend (Go/Goa)** - Data persists to a new Go application `apps/ta-server` designed with Goa (OpenAPI).
 - Q: Auth Strategy → A: **Stubbed (Header)** - Client sends `X-User-ID` header. API uses this for context but performs no validation yet.
 - Q: Connectivity → A: **Vite Proxy** - Frontend uses relative `/api` paths; Vite proxies to Backend during dev.
 
@@ -42,21 +42,21 @@ As a User, I want to see high-level, actionable advice ("Today's Strategy Summar
 - **FR-004**: "My Tickers" widget MUST visual distinguish "On Hand" vs "Watched".
 - **FR-005**: MUST persist watchlist data via REST API to `taassistant-api` (Go backend).
 
-#### Module 2: Strategy Insights (`modules/insights`)
-- **FR-006**: MUST implement `InsightsService` (or similar) to provide recommendations.
+#### Module 2: Portfolio (`modules/portfolio`)
+- **FR-006**: MUST implement `PortfolioService` (or similar) to provide portfolio recommendations.
 - **FR-007**: MUST register "Today's Strategy Summary" widget.
 - **FR-008**: "Today's Strategy Summary" widget MEDIUM/LARGE size.
 - **FR-009**: Widget MUST appear prominently on "dashboard" location (registered with `location: 'dashboard'`).
-- **FR-010**: Recommendations MUST be text-based one-sentence summaries retrieved from `taassistant-api`.
+- **FR-010**: Recommendations MUST be text-based one-sentence summaries retrieved from `ta-server`.
 
-#### Application: Technical Analysis API (`apps/taassistant-api`)
+#### Application: Technical Analysis API (`apps/ta-server`)
 - **FR-011**: MUST be a Go application using Goa design framework.
 - **FR-012**: MUST expose endpoints for Watchlist management (CRUD).
 - **FR-013**: MUST expose endpoints for Strategy Insights (Read-only).
 - **FR-014**: MUST accept `X-User-ID` header to scope operations (Stubbed Auth).
 
 #### App Shell Integration (`apps/sv-appshell`)
-- **FR-015**: MUST configure Vite Proxy to forward `/api` requests to `taassistant-api` (Default port 8080).
+- **FR-015**: MUST configure Vite Proxy to forward `/api` requests to `ta-server` (Default port 8080).
 
 ### Key Entities
 
