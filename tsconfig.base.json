@@ -13,6 +13,9 @@
             ],
             "@modules/demo-ts": [
                 "./modules/demo/ts/src/index.ts"
+            ],
+            "@ui/*": [
+                "./apps/sv-appshell/src/lib/components/ui/*"
             ]
         }
     }

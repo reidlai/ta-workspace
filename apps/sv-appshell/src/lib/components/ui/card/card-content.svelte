@@ -1,8 +1,8 @@
 <script lang="ts">
   import { cn } from "$lib/utils";
-  let { class: className, ...rest } = $props();
+  let { class: className = undefined, children, ...rest } = $props();
 </script>
 
 <div class={cn("p-6 pt-0", className)} {...rest}>
-  <slot />
+  {@render children?.()}
 </div>

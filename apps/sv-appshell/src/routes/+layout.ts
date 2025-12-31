@@ -36,7 +36,13 @@ export const load: LayoutLoad = async ({ fetch }) => {
 
             const container = new DIContainer(appConfig);
 
-            // Use ModuleLoader to dynamic load
+            // CRITICAL: Bootstrapper for the application
+            // ModuleLoader reads the 'modules.json' configuration and dynamically imports/registers 
+            // all feature modules (like portfolio, watchlist) into the Registry.
+            //
+            // "Writer" -> "Reader" Relationship:
+            // This function fills the Registry. If this doesn't run, registry.getWidget() (the "Reader")
+            // in your pages will return undefined because the Registry box is empty.
             await ModuleLoader.loadModules(container, config.modules);
             console.log("DEBUG: ModuleLoader done");
         }

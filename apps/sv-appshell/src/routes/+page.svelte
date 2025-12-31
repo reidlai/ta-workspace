@@ -1,10 +1,10 @@
 <script lang="ts">
-  import SectionCards from "$lib/components/section-cards.svelte";
   import ChartAreaInteractive from "$lib/components/chart-area-interactive.svelte";
   import DataTable from "$lib/components/data-table.svelte";
   import { Registry } from "@core/registry";
-  import type { IWidget } from "@core/types";
 
+  // Registry.getInstance() is a singleton. It returns the SAME instance initialized
+  // in +layout.ts, so we have access to all the widgets loaded there.
   const registry = Registry.getInstance();
   const demoWidget = registry.getWidget("demo-widget");
   const portfolioSummaryWidget = registry.getWidget("portfolio-summary"); // ID from index.ts
@@ -33,7 +33,10 @@
     {/if}
     {#if myTickersWidget}
       <div class="h-full rounded-xl bg-muted/50">
-        <svelte:component this={myTickersWidget.component} {...myTickersWidget.props} />
+        <svelte:component
+          this={myTickersWidget.component}
+          {...myTickersWidget.props}
+        />
       </div>
     {/if}
   </div>

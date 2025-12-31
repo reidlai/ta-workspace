@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 
   let { items }: { items: any[] } = $props();
