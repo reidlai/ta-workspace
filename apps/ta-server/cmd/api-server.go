@@ -49,7 +49,7 @@ func init() {
 	viper.BindPFlag("api-server.secure", apiServerCmd.Flags().Lookup("secure"))
 
 	// Environment variable binding
-	viper.SetEnvPrefix("TAASSISTANT")
+	viper.SetEnvPrefix("TA_SERVER")
 	viper.AutomaticEnv()
 }
 
