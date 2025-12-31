@@ -29,4 +29,13 @@ tasks:
 
   run:
     command: 'go run . api-server'
+    env:
+      TA_SERVER_LOG_LEVEL: 'DEBUG'
+      TA_SERVER_LOG_FORMAT: 'text'
     local: true
+
+  dev:
+    extends: 'run'
+    env:
+      TA_SERVER_LOG_LEVEL: 'DEBUG'
+      TA_SERVER_LOG_FORMAT: 'text'

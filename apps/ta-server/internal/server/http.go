@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"sync"
@@ -13,14 +14,14 @@ import (
 	watchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/watchlist"
 
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
+	"go.opentelemetry.io/otel/trace"
 	"goa.design/clue/debug"
-	"goa.design/clue/log"
 	goahttp "goa.design/goa/v3/http"
 )
 
 // HandleHTTPServer starts configures and starts a HTTP server on the given
 // URL. It shuts down the server if any error is received in the error channel.
-func HandleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watchlist.Endpoints, portfolioEndpoints *portfolio.Endpoints, wg *sync.WaitGroup, errc chan error, dbg bool) {
+func HandleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watchlist.Endpoints, portfolioEndpoints *portfolio.Endpoints, wg *sync.WaitGroup, errc chan error, logger *slog.Logger, dbg bool) {
 
 	// Provide the transport specific request decoder and response encoder.
 	// The goa http package has built-in support for JSON, XML and gob.
@@ -52,7 +53,7 @@ func HandleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watch
 		portfolioServer *portfoliosvr.Server
 	)
 	{
-		eh := errorHandler(ctx)
+		eh := errorHandler(ctx, logger)
 		watchlistServer = watchlistsvr.New(watchlistEndpoints, mux, dec, enc, eh, nil)
 		portfolioServer = portfoliosvr.New(portfolioEndpoints, mux, dec, enc, eh, nil)
 	}
@@ -66,20 +67,23 @@ func HandleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watch
 	handler = chimiddleware.RequestID(handler)
 	handler = chimiddleware.RealIP(handler)
 	handler = chimiddleware.Recoverer(handler)
+
+	// Inject Slog Logger with Trace Context
+	handler = SlogMiddleware(logger)(handler)
+
 	if dbg {
 		// Log query and response bodies if debug logs are enabled.
 		handler = debug.HTTP()(handler)
 	}
-	handler = log.HTTP(ctx)(handler)
 
 	// Start HTTP server using default configuration, change the code to
 	// configure the server as required by your service.
 	srv := &http.Server{Addr: u.Host, Handler: handler, ReadHeaderTimeout: time.Second * 60}
 	for _, m := range watchlistServer.Mounts {
-		log.Printf(ctx, "HTTP %q mounted on %s %s", m.Method, m.Verb, m.Pattern)
+		logger.InfoContext(ctx, "HTTP handler mounted", "method", m.Method, "verb", m.Verb, "pattern", m.Pattern)
 	}
 	for _, m := range portfolioServer.Mounts {
-		log.Printf(ctx, "HTTP %q mounted on %s %s", m.Method, m.Verb, m.Pattern)
+		logger.InfoContext(ctx, "HTTP handler mounted", "method", m.Method, "verb", m.Verb, "pattern", m.Pattern)
 	}
 
 	(*wg).Add(1)
@@ -88,12 +92,12 @@ func HandleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watch
 
 		// Start HTTP server in a separate goroutine.
 		go func() {
-			log.Printf(ctx, "HTTP server listening on %q", u.Host)
+			logger.InfoContext(ctx, "HTTP server listening", "host", u.Host)
 			errc <- srv.ListenAndServe()
 		}()
 
 		<-ctx.Done()
-		log.Printf(ctx, "shutting down HTTP server at %q", u.Host)
+		logger.InfoContext(ctx, "shutting down HTTP server", "host", u.Host)
 
 		// Shutdown gracefully with a 30s timeout.
 		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
@@ -101,7 +105,7 @@ func HandleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watch
 
 		err := srv.Shutdown(ctx)
 		if err != nil {
-			log.Printf(ctx, "failed to shutdown: %v", err)
+			logger.ErrorContext(ctx, "failed to shutdown", "error", err)
 		}
 	}()
 }
@@ -109,8 +113,50 @@ func HandleHTTPServer(ctx context.Context, u *url.URL, watchlistEndpoints *watch
 // errorHandler returns a function that writes and logs the given error.
 // The function also writes and logs the error unique ID so that it's possible
 // to correlate.
-func errorHandler(logCtx context.Context) func(context.Context, http.ResponseWriter, error) {
+func errorHandler(logCtx context.Context, logger *slog.Logger) func(context.Context, http.ResponseWriter, error) {
 	return func(ctx context.Context, w http.ResponseWriter, err error) {
-		log.Printf(logCtx, "ERROR: %s", err.Error())
+		logger.ErrorContext(ctx, "HTTP Error", "error", err)
+	}
+}
+
+// SlogMiddleware extracts OTel trace IDs and injects a logger into the context.
+func SlogMiddleware(logger *slog.Logger) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			ctx := r.Context()
+			span := trace.SpanFromContext(ctx)
+
+			// Inject trace_id and span_id if available (and valid) across all environments
+			reqLogger := logger
+			if span.SpanContext().IsValid() {
+				// We attach the trace info to the logger's attributes.
+				// For the JSON/GCP handler (Phase 3), the ReplaceAttr function handles mapping these keys
+				// to logging.googleapis.com/trace, etc.
+				// For Text/Dev handler (Phase 4), these just appear as normal attributes.
+				traceID := span.SpanContext().TraceID().String()
+				spanID := span.SpanContext().SpanID().String()
+
+				reqLogger = logger.With(
+					slog.String("trace_id", traceID),
+					slog.String("span_id", spanID),
+				)
+			}
+
+			// Log request start
+			reqLogger.InfoContext(ctx, "request started",
+				"method", r.Method,
+				"path", r.URL.Path,
+				"remote_addr", r.RemoteAddr,
+			)
+
+			// Update context with logger
+			// NOTE: We rely on standard context behavior. Services should use slog.Default() or
+			// take explicit logger. If services need to retrieve this logger from context,
+			// we would need a custom context key. For now, we assume simple usage or
+			// explicit passing. Services are refactored in Phase 5 to take *slog.Logger.
+			// Ideally, we'd have a ContextWithLogger helper if deep context extraction is needed.
+
+			next.ServeHTTP(w, r)
+		})
 	}
 }
