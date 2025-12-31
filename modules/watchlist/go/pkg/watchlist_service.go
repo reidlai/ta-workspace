@@ -6,6 +6,7 @@ import (
 	"sync"
 	"time"
 
+	rootwatchlist "github.com/reidlai/ta-workspace/modules/watchlist/go"
 	watchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/watchlist"
 )
 
@@ -20,7 +21,7 @@ type watchlistsrvc struct {
 // NewWatchlist returns the watchlist service implementation.
 func NewWatchlist(logger *log.Logger) watchlist.Service {
 	// Initialize exchange data (Fail Fast)
-	LoadExchanges()
+	rootwatchlist.LoadExchanges()
 
 	return &watchlistsrvc{
 		logger: logger,
