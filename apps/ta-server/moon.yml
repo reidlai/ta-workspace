@@ -30,3 +30,7 @@ tasks:
   run:
     command: 'go run . api-server'
     local: true
+
+  dev:
+    command: 'go run . api-server'
+    local: true
