@@ -2,7 +2,7 @@ package pkg
 
 import (
 	"context"
-	"log"
+	"log/slog"
 	"sync"
 	"time"
 
@@ -12,14 +12,14 @@ import (
 
 // watchlist service implementation.
 type watchlistsrvc struct {
-	logger *log.Logger
+	logger *slog.Logger
 	mu     sync.Mutex
 	// Map UserID -> Symbol -> Item
 	store map[string]map[string]*watchlist.TickerItem
 }
 
 // NewWatchlist returns the watchlist service implementation.
-func NewWatchlist(logger *log.Logger) watchlist.Service {
+func NewWatchlist(logger *slog.Logger) watchlist.Service {
 	// Initialize exchange data (Fail Fast)
 	rootwatchlist.LoadExchanges()
 
@@ -31,7 +31,7 @@ func NewWatchlist(logger *log.Logger) watchlist.Service {
 
 // List all tickers for user
 func (s *watchlistsrvc) List(ctx context.Context, p *watchlist.ListPayload) (res []*watchlist.TickerItem, err error) {
-	s.logger.Printf("watchlist.list user=%s", p.UserID)
+	s.logger.InfoContext(ctx, "watchlist.list", "user", p.UserID)
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -49,7 +49,7 @@ func (s *watchlistsrvc) List(ctx context.Context, p *watchlist.ListPayload) (res
 
 // Add ticker
 func (s *watchlistsrvc) Add(ctx context.Context, p *watchlist.AddPayload) (res *watchlist.TickerItem, err error) {
-	s.logger.Printf("watchlist.add user=%s symbol=%s", p.UserID, p.Symbol)
+	s.logger.InfoContext(ctx, "watchlist.add", "user", p.UserID, "symbol", p.Symbol)
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -69,7 +69,7 @@ func (s *watchlistsrvc) Add(ctx context.Context, p *watchlist.AddPayload) (res *
 
 // Remove ticker
 func (s *watchlistsrvc) Remove(ctx context.Context, p *watchlist.RemovePayload) (err error) {
-	s.logger.Printf("watchlist.remove user=%s symbol=%s", p.UserID, p.Symbol)
+	s.logger.InfoContext(ctx, "watchlist.remove", "user", p.UserID, "symbol", p.Symbol)
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
