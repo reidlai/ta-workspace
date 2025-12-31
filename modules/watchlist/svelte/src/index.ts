@@ -14,6 +14,6 @@ const bundle: IModuleBundle = {
     ]
 };
 
-export function register(registry: any) {
-    registry.register(bundle);
-}
+export const init = async (context: any): Promise<IModuleBundle> => {
+    return bundle;
+};

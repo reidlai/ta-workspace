@@ -6,15 +6,16 @@ toolchain go1.24.11
 
 require (
 	github.com/go-chi/chi/v5 v5.2.3
-	github.com/reidlai/ta-workspace/modules/insights/go v0.0.0
-	github.com/reidlai/ta-workspace/modules/watchlist/go v0.0.0
+	github.com/reidlai/ta-workspace/modules/portfolio/go v0.0.0-00010101000000-000000000000
+	github.com/reidlai/ta-workspace/modules/watchlist/go v0.0.0-00010101000000-000000000000
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
-	goa.design/clue v1.2.3
+	goa.design/clue v0.20.0
 	goa.design/goa/v3 v3.23.4
 )
 
 require (
+	github.com/AnatolyRugalev/goregen v0.1.0 // indirect
 	github.com/aws/smithy-go v1.23.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/dimfeld/httppath v0.0.0-20170720192232-ee938bf73598 // indirect
@@ -29,9 +30,11 @@ require (
 	github.com/manveru/faker v0.0.0-20171103152722-9fbc68a78c4d // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
+	github.com/sergi/go-diff v1.3.1 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.11.0 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
@@ -58,6 +61,6 @@ require (
 )
 
 replace (
-	github.com/reidlai/ta-workspace/modules/insights/go => ../../modules/insights/go
+	github.com/reidlai/ta-workspace/modules/portfolio/go => ../../modules/portfolio/go
 	github.com/reidlai/ta-workspace/modules/watchlist/go => ../../modules/watchlist/go
 )

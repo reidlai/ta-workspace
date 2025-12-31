@@ -22,6 +22,9 @@ importers:
       '@core/types':
         specifier: workspace:*
         version: link:../../modules/core/ts/types
+      rxjs:
+        specifier: ^7.8.1
+        version: 7.8.2
     devDependencies:
       '@cucumber/cucumber':
         specifier: ^12.5.0
@@ -142,9 +145,9 @@ importers:
         specifier: ^7.8.1
         version: 7.8.2
 
-  modules/insights/svelte:
+  modules/portfolio/svelte:
     dependencies:
-      '@modules/insights-ts':
+      '@modules/portfolio-ts':
         specifier: workspace:*
         version: link:../ts
     devDependencies:
@@ -152,7 +155,7 @@ importers:
         specifier: ^4.0.0
         version: 4.2.20
 
-  modules/insights/ts:
+  modules/portfolio/ts:
     dependencies:
       rxjs:
         specifier: ^7.8.1

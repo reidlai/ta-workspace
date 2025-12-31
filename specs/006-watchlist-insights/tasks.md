@@ -13,7 +13,7 @@
 ## Phase 1: Setup
 - [x] T001 Initialize Go Backend in apps/taassistant-api (go mod init)
 - [x] T002 Create Frontend Module Structure for modules/watchlist/svelte
-- [x] T003 Create Frontend Module Structure for modules/insights/svelte
+- [x] T003 Create Frontend Module Structure for modules/portfolio/svelte
 - [x] T004 Update App Shell modules.json to include new modules
 
 ## Phase 2: Foundational
@@ -29,7 +29,7 @@
 ## Phase 4: Insights Module (P2)
 **Goal**: Users see AI-generated insights for their tickers.
 - [x] T010 [US2] Implement Insights API Logic in apps/taassistant-api/insights.go (Mock AI)
-- [x] T011 [US2] Implement InsightsService & Widget in modules/insights/svelte
+- [x] T011 [US2] Implement InsightsService & Widget in svelte
 
 ## Phase 5: Verification & Polish
 - [x] T012 Verify full stack integration (Backend running, Frontend displaying widgets)

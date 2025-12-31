@@ -42,6 +42,7 @@
 	"dependencies": {
 		"@core/types": "workspace:*",
 		"@core/di": "workspace:*",
-		"@core/registry": "workspace:*"
+		"@core/registry": "workspace:*",
+		"rxjs": "^7.8.1"
 	}
 }

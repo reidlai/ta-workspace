@@ -8,8 +8,8 @@
             "@modules/watchlist-ts": [
                 "./modules/watchlist/ts/src/index.ts"
             ],
-            "@modules/insights-ts": [
-                "./modules/insights/ts/src/index.ts"
+            "@modules/portfolio-ts": [
+                "./modules/portfolio/ts/src/index.ts"
             ],
             "@modules/demo-ts": [
                 "./modules/demo/ts/src/index.ts"

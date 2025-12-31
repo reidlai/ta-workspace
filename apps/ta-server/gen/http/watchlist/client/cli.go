@@ -3,7 +3,7 @@
 // watchlist HTTP client CLI support package
 //
 // Command:
-// $ goa gen github.com/reidlai/ta-workspace/apps/ta-server/design
+// $ goa gen github.com/reidlai/ta-workspace/modules/watchlist/go/design
 
 package client
 
@@ -35,7 +35,7 @@ func BuildAddPayload(watchlistAddBody string, watchlistAddUserID string) (*watch
 	{
 		err = json.Unmarshal([]byte(watchlistAddBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"on_hand\": false,\n      \"symbol\": \"Sequi quibusdam quidem est voluptatem vitae.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"on_hand\": false,\n      \"symbol\": \"Vel ea fugit et ab nobis.\"\n   }'")
 		}
 	}
 	var userID string
