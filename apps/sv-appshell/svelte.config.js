@@ -16,7 +16,8 @@ const config = {
 			'@/*': './src/*',
 			'@modules/demo/ts': '../../modules/demo/ts/src/index.ts',
 			'@modules/*': '../../modules/*',
-			'@core/*': '../../modules/core/ts/*'
+			'@core/*': '../../modules/core/ts/*',
+			'@ui/*': './src/lib/components/ui/*'
 		}
 	}
 };

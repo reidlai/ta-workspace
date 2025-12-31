@@ -1,141 +1,79 @@
 <script lang="ts">
     import { onMount, onDestroy } from "svelte";
+    import { goto } from "$app/navigation";
     import { watchlistService, type TickerItem } from "../../../ts/src/index";
+    import * as Card from "@ui/card";
 
     let tickers: TickerItem[] = [];
-    let newSymbol = "";
-    let newOnHand = false;
     let unsubscribe: () => void;
 
     onMount(() => {
         unsubscribe = watchlistService.subscribe((value) => {
             tickers = value;
         });
-    }); // Testing
+    });
 
     onDestroy(() => {
         if (unsubscribe) unsubscribe();
     });
 
-    async function add() {
-        if (!newSymbol) return;
-        await watchlistService.addTicker(newSymbol.toUpperCase(), newOnHand);
-        newSymbol = "";
-        newOnHand = false;
+    // T003: Static Mapping Strategy for Exchange Count
+    const EXCHANGE_MAP: Record<string, string> = {
+        AAPL: "NASDAQ",
+        MSFT: "NASDAQ",
+        GOOGL: "NASDAQ",
+        NVDA: "NASDAQ",
+        AMZN: "NASDAQ",
+        F: "NYSE",
+        GE: "NYSE",
+        JPM: "NYSE",
+        WMT: "NYSE",
+    };
+
+    function getExchange(symbol: string): string {
+        return EXCHANGE_MAP[symbol.toUpperCase()] || "Other";
     }
 
-    async function remove(symbol: string) {
-        await watchlistService.removeTicker(symbol);
+    // T004: Derived store for exchange counts
+    $: uniqueExchangeCount = new Set(tickers.map((t) => getExchange(t.symbol)))
+        .size;
+
+    function handleClick() {
+        goto("/watchlist");
+    }
+
+    function handleKeydown(event: KeyboardEvent) {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            handleClick();
+        }
     }
 </script>
 
 <div
-    class="h-full w-full bg-card text-card-foreground rounded-xl border shadow flex flex-col overflow-hidden"
+    role="button"
+    tabindex="0"
+    class="@container w-full h-full cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98]"
+    on:click={handleClick}
+    on:keydown={handleKeydown}
 >
-    <div class="p-4 border-b bg-muted/20 flex justify-between items-center">
-        <h3 class="font-semibold">My Tickers</h3>
-        <span class="text-xs text-muted-foreground"
-            >{tickers.length} watched</span
-        >
-    </div>
-
-    <div class="flex-1 overflow-auto p-4 space-y-2">
-        {#each tickers as ticker (ticker.symbol)}
-            <div
-                class="flex items-center justify-between p-2 rounded-lg bg-background border"
+    <Card.Root
+        class="h-full flex flex-col justify-between border-l-4 border-l-primary"
+    >
+        <Card.Header class="pb-2">
+            <Card.Description>Number of Tickers in Watchlist</Card.Description>
+            <Card.Title class="text-3xl font-bold tracking-tight"
+                >{tickers.length}</Card.Title
             >
-                <div class="flex items-center gap-3">
-                    <div
-                        class="{ticker.on_hand
-                            ? 'bg-green-500/10 text-green-500'
-                            : 'bg-blue-500/10 text-blue-500'} p-2 rounded-full"
-                    >
-                        {#if ticker.on_hand}
-                            <!-- Icon for Holding -->
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                ><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"
-                                ></path><path d="M22 4L12 14.01l-3-3"
-                                ></path></svg
-                            >
-                        {:else}
-                            <!-- Icon for Watch only -->
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                ><circle cx="12" cy="12" r="10"></circle><line
-                                    x1="12"
-                                    y1="16"
-                                    x2="12"
-                                    y2="12"
-                                ></line><line x1="12" y1="8" x2="12.01" y2="8"
-                                ></line></svg
-                            >
-                        {/if}
-                    </div>
-                    <span class="font-bold">{ticker.symbol}</span>
-                </div>
-                <button
-                    on:click={() => remove(ticker.symbol)}
-                    class="text-muted-foreground hover:text-destructive p-2"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        ><path d="M3 6h18"></path><path
-                            d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"
-                        ></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"
-                        ></path></svg
-                    >
-                </button>
+        </Card.Header>
+        <Card.Content>
+            <div class="flex items-center space-x-2">
+                <span class="text-sm text-muted-foreground">In</span>
+                <span class="font-semibold text-sm">
+                    {uniqueExchangeCount}
+                </span>
+                <span class="text-sm text-muted-foreground">Markets</span>
             </div>
-        {:else}
-            <div class="text-center text-muted-foreground text-sm py-4">
-                No tickers watched.
-            </div>
-        {/each}
-    </div>
-
-    <div class="p-3 bg-muted/20 border-t flex gap-2">
-        <input
-            class="flex-1 bg-background border rounded px-3 py-2 text-sm"
-            placeholder="Symbol (e.g. AAPL)"
-            bind:value={newSymbol}
-        />
-        <label class="flex items-center gap-2 cursor-pointer">
-            <input
-                type="checkbox"
-                bind:checked={newOnHand}
-                class="w-4 h-4 rounded border-gray-300"
-            />
-            <span class="text-xs">Hold</span>
-        </label>
-        <button
-            on:click={add}
-            class="bg-primary text-primary-foreground px-4 py-2 rounded text-sm font-medium hover:bg-primary/90"
-            >Add</button
-        >
-    </div>
+        </Card.Content>
+    </Card.Root>
 </div>

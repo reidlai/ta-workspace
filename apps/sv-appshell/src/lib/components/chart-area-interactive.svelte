@@ -1,1 +1,1 @@
-<div class="aspect-video rounded-xl bg-muted/50 w-full" />
+<div class="h-[300px] w-full"></div>
