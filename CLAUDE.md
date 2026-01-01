@@ -8,8 +8,14 @@
 
 ## Active Technologies
 - Node.js v20 (LTS) (managed via toolchain) + Moonrepo, pnpm (001-initialize-current-project)
-- N/A (Configuration files only) (001-initialize-current-project)
+- Svelte 5 (managed via toolchain) + Vite (001-initialize-current-project)
+- TailwindCSS (managed via toolchain) + PostCSS (001-initialize-current-project)
+- TypeScript (ES2022) (managed via toolchain) (001-initialize-current-project)
+- SvelteKit v2 (managed via toolchain) (001-initialize-current-project)
+- Go v1.22+ (managed via toolchain) (001-initialize-current-project)
+- RxJS v7 (managed via toolchain) (001-initialize-current-project)
+- RxDart v0.22+ (managed via toolchain) (001-initialize-current-project)
+- Flutter v3.22+ (managed via toolchain) (001-initialize-current-project)
+- Dart v2.22+ (managed via toolchain) (001-initialize-current-project)
+- Firebase v10+ (managed via toolchain) (001-initialize-current-project)
 
-
-## Recent Changes
-- 008-update-dashboard-strategy-widget: Added TypeScript (ES2022), Golang 1.22+
