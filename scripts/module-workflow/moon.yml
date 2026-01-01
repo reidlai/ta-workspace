@@ -1,0 +1,19 @@
+language: typescript
+type: application
+id: 'module-workflow'
+
+tasks:
+  add-module:
+    command: 'tsx src/bin/module-workflow.ts add-module'
+    description: 'Add a new feature module from a git repository'
+    platform: node
+
+  rename-module:
+    command: 'tsx src/bin/module-workflow.ts rename-module'
+    description: 'Rename an existing module and refactor references'
+    platform: node
+
+  delete-module:
+    command: 'tsx src/bin/module-workflow.ts delete-module'
+    description: 'Delete a module and clean up references'
+    platform: node

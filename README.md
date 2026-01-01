@@ -150,6 +150,17 @@ These commands run across **all projects** in the monorepo (useful for CI/CD or 
 - **Lint All Projects**: `npx @moonrepo/cli run :lint`
   - Lints all projects
 
+### Module Management
+
+Manage feature modules globally across the monorepo:
+
+- **Add Module**: `npx @moonrepo/cli run :add-module`
+  - Clones a remote repository as a new feature module
+- **Delete Module**: `npx @moonrepo/cli run :delete-module`
+  - Removes a module and cleans up configuration
+- **Rename Module**: `npx @moonrepo/cli run :rename-module`
+  - Renames a module and refactors internal references
+
 > **Note**: The `:build` command compiles projects but does **not** start a development server.
 
 ## Applications

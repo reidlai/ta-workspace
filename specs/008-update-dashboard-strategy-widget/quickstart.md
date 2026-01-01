@@ -5,7 +5,7 @@
 
 ## Prerequisites
 
-- Node.js 20.19.1 (managed by Moonrepo/proto)
+- Node.js 1 (managed by Moonrepo/proto)
 - Go 1.22+ (managed by Moonrepo/proto)
 - pnpm 8.12.0 (managed by Moonrepo/proto)
 - WSL2 (if on Windows)

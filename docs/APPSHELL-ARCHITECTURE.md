@@ -752,3 +752,24 @@ class MyApp extends StatelessWidget {
 | **Handlers** | `IHandler.execute()` | N/A |
 | **Routes** | `IParamsRoute` | Goa HTTP DSL |
 | **State** | RxJS + Svelte stores | In-memory / DB |
+
+## Module Workflow Tooling
+
+To manage the lifecycle of modules within the monorepo, a CLI tool is provided in `scripts/module-workflow`.
+
+### Core Commands
+
+| Command | Description |
+|---------|-------------|
+| `moon run :add-module` | Adds a new feature module (submodule), updates registry and workspace configs. |
+| `moon run :delete-module` | Removes a module, cleaning up git submodules and config references. |
+| `moon run :rename-module` | Renames a module, moving the submodule and refactoring internal imports/names. |
+
+### Configuration Automation
+
+The tooling automatically manages:
+1.  **Registry**: `apps/sv-appshell/src/lib/module-registry.ts` (or equivalent)
+2.  **Node Workspace**: `pnpm-workspace.yaml`
+3.  **Go Workspace**: `go.work`
+4.  **Git Submodules**: `.gitmodules`, `.git/config`
+
