@@ -24,7 +24,7 @@ var _ = Service("portfolio", func() {
 		})
 		Result(ArrayOf(Insight))
 		HTTP(func() {
-			GET("/insights")
+			GET("/portfolio")
 			Header("user_id:X-User-ID")
 			Response(StatusOK)
 		})
