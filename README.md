@@ -1,103 +1,110 @@
-# AppShell Workspace
+# Technical Analysis Workspace
 
 ## Overview
 
-This repository is a monorepo managed by [Moonrepo](https://moonrepo.dev).
+This project is a **Proof of Concept (PoC)** demonstrating a modern, scalable architecture for AI-assisted development. It focuses on four key pillars:
+
+1.  **AI Agent Integration**: Adapting Google **Antigravity** and **Claude Code** to the [GitHub SpecKit](https://github.com/github/speckit) standard using `AGENTS.md`, `CLAUDE.md`, and `.agent/workflows`. This standardizes how AI agents understand and interact with the codebase.
+2.  **Monorepo Management**: Implementing a high-performance monorepo using [Moonrepo](https://moonrepo.dev) for consistent tooling, caching, and task orchestration across multiple projects.
+3.  **SOLID Principles**: Adhering to SOLID design principles to ensure code maintainability, testability, and scalability.
+4.  **AppShell Architecture**: Utilizing a **Virtual Module Pattern** to create a framework-agnostic host (AppShell). This enables cross-platform and cross-stack integration (e.g., SvelteKit, Next.js, Flutter) by dynamically loading feature modules at runtime.
 
 ## Architecture
 
-Packages are organized by **tech stack** for better scalability in a multi-framework monorepo:
+The system is built on a high-performance monorepo foundation, supporting a modular AppShell architecture for both frontend and backend.
 
-- `apps/`: Application projects
-  - `sv-appshell/`: SvelteKit application shell
-    - `src/lib/`: Shared code & core modules
-      - `types/`: Shared type definitions
-      - `di/`: Dependency injection container
-      - `registry/`: Feature registry and router
-      - `features/`: Feature modules (e.g., `demo/`)
-- `.moon/`: Moonrepo configuration
+### 1. Monorepo Structure
+Managed by **Moonrepo**, the workspace separates end-user applications from reusable logic:
+*   **`apps/`**: Hosts for the AppShells (e.g., `sv-appshell`, `ta-server`).
+*   **`modules/`**: Feature-specific logic (e.g., `watchlist`, `portfolio`) shared across apps.
+*   **Toolchain**: Deterministic Node.js and pnpm versions ensured by Moonrepo.
 
-See [Architecture Documentation](docs/appshell-architecture.md) for deeper details.
+[📄 Read Monorepo Architecture](docs/MONOREPO-ARCHITECTURE.md)
 
-## Feature Injection Architecture
+### 2. Frontend AppShell (`sv-appshell`)
+A **SvelteKit**-based host that implements the **Virtual Module Pattern**.
+*   **Dynamic Loading**: Modules are discovered and injected at runtime via `ModuleLoader`.
+*   **Registry**: A singleton managing widgets, routes, and services from injected modules.
+*   **Framework Agnostic**: Designed to maximize code reuse across frameworks via ReactiveX.
 
-The app shell uses a **dynamic module loading system** to inject feature packages at runtime.
+[📄 Read AppShell Architecture](docs/APPSHELL-ARCHITECTURE.md)
+
+### 3. Backend AppShell (`ta-server`)
+A **Go**-based API server leveraging the **Goa Framework**.
+*   **Design-First**: APIs defined in DSL, generating transport-agnostic code.
+*   **Modular Wiring**: Services like `watchlist` and `portfolio` are injected into the server core.
+*   **Clean Architecture**: Separation of HTTP transport (Chi router) from business logic.
+
+[📄 Read API Server Architecture](docs/API-SERVER.md)
+
+## Virtual Module Injection Architecture
+
+The AppShell uses a **Virtual Module Pattern** to dynamically inject features at runtime, enabling a loose coupling between the host application and feature packages.
 
 ### How It Works
 
-1. **Feature Configuration** ([`static/modules.json`](apps/sv-appshell/static/modules.json))
-   ```json
-   {
-     "modules": [
-       {
-         "id": "demo-module",
-         "enabled": true,
-         "src": "@modules/demo-module"
-       }
-     ]
-   }
-   ```
+1.  **Configuration**: The enabled modules are defined in [`apps/sv-appshell/static/modules.json`](apps/sv-appshell/static/modules.json). The AppShell reads this file at runtime to filter which available modules should be loaded.
+    ```json
+    {
+        "modules": [
+            { "id": "watchlist-module", "enabled": true, "src": "watchlist" },
+            { "id": "portfolio-module", "enabled": true, "src": "portfolio" }
+        ]
+    }
+    ```
+2.  **Discovery**: At build/runtime, the `ModuleLoader` uses `import.meta.glob` to find all available modules in the workspace matching the pattern `modules/*/*/src/index.ts`. It matches these against the `src` property from the configuration.
+2.  **Initialization**: Each found module exports an `init()` function that returns an `IModuleBundle`.
+3.  **Registration**: The returned bundle is registered with the **Registry Singleton**, making its widgets, routes, and services available to the AppShell.
 
-2. **App Shell Loader** ([`src/routes/+layout.ts`](apps/sv-appshell/src/routes/+layout.ts))
-   - Fetches `modules.json` on app initialization
-   - Dynamically imports each enabled feature package
-   - Calls the feature's `init()` function with app context
-   - Registers the feature bundle (routes, services) in the global Registry
+### Code Example
 
-3. **Feature Module** ([`src/lib/features/demo`](apps/sv-appshell/src/lib/features/demo))
-   - Exports a default `init()` function
-   - Returns a bundle containing:
-     - **Routes**: Path and component mappings
-     - **Services**: Shared services/utilities
-   - Example structure:
-     ```typescript
-     export default async function init(context: IContext): Promise<IFeatureBundle> {
-       return {
-         id: 'demo-module',
-         routes: [{ path: '/demo', component: DemoPage }],
-         services: { 'DemoService': { sayHello: () => 'Hello!' } }
-       };
-     }
-     ```
-
-4. **Registry & Router** ([`src/lib`](apps/sv-appshell/src/lib))
-   - `Registry`: Singleton that stores all loaded feature bundles
-   - `RouterService`: Matches paths to feature routes and renders components
-
-### Adding a New Feature
-
-1. Create a new folder in `apps/sv-appshell/src/lib/features/your-feature`
-2. Export a default `init()` function returning an `IFeatureBundle`
-3. Add your feature to `apps/sv-appshell/static/modules.json` using the `$lib` path or logical ID
-4. Rebuild and the app shell will auto-load it!
-
-### Example: Demo Feature
-
-Visit **http://localhost:5173/demo** to see the demo feature in action.
-
-Check console logs to see:
-- `[DemoModule] Initializing with context: DIContainer`
-- `[Registry] Registered module: demo-module`
-
-
-
-## Security & Maintenance
-
-### Vulnerability Management
-This project prioritizes security. We have resolved all critical and high vulnerabilities (as of Late 2025) by:
-- Enforcing modern dependencies (e.g., updating `@sveltejs/kit`).
-- Using `pnpm` for stricter dependency resolution.
-- Hardening configurations (e.g., `pnpm.overrides` for `cookie`).
-
-To check for vulnerabilities:
-```bash
-pnpm audit
+**1. Module Definition (`modules/watchlist/svelte/src/index.ts`):**
+```typescript
+export const init: ModuleInit = async (context) => {
+    return {
+        id: 'watchlist',
+        widgets: [{
+            id: 'my-tickers',
+            title: 'My Tickers',
+            component: MyTickersWidget, // Svelte Component
+            location: 'dashboard'
+        }]
+    };
+};
 ```
+
+**2. AppShell Consumption (`apps/sv-appshell/src/routes/+page.svelte`):**
+```svelte
+<script>
+  import { Registry } from "@core/registry";
+  const registry = Registry.getInstance();
+  const myTickersWidget = registry.getWidget("my-tickers");
+</script>
+
+{#if myTickersWidget}
+  <svelte:component this={myTickersWidget.component} />
+{/if}
+```
+
+[📄 read more details in APPSHELL-ARCHITECTURE.md](docs/APPSHELL-ARCHITECTURE.md)
+
+### Anatomy of a Virtual Module
+
+Each module (e.g., `modules/watchlist`) is composed of several configuration files that work together:
+
+| File | Location | Purpose |
+| :--- | :--- | :--- |
+| **`modules.json`** | `apps/sv-appshell/static/` | **Runtime Config**. Tells the AppShell which modules to load and enable. Maps logical IDs to source paths. |
+| **`tsconfig.base.json`** | `root` | **Global Path Aliases**. Defines paths like `@modules/watchlist-ts` so you can import across the monorepo without relative paths. |
+| **`moon.yml`** | `modules/<feature>/<stack>/` | **Build Orchestration**. Defines the folder as a Moonrepo project. Specifies tasks (`build`, `test`, `lint`) and dependencies. |
+| **`tsconfig.json`** | `modules/<feature>/<stack>/` | **Type Config**. Extends `tsconfig.base.json` to inherit aliases but adds framework-specific types (e.g., `svelte`, `vite/client`). |
+| **`go.mod`** | `modules/<feature>/go/` | **Backend Dependency**. Defines the Go module scope and dependencies (e.g., Goa framework) for the server-side component. |
 
 ## Prerequisites
 
 - Node.js v20 (Managed automatically by Moonrepo)
 - pnpm (Managed automatically by Moonrepo)
+
 
 ## Getting Started
 
@@ -241,3 +248,11 @@ npx @moonrepo/cli run :test   # Run all tests
 ---
 
 See [Moonrepo Documentation](https://moonrepo.dev/docs) for more details.
+
+## License
+
+This project is licensed under the **MIT License**.
+
+> **Disclaimer**: This is a Proof of Concept (PoC) project provided "AS IS", without warranty of any kind. The authors are not responsible for any bugs, data loss, or issues arising from the use of this software. Use at your own risk.
+
+[📄 Read Full License](LICENSE)

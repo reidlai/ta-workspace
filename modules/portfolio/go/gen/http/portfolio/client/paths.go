@@ -9,5 +9,5 @@ package client
 
 // ListPortfolioPath returns the URL path to the portfolio service list HTTP endpoint.
 func ListPortfolioPath() string {
-	return "/insights"
+	return "/portfolio"
 }

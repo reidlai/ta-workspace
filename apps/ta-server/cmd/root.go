@@ -5,9 +5,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Version can be set at build time
-var Version = "dev"
-
 var RootCmd = &cobra.Command{
 	Use:   "ta-server",
 	Short: "Technical Analysis Assistant API",
@@ -25,6 +22,12 @@ func init() {
 	viper.BindPFlag("config", RootCmd.PersistentFlags().Lookup("config"))
 }
 
+// initConfig reads in config file and ENV variables if set.
+// Configuration precedence: Flag > Env > Config File > Default.
+//
+// It searches for "ta-server.yaml" in:
+// 1. Current directory (".")
+// 2. Home directory ("$HOME/.ta-server")
 func initConfig() {
 	if cfgFile := viper.GetString("config"); cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
