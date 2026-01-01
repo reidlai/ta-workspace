@@ -4,6 +4,7 @@ projects:
   - 'apps/*'
   - 'modules/demo/*'
   - 'modules/core/ts/*'
+  - 'scripts/*'
 
 vcs:
   manager: 'git'

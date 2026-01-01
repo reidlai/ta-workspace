@@ -7,3 +7,4 @@ packages:
   - 'modules/portfolio/ts'
   - 'modules/portfolio/svelte'
   - 'modules/demo/ts'
+  - 'scripts/module-workflow'
