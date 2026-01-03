@@ -3,7 +3,10 @@ id: "ta-server"
 
 tasks:
   build:
-    command: "npm run build"
+    command: "npm"
+    args:
+      - "run"
+      - "build"
     platform: "system"
     inputs:
       - "**/*.go"
@@ -14,7 +17,10 @@ tasks:
     local: true
 
   test:
-    command: "npm run test"
+    command: "npm"
+    args:
+      - "run"
+      - "test"
     platform: "system"
     inputs:
       - "**/*.go"

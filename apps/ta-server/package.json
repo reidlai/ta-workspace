@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "private": true,
     "scripts": {
-        "build": "go build -o ta-server.exe .",
-        "test": "go test ./..."
+        "build": "node scripts/go-wrapper.js build",
+        "test": "node scripts/go-wrapper.js test"
     }
 }
