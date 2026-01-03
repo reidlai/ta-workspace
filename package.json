@@ -15,7 +15,10 @@
   "pnpm": {
     "overrides": {
       "cookie": "^0.7.0"
-    }
+    },
+    "ignoredBuiltDependencies": [
+      "esbuild"
+    ]
   },
   "engines": {
     "node": "~20"
