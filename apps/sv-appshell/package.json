@@ -11,7 +11,7 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "test:unit": "vitest run",
-    "test": "pnpm run test:unit",
+    "test": "node scripts/vitest-wrapper.js",
     "lint": "pnpm run check"
   },
   "devDependencies": {
