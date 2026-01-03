@@ -1,0 +1,9 @@
+{
+    "name": "ta-server",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "build": "go build -o ta-server.exe .",
+        "test": "go test ./..."
+    }
+}
