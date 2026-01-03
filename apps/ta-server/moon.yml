@@ -4,7 +4,7 @@ id: "ta-server"
 
 tasks:
   build:
-    command: 'cmd /c "go build -o ta-server.exe ."'
+    command: "go build -o ta-server.exe ."
     inputs:
       - "**/*.go"
       - "go.mod"
@@ -14,7 +14,7 @@ tasks:
     local: true
 
   test:
-    command: 'cmd /c "go test ./..."'
+    command: "go test ./..."
     inputs:
       - "**/*.go"
       - "go.mod"
