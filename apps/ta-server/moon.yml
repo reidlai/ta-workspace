@@ -1,15 +1,9 @@
-language: "go"
 type: "application"
 id: "ta-server"
 
 tasks:
   build:
-    command: "go"
-    args:
-      - "build"
-      - "-o"
-      - "ta-server.exe"
-      - "."
+    command: "go build -o ta-server.exe ."
     platform: "system"
     inputs:
       - "**/*.go"
@@ -20,10 +14,7 @@ tasks:
     local: true
 
   test:
-    command: "go"
-    args:
-      - "test"
-      - "./..."
+    command: "go test ./..."
     platform: "system"
     inputs:
       - "**/*.go"
