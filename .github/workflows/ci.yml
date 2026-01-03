@@ -42,7 +42,11 @@ jobs:
 
       # Stage 1: SCA
       - name: SCA - Go Vulnerability Check
-        run: go run golang.org/x/vuln/cmd/govulncheck@latest ./...
+        run: |
+          for dir in apps/ta-server modules/portfolio/go modules/watchlist/go; do
+            echo "Checking $dir..."
+            (cd "$dir" && go run golang.org/x/vuln/cmd/govulncheck@latest ./...)
+          done
 
       - name: SCA - PNPM Audit
         run: pnpm audit --prod --audit-level=high
