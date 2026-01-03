@@ -6,13 +6,13 @@
 
 View-only representation of the watchlist.
 
-| Field | Type | Description | Source |
-|-------|------|-------------|--------|
-| Field | Type | Description | Source |
-|-------|------|-------------|--------|
-| `tickers` | `TickerItem[]` | List of watched tickers | `watchlistService` |
-| `count` | `number` | Total number of tickers | Derived (`tickers.length`) |
-| `exchange_counts` | `Map<string, number>` | Count per unique exchange | Derived (Static Map) |
+| Field             | Type                  | Description               | Source                     |
+| ----------------- | --------------------- | ------------------------- | -------------------------- |
+| Field             | Type                  | Description               | Source                     |
+| -------           | ------                | -------------             | --------                   |
+| `tickers`         | `TickerItem[]`        | List of watched tickers   | `watchlistService`         |
+| `count`           | `number`              | Total number of tickers   | Derived (`tickers.length`) |
+| `exchange_counts` | `Map<string, number>` | Count per unique exchange | Derived (Static Map)       |
 
 ### TickerItem (Existing)
 
@@ -29,4 +29,4 @@ interface TickerItem {
 ## Relationships
 
 - `MyTickersWidget` subscribes to `watchlistService` to receive `TickerItem[]`.
-- `MyTickersWidget` has 0..* `TickerItem`s.
+- `MyTickersWidget` has 0..\* `TickerItem`s.

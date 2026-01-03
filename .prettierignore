@@ -1,0 +1,30 @@
+# Package Managers
+node_modules
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Build Outputs
+dist
+build
+.svelte-kit
+.output
+.vercel
+.netlify
+.wrangler
+
+# Tooling
+.moon
+.git
+.turbo
+coverage
+
+# Generated Components (Shadcn UI)
+apps/sv-appshell/src/lib/components/ui/
+
+# Go
+vendor
+
+# Temporary
+.DS_Store
+Thumbs.db

@@ -8,11 +8,11 @@ The `Registry` singleton is updated to maintain a direct index of widgets.
 
 ```typescript
 class Registry {
-    // Primary storage for O(1) lookup
-    private widgetMap: Map<string, IWidget>;
-    
-    // Derived or Computed
-    // getWidgets() returns Array.from(this.widgetMap.values())
+  // Primary storage for O(1) lookup
+  private widgetMap: Map<string, IWidget>;
+
+  // Derived or Computed
+  // getWidgets() returns Array.from(this.widgetMap.values())
 }
 ```
 
@@ -23,13 +23,16 @@ class Registry {
 `Registry.getInstance().getWidget(id: string): IWidget | undefined`
 
 **Parameters:**
+
 - `id` (string): The unique identifier of the widget to retrieve.
 
 **Returns:**
+
 - `IWidget`: The widget object if found.
 - `undefined`: If no widget with the given ID exists.
 
 **Behavior:**
+
 - **Lookup**: O(1) complexity.
 - **Uniqueness**: enforced at registration time.
 
@@ -38,6 +41,7 @@ class Registry {
 `register(bundle: IModuleBundle): void`
 
 **Behavior Update:**
+
 - When processing `bundle.widgets`:
   - For each widget, check `widgetMap.has(widget.id)`.
   - **If Exists**: Log warning `[Registry] Duplicate widget ID found: ${id}. Skipping registration.`. Do NOT overwrite.

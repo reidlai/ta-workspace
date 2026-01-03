@@ -13,7 +13,7 @@
 - Q: Should the dashboard layout be specified now or left as an implementation detail? → A: Implementation detail - layout strategy, positioning, and source code location will be decided during planning/development
 - Q: What structure should gadgets follow? → A: Gadgets are organisms (Atomic Design) composed of ShadCN UI primitives (Card, Button, MenuItem, etc.). Modules provide complete custom components with centralized theme configuration at app startup
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Dashboard with Module-Based Gadgets (Priority: P1)
 
@@ -87,7 +87,7 @@ Each module defines its own navigation structure and user journeys, allowing mod
 - **Handler Errors**: All gadget handlers MUST be wrapped in the `GadgetErrorBoundary`. Errors within a handler are caught, logged, and the specific gadget is replaced with a "temporarily unavailable" state without crashing the dashboard.
 - **Disabled Modules**: Modules marked as disabled in `modules.json` are ignored by the registry; their gadgets and services are not registered.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -116,7 +116,7 @@ Each module defines its own navigation structure and user journeys, allowing mod
 - **Route Definition**: Navigation paths and corresponding components defined by a module
 - **Theme Configuration**: Centralized styling configuration applied to all ShadCN UI components at application startup
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
@@ -128,7 +128,7 @@ Each module defines its own navigation structure and user journeys, allowing mod
 - **SC-006**: Developers can add a new module with a gadget and service in under 30 minutes of work
 - **SC-007**: All UI components use ShadCN UI styling, providing consistent visual design across modules
 
-## Assumptions *(optional)*
+## Assumptions _(optional)_
 
 - ShadCN UI for Svelte is available and compatible with the current SvelteKit version
 - The existing module loading system (`@ts/registry`, dynamic imports) will be extended to support gadget and service registration
@@ -136,7 +136,7 @@ Each module defines its own navigation structure and user journeys, allowing mod
 - Feature modules will follow a standard export contract (e.g., exporting a registration function that returns gadgets, routes, and services)
 - **Dashboard implementation is flexible**: The layout strategy (grid, list, custom), positioning logic, and source code location (in sv-appshell, injected as module, or configurable) are implementation details to be decided during planning and development
 
-## Dependencies *(optional)*
+## Dependencies _(optional)_
 
 - Completion of demo module infrastructure (current working module system)
 - ShadCN UI library for Svelte must be installed and configured

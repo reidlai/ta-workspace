@@ -7,7 +7,7 @@
 
 ## Phase 1: Setup
 
-*Goal: Prepare the environment and dependencies for data handling.*
+_Goal: Prepare the environment and dependencies for data handling._
 
 - [x] T001 Install `golang.org/x/text` dependency for ISO-8859-1 decoding.
 - [x] T002 Create data directory and internal package structure in `modules/watchlist/go/`.
@@ -15,7 +15,7 @@
 
 ## Phase 2: Foundational
 
-*Goal: Implement core data structures and loading logic (blocking prerequisites).*
+_Goal: Implement core data structures and loading logic (blocking prerequisites)._
 
 - [x] T004 Define `Exchange` struct and global storage in `modules/watchlist/go/exchange_model.go`.
 - [x] T005 Implement `LoadExchanges` function with CSV parsing (ISO-8859-1 -> UTF-8), filtering (OPRT+ACTIVE), and sorting in `modules/watchlist/go/exchange_loader.go`.
@@ -26,8 +26,8 @@
 
 ## Phase 3: List All Active Operating Exchanges (P1)
 
-*Story: As a system, I want to expose the loaded exchange list so the UI can populate the select box.*
-*Test: Call `GET /exchanges` and verify sorted JSON output.*
+_Story: As a system, I want to expose the loaded exchange list so the UI can populate the select box._
+_Test: Call `GET /exchanges` and verify sorted JSON output._
 
 - [x] T010 [US1] Define `Exchange` result type in `apps/ta-server/design/types.go` (or `design.go`).
 - [x] T011 [US1] Define `exchange` service and `list` method in `apps/ta-server/design/design.go` with deferred security.
@@ -38,8 +38,8 @@
 
 ## Phase 4: Search and Filter Exchanges (P2)
 
-*Story: As a developer, I want to filter the exchange list by name or country.*
-*Test: Call `GET /exchanges?q=US` and verify only US exchanges are returned.*
+_Story: As a developer, I want to filter the exchange list by name or country._
+_Test: Call `GET /exchanges?q=US` and verify only US exchanges are returned._
 
 - [x] T016 [US2] Update `list` method design in `apps/ta-server/design/design.go` to add optional `query` parameter.
 - [x] T017 [US2] Run `moon run ta-server:gen` to regenerate Goa code.

@@ -14,7 +14,7 @@ Create a SvelteKit application (`apps/sv-appshell`) managed by Moonrepo. The app
 **Language/Version**: TypeScript 5.x, Node.js 20 (Moonrepo toolchain)
 **Primary Dependencies**: SvelteKit 2.x, Vite
 **Storage**: N/A (Frontend App Shell)
-**Testing**: Vitest (Unit), Playwright (E2E) - *Need to confirm specific test runner preference if not standard SvelteKit defaults*
+**Testing**: Vitest (Unit), Playwright (E2E) - _Need to confirm specific test runner preference if not standard SvelteKit defaults_
 **Target Platform**: Web (Containerized Node.js / Static Adapter - TBD based on "web part" clarification)
 **Project Type**: Web Application
 **Performance Goals**: Fast LCP (<1.5s), Low TBT. "Minimum dependencies" implies focus on bundle size.
@@ -22,10 +22,10 @@ Create a SvelteKit application (`apps/sv-appshell`) managed by Moonrepo. The app
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - **[FAIL] Authorized Tech Stack (Frontend)**: Constitution mandates **Next.js**. User explicitly requested **SvelteKit**.
-  - *ACTION*: Proceeding with SvelteKit as per explicit user instruction. This requires a **Waiver**.
+  - _ACTION_: Proceeding with SvelteKit as per explicit user instruction. This requires a **Waiver**.
 - **[PASS] Workspace Authority**: Will use `moonrepo`.
 - **[PASS] Containers**: Will include Dockerfile using distroless base (Rule 3).
 - **[PASS] Testing**: Will include BDD Feature file (Rule 8).
@@ -92,47 +92,56 @@ packages/
 
 ## Complexity Tracking
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| SvelteKit usage | Explicit User Request | Constitution mandates Next.js, but user explicitly asked for SvelteKit. |
-| Custom DI Container | "Minimum dependencies" | Using generic DI libs adds bloat. |
-| Shared Packages | User feedback | Enforces modularity; apps depend on packages. |
+| Violation           | Why Needed             | Simpler Alternative Rejected Because                                    |
+| ------------------- | ---------------------- | ----------------------------------------------------------------------- |
+| SvelteKit usage     | Explicit User Request  | Constitution mandates Next.js, but user explicitly asked for SvelteKit. |
+| Custom DI Container | "Minimum dependencies" | Using generic DI libs adds bloat.                                       |
+| Shared Packages     | User feedback          | Enforces modularity; apps depend on packages.                           |
 
 ## Proposed Changes
 
 ### Configuration
+
 #### [MODIFY] [.moon/workspace.yml](file:///C:/Users/reidl/GitLocal/appshell-workspace/.moon/workspace.yml)
+
 - Update `projects` to include `apps/sv-appshell`, `packages/shared/*`, and `packages/features/*`.
 
 ### Application Layer
+
 #### [NEW] [sv-appshell](file:///C:/Users/reidl/GitLocal/appshell-workspace/apps/sv-appshell/package.json)
+
 - SvelteKit app using `adapter-node`.
 - Dependency on `@shared/core`, `@shared/typescripts`, and `@modules/demo-module` (for demo).
 - Dynamic route catch-all delegates to `@shared/core/router`.
 
 ### Shared Layer
+
 #### [NEW] [packages/shared/typescripts](file:///C:/Users/reidl/GitLocal/appshell-workspace/packages/shared/typescripts/package.json)
+
 - Define interfaces: `IFeatureBundle`, `IContext`, `IAppConfig`, `ModuleInit`.
 
 #### [NEW] [packages/shared/core](file:///C:/Users/reidl/GitLocal/appshell-workspace/packages/shared/core/package.json)
+
 - Implement `DIContainer` (for `IContext`).
 - Implement `Registry` (for `IFeatureBundle`).
 - Implement `RouterService`.
 
 ### Feature Layer
-#### [NEW] [packages/features/demo-module](file:///C:/Users/reidl/GitLocal/appshell-workspace/packages/features/demo-module/package.json)
-- Implementation of `IFeatureBundle` for verification.
 
+#### [NEW] [packages/features/demo-module](file:///C:/Users/reidl/GitLocal/appshell-workspace/packages/features/demo-module/package.json)
+
+- Implementation of `IFeatureBundle` for verification.
 
 ## Verification Plan
 
 ### Automated Tests
+
 - **Build**: `moon run sv-appshell:build` and `moon run shared-core:build`.
 - **Unit**: `moon run shared-core:test` (Verify DI/Registry in isolation).
 - **Integration**: `moon run sv-appshell:test`.
 
 ### Manual Verification
+
 1.  **Start Dev**: `moon run sv-appshell:dev`.
 2.  **Verify Shell**: Open `http://localhost:5173`.
 3.  **Verify Router**: Ensure core router handles requests.
-

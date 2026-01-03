@@ -4,6 +4,7 @@
 **Spec**: [spec.md](file:///c:/Users/reidl/GitLocal/ta-workspace/specs/012-moonrepo-module-workflow/spec.md)
 
 ## Status
+
 - [ ] Phase 1: Setup
 - [ ] Phase 2: Foundational Logic
 - [ ] Phase 3: User Story 1 (Add Module)

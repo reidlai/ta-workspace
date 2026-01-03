@@ -11,15 +11,15 @@ We use [Moonrepo](https://moonrepo.dev) as our primary build system and monorepo
 The workspace is organized into applications and modules:
 
 - **`apps/`**: Contains end-user application projects.
-    - `sv-appshell`: SvelteKit frontend application.
-    - `ta-server`: Go backend API server.
+  - `sv-appshell`: SvelteKit frontend application.
+  - `ta-server`: Go backend API server.
 - **`modules/`**: Contains shared logic and feature packages.
-    - `core`: Shared utilities and type definitions.
-    - `portfolio`: Portfolio management logic (Go & UI).
-    - `watchlist`: Watchlist management logic (Go & UI).
-    - `demo`: Demonstration modules.
+  - `core`: Shared utilities and type definitions.
+  - `portfolio`: Portfolio management logic (Go & UI).
+  - `watchlist`: Watchlist management logic (Go & UI).
+  - `demo`: Demonstration modules.
 - **`scripts/`**: Contains workspace automation tools and scripts.
-    - `module-workflow`: The CLI tool for managing feature modules.
+  - `module-workflow`: The CLI tool for managing feature modules.
 - **`.moon/`**: Contains the workspace configuration files (`workspace.yml`, `toolchain.yml`, `tasks.yml`).
 
 ## Toolchain Configuration

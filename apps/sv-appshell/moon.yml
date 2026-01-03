@@ -1,36 +1,35 @@
-language: 'typescript'
-type: 'application'
-id: 'sv-appshell'
-
+language: "typescript"
+type: "application"
+id: "sv-appshell"
 
 tasks:
   dev:
-    command: 'vite dev --host'
+    command: "vite dev --host"
     local: true
 
   build:
-    command: 'npx vite build'
+    command: "npx vite build"
     env:
-      CI: 'true'
-      PUBLIC_API_URL: 'http://localhost:8080'
+      CI: "true"
+      PUBLIC_API_URL: "http://localhost:8080"
     inputs:
-      - 'src/**/*'
-      - 'static/**/*'
-      - 'svelte.config.js'
-      - 'vite.config.ts'
+      - "src/**/*"
+      - "static/**/*"
+      - "svelte.config.js"
+      - "vite.config.ts"
     outputs:
-      - 'build'
-      - '.svelte-kit'
+      - "build"
+      - ".svelte-kit"
 
   test:
-    command: 'pnpm run test:unit'
+    command: "pnpm run test:unit"
     env:
-        PUBLIC_API_URL: 'http://localhost:8080'
+      PUBLIC_API_URL: "http://localhost:8080"
     inputs:
-      - 'src/**/*'
-      - 'tests/**/*'
+      - "src/**/*"
+      - "tests/**/*"
 
   lint:
-    command: 'pnpm run lint'
+    command: "pnpm run lint"
     env:
-        PUBLIC_API_URL: 'http://localhost:8080'
+      PUBLIC_API_URL: "http://localhost:8080"

@@ -14,7 +14,6 @@
 - [x] T004 Define `IModuleBundle` interface (replacing `IFeatureBundle`) in `modules/core/ts/types/src/index.ts`
 - [~] T005 [P] Verify core types build with `moon run core-types:build` (Skipped - CI flaky, verify via consumer)
 
-
 ## Phase 2: Migrate Definition (User Story 1)
 
 **Goal**: Migrate the `demo/svelte` module to use the new `IModuleBundle` structure.

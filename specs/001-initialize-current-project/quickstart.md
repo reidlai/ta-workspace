@@ -8,6 +8,7 @@
 ## Setup
 
 1. **Clone the repository**:
+
    ```bash
    git clone <repo-url>
    cd appshell-workspace
@@ -15,6 +16,7 @@
 
 2. **Install Moonrepo**:
    Follow instructions at [moonrepo.dev](https://moonrepo.dev/docs/install) or use the checked-in script if available.
+
    ```bash
    # Example (if using mise/proto)
    mise install moon
@@ -42,6 +44,7 @@ The following steps were performed to validate the workspace initialization:
 ## Running Tasks
 
 - **Build all projects**:
+
   ```bash
   npm run moon run :build
   ```
@@ -50,4 +53,3 @@ The following steps were performed to validate the workspace initialization:
   ```bash
   npm run moon run app-name:test
   ```
-

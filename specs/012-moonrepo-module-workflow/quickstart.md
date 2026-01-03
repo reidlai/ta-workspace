@@ -20,6 +20,7 @@ moon run :add-module -- --repo https://github.com/reidlai/watchlist-module --nam
 ```
 
 **What it does:**
+
 1. Git clones into `modules/watchlist`
 2. Detects stacks (`go`, `ts`, `svelte`)
 3. Updates `modules.json`, `pnpm-workspace.yaml`, `tsconfig.base.json`, `go.work`
@@ -38,6 +39,7 @@ moon run :rename-module -- --old insights --new portfolio
 ```
 
 **What it does:**
+
 1. Renames directory `modules/insights` -> `modules/portfolio`
 2. Updates all config references
 3. Refactors internal package imports within the module
@@ -55,6 +57,7 @@ moon run :delete-module -- --name demo
 ```
 
 **What it does:**
+
 1. Removes `modules/demo` directory
 2. Deletes submodule entry from `.git/config`
 3. Scrubs all references from workspace config files

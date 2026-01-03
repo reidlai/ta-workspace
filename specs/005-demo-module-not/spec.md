@@ -5,7 +5,7 @@
 **Status**: Draft
 **Input**: User description: "Demo Module should have not just getWidgets method to get a list of widget but also aother memthod to get specific widget"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Developer Retrieves Specific Widget (Priority: P1)
 
@@ -14,6 +14,7 @@ As a Developer consumer of the module system (e.g. App Shell developer), I want 
 **Why this priority**: Improves developer ergonomics and allows for precise layout control where specific widgets are hardcoded into specific slots.
 
 **Independent Test**:
+
 - Register a test module with a known widget (id: 'test-widget').
 - Call the new lookup method with 'test-widget'.
 - Verify the correct widget object is returned.
@@ -24,17 +25,18 @@ As a Developer consumer of the module system (e.g. App Shell developer), I want 
 
 1. **Given** a registered module with widget 'item-1', **When** I request widget 'item-1', **Then** I receive the 'item-1' widget definition.
 1. **Given** a registered module with widget 'item-1', **When** I request widget 'item-1', **Then** I receive the 'item-1' widget definition.
-2. **Given** a registered module, **When** I request a non-existent widget 'ghost-item', **Then** I receive nothing (undefined).
-3. **Given** a module registers 'duplicate-id' which already exists, **When** the registration occurs, **Then** a warning is logged and the second widget is ignored.
+1. **Given** a registered module, **When** I request a non-existent widget 'ghost-item', **Then** I receive nothing (undefined).
+1. **Given** a module registers 'duplicate-id' which already exists, **When** the registration occurs, **Then** a warning is logged and the second widget is ignored.
 
 ## Clarifications
 
 ### Session 2025-12-29
+
 - Q: Widget ID Uniqueness Strategy → A: **Strict Uniqueness** - Log a warning or error if a duplicate ID is registered. `getWidget(id)` is global and deterministic.
 
 ---
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -49,10 +51,9 @@ As a Developer consumer of the module system (e.g. App Shell developer), I want 
 - **Registry**: The central service holding the widgets.
 - **IWidget**: The entity being retrieved.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
 - **SC-001**: Developers can retrieve a widget in O(1) or O(N) time without writing manual array filter logic.
 - **SC-002**: Unit tests confirm correct retrieval of existing widgets and graceful handling of missing widgets.
-

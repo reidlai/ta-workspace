@@ -26,20 +26,24 @@ description: "Task list for Dashboard Strategy Widget update and Architectural R
 **⚠️ CRITICAL**: Must complete before feature work to ensure clean dependencies.
 
 ### Refactor Demo Module (Frontend)
+
 - [x] T005 [P] Move `apps/sv-appshell/src/routes/demo/+page.svelte` logic or `modules/demo/svelte/src/DemoPage.svelte` (if exists) into `modules/demo/svelte/src/pages/DemoPage.svelte`
 - [x] T006 [P] Update `modules/demo/svelte/src/index.ts` to export/register the new page location
 
 ### Refactor Watchlist Module (Backend & Frontend)
+
 - [x] T007 [P] Move `apps/ta-server/design/watchlist.go` and `exchange.go` to `modules/watchlist/go/design/`
 - [x] T008 [P] Move `modules/watchlist/go/*_service.go` to `modules/watchlist/go/pkg/`
 - [x] T009 [P] Verify/Update `modules/watchlist/ts/src/services/WatchlistService.ts` to use RxJS `BehaviorSubject` pattern
 
 ### Refactor Portfolio Module (Backend Base & Rename)
+
 - [x] T000 [P] Rename `modules/portfolio-ts` directory to `modules/portfolio` (Skipped: Handled via rename of insights to portfolio)
 - [x] T010 [P] Move `apps/ta-server/design/portfolio.go` to `modules/portfolio/go/design/portfolio.go`
 - [x] T011 [P] Move `modules/portfolio/go/portfolio_service.go` to `modules/portfolio/go/pkg/portfolio_service.go`
 
 ### Server Integration (Goa & Main)
+
 - [x] T012 Run `goa gen` for `modules/portfolio/go/design` and `modules/watchlist/go/design`
 - [x] T013 Update `apps/ta-server/cmd/api-server.go` imports to point to new `pkg` locations
 - [x] T014 Update `apps/ta-server/internal/server/http.go` imports if necessary

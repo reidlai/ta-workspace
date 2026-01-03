@@ -51,23 +51,25 @@ As a user, I want to click on the valuation card to see more details about my st
 
 - **Valuation Data**: Currently mock-only. Contains `balance` (Currency), `trend` (Percentage), `trendDirection` (Up/Down).
 
-
 ## Clarifications
+
 ### Session 2025-12-30
+
 - Q: Target Route Implementation → A: Create a basic placeholder page (`/portfolio`) registered to complete the flow (Option A).
 
 ## Constraints & Architectural Requirements
+
 - **Frontend Structure**: Move top-level page components to a `pages/` subfolder within their respective module directories. This applies to:
-    - `modules/portfolio/svelte/src/pages/PortfolioPage.svelte` (New)
-    - `modules/demo/svelte/src/pages/DemoPage.svelte` (Refactor)
+  - `modules/portfolio/svelte/src/pages/PortfolioPage.svelte` (New)
+  - `modules/demo/svelte/src/pages/DemoPage.svelte` (Refactor)
 - **TypeScript Services**: All `modules/**/ts/` services MUST be updated to retrieve latest API changes using ReactiveX (RxJS) patterns for reactive state management.
 - **Backend Structure** (applies to both `portfolio` and `watchlist` modules):
-    - **Design**: Move Goa design files to `modules/{module}/go/design`:
-        - `/portfolio` design → `modules/portfolio/go/design`
-        - `/watchlist` design → `modules/watchlist/go/design`
-    - **Service**: Move service implementation logic to `modules/{module}/go/pkg`:
-        - `modules/portfolio/go/pkg`
-        - `modules/watchlist/go/pkg`
+  - **Design**: Move Goa design files to `modules/{module}/go/design`:
+    - `/portfolio` design → `modules/portfolio/go/design`
+    - `/watchlist` design → `modules/watchlist/go/design`
+  - **Service**: Move service implementation logic to `modules/{module}/go/pkg`:
+    - `modules/portfolio/go/pkg`
+    - `modules/watchlist/go/pkg`
 
 ## Success Criteria
 

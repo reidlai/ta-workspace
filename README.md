@@ -14,26 +14,32 @@ This project is a **Proof of Concept (PoC)** demonstrating a modern, scalable ar
 The system is built on a high-performance monorepo foundation, supporting a modular AppShell architecture for both frontend and backend.
 
 ### 1. Monorepo Structure
+
 Managed by **Moonrepo**, the workspace separates end-user applications from reusable logic:
-*   **`apps/`**: Hosts for the AppShells (e.g., `sv-appshell`, `ta-server`).
-*   **`modules/`**: Feature-specific logic (e.g., `watchlist`, `portfolio`) shared across apps.
-*   **Toolchain**: Deterministic Node.js and pnpm versions ensured by Moonrepo.
+
+- **`apps/`**: Hosts for the AppShells (e.g., `sv-appshell`, `ta-server`).
+- **`modules/`**: Feature-specific logic (e.g., `watchlist`, `portfolio`) shared across apps.
+- **Toolchain**: Deterministic Node.js and pnpm versions ensured by Moonrepo.
 
 [📄 Read Monorepo Architecture](docs/MONOREPO-ARCHITECTURE.md)
 
 ### 2. Frontend AppShell (`sv-appshell`)
+
 A **SvelteKit**-based host that implements the **Virtual Module Pattern**.
-*   **Dynamic Loading**: Modules are discovered and injected at runtime via `ModuleLoader`.
-*   **Registry**: A singleton managing widgets, routes, and services from injected modules.
-*   **Framework Agnostic**: Designed to maximize code reuse across frameworks via ReactiveX.
+
+- **Dynamic Loading**: Modules are discovered and injected at runtime via `ModuleLoader`.
+- **Registry**: A singleton managing widgets, routes, and services from injected modules.
+- **Framework Agnostic**: Designed to maximize code reuse across frameworks via ReactiveX.
 
 [📄 Read AppShell Architecture](docs/APPSHELL-ARCHITECTURE.md)
 
 ### 3. Backend AppShell (`ta-server`)
+
 A **Go**-based API server leveraging the **Goa Framework**.
-*   **Design-First**: APIs defined in DSL, generating transport-agnostic code.
-*   **Modular Wiring**: Services like `watchlist` and `portfolio` are injected into the server core.
-*   **Clean Architecture**: Separation of HTTP transport (Chi router) from business logic.
+
+- **Design-First**: APIs defined in DSL, generating transport-agnostic code.
+- **Modular Wiring**: Services like `watchlist` and `portfolio` are injected into the server core.
+- **Clean Architecture**: Separation of HTTP transport (Chi router) from business logic.
 
 [📄 Read API Server Architecture](docs/API-SERVER.md)
 
@@ -46,34 +52,38 @@ The AppShell uses a **Virtual Module Pattern** to dynamically inject features at
 1.  **Configuration**: The enabled modules are defined in [`apps/sv-appshell/static/modules.json`](apps/sv-appshell/static/modules.json). The AppShell reads this file at runtime to filter which available modules should be loaded.
     ```json
     {
-        "modules": [
-            { "id": "watchlist-module", "enabled": true, "src": "watchlist" },
-            { "id": "portfolio-module", "enabled": true, "src": "portfolio" }
-        ]
+      "modules": [
+        { "id": "watchlist-module", "enabled": true, "src": "watchlist" },
+        { "id": "portfolio-module", "enabled": true, "src": "portfolio" }
+      ]
     }
     ```
 2.  **Discovery**: At build/runtime, the `ModuleLoader` uses `import.meta.glob` to find all available modules in the workspace matching the pattern `modules/*/*/src/index.ts`. It matches these against the `src` property from the configuration.
-2.  **Initialization**: Each found module exports an `init()` function that returns an `IModuleBundle`.
-3.  **Registration**: The returned bundle is registered with the **Registry Singleton**, making its widgets, routes, and services available to the AppShell.
+3.  **Initialization**: Each found module exports an `init()` function that returns an `IModuleBundle`.
+4.  **Registration**: The returned bundle is registered with the **Registry Singleton**, making its widgets, routes, and services available to the AppShell.
 
 ### Code Example
 
 **1. Module Definition (`modules/watchlist/svelte/src/index.ts`):**
+
 ```typescript
 export const init: ModuleInit = async (context) => {
-    return {
-        id: 'watchlist',
-        widgets: [{
-            id: 'my-tickers',
-            title: 'My Tickers',
-            component: MyTickersWidget, // Svelte Component
-            location: 'dashboard'
-        }]
-    };
+  return {
+    id: "watchlist",
+    widgets: [
+      {
+        id: "my-tickers",
+        title: "My Tickers",
+        component: MyTickersWidget, // Svelte Component
+        location: "dashboard",
+      },
+    ],
+  };
 };
 ```
 
 **2. AppShell Consumption (`apps/sv-appshell/src/routes/+page.svelte`):**
+
 ```svelte
 <script>
   import { Registry } from "@core/registry";
@@ -92,28 +102,29 @@ export const init: ModuleInit = async (context) => {
 
 Each module (e.g., `modules/watchlist`) is composed of several configuration files that work together:
 
-| File | Location | Purpose |
-| :--- | :--- | :--- |
-| **`modules.json`** | `apps/sv-appshell/static/` | **Runtime Config**. Tells the AppShell which modules to load and enable. Maps logical IDs to source paths. |
-| **`tsconfig.base.json`** | `root` | **Global Path Aliases**. Defines paths like `@modules/watchlist-ts` so you can import across the monorepo without relative paths. |
-| **`moon.yml`** | `modules/<feature>/<stack>/` | **Build Orchestration**. Defines the folder as a Moonrepo project. Specifies tasks (`build`, `test`, `lint`) and dependencies. |
-| **`tsconfig.json`** | `modules/<feature>/<stack>/` | **Type Config**. Extends `tsconfig.base.json` to inherit aliases but adds framework-specific types (e.g., `svelte`, `vite/client`). |
-| **`go.mod`** | `modules/<feature>/go/` | **Backend Dependency**. Defines the Go module scope and dependencies (e.g., Goa framework) for the server-side component. |
+| File                     | Location                     | Purpose                                                                                                                             |
+| :----------------------- | :--------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| **`modules.json`**       | `apps/sv-appshell/static/`   | **Runtime Config**. Tells the AppShell which modules to load and enable. Maps logical IDs to source paths.                          |
+| **`tsconfig.base.json`** | `root`                       | **Global Path Aliases**. Defines paths like `@modules/watchlist-ts` so you can import across the monorepo without relative paths.   |
+| **`moon.yml`**           | `modules/<feature>/<stack>/` | **Build Orchestration**. Defines the folder as a Moonrepo project. Specifies tasks (`build`, `test`, `lint`) and dependencies.      |
+| **`tsconfig.json`**      | `modules/<feature>/<stack>/` | **Type Config**. Extends `tsconfig.base.json` to inherit aliases but adds framework-specific types (e.g., `svelte`, `vite/client`). |
+| **`go.mod`**             | `modules/<feature>/go/`      | **Backend Dependency**. Defines the Go module scope and dependencies (e.g., Goa framework) for the server-side component.           |
 
 ## Prerequisites
 
 - Node.js v20 (Managed automatically by Moonrepo)
 - pnpm (Managed automatically by Moonrepo)
 
-
 ## Getting Started
 
 1. **Install Dependencies**:
+
    ```bash
    pnpm install
    ```
 
 2. **Setup Workspace**:
+
    ```bash
    npx @moonrepo/cli setup
    ```
@@ -143,10 +154,8 @@ These commands run across **all projects** in the monorepo (useful for CI/CD or 
 - **Build All Projects**: `npx @moonrepo/cli run :build`
   - Compiles all libraries and applications
   - Use this to verify everything compiles before committing
-  
 - **Test All Projects**: `npx @moonrepo/cli run :test`
   - Runs tests across all projects
-  
 - **Lint All Projects**: `npx @moonrepo/cli run :lint`
   - Lints all projects
 
@@ -166,6 +175,7 @@ Manage feature modules globally across the monorepo:
 ## Applications
 
 ### sv-appshell
+
 The main SvelteKit application shell.
 
 #### Development (Most Common)
@@ -179,14 +189,15 @@ The main SvelteKit application shell.
 
 - **Build Production**: `npx @moonrepo/cli run sv-appshell:build`
   - Creates optimized production build
-  
 - **Preview Production Build**: `npx @moonrepo/cli run sv-appshell:preview`
   - Previews the production build locally
 
 ### ta-server
+
 A Go-based server built with [Goa framework](https://goa.design/) and [Cobra](https://github.com/spf13/cobra) CLI.
 
 Supports multiple server types:
+
 - `api-server`: REST API (Goa)
 - `mcp-server`: MCP protocol (future)
 
@@ -221,6 +232,7 @@ npx @moonrepo/cli run ta-server:run -- api-server --port 9000
 #### Configuration
 
 The CLI supports multiple configuration sources (highest precedence first):
+
 1. **CLI flags**: `--port 9000`
 2. **Environment variables**: `TAASSISTANT_API_SERVER_PORT=9000`
 3. **Config file**: `taassistant.yaml`
@@ -237,6 +249,7 @@ The CLI supports multiple configuration sources (highest precedence first):
 ## Common Workflows
 
 ### First Time Setup
+
 ```bash
 pnpm install
 npx @moonrepo/cli setup
@@ -244,12 +257,14 @@ npx @moonrepo/cli project-graph  # Verify configuration
 ```
 
 ### Daily Development
+
 ```bash
 npx @moonrepo/cli run sv-appshell:dev  # Start dev server
 # Open http://localhost:5173 in browser
 ```
 
 ### Before Committing
+
 ```bash
 npx @moonrepo/cli run :build  # Ensure everything compiles
 npx @moonrepo/cli run :lint   # Check for linting errors

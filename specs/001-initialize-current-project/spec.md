@@ -19,7 +19,7 @@
 - Q: What Node.js version should be utilized? → A: v20 (LTS) for broad serverless compatibility.
 - Q: Should standard global tasks be pre-defined? → A: Yes, define `build`, `test`, and `lint` globally.
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Monorepo Workspace Initialization (Priority: P1)
 
@@ -67,7 +67,7 @@ As a Developer, I want a unified way to define and run tasks across projects so 
 - What happens when `apps/` or `packages/` directories are empty? (System should still be valid but report 0 projects).
 - How does the system handle verifying the workspace if the toolchain (e.g. Node) is not installed on the host? (System should provide clear instructions or handle toolchain management).
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -83,7 +83,7 @@ As a Developer, I want a unified way to define and run tasks across projects so 
 - **Project**: An individual app or package located within `apps/` or `packages/` that allows tasks to be run against it.
 - **Task**: An executable unit of work (build, test, lint) defined for a workspace or project.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

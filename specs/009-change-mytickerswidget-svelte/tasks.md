@@ -7,22 +7,22 @@
 
 ## Phase 1: Setup
 
-*Goal: Prepare the environment and verify dependencies.*
+_Goal: Prepare the environment and verify dependencies._
 
 - [x] T001 Verify ShadCN `Card` components are available in `apps/sv-appshell/src/lib/components/ui/card`.
 - [x] T002 Verify `MyTickersWidget.svelte` exists in `modules/watchlist/svelte/src/widgets/`.
 
 ## Phase 2: Foundational
 
-*Goal: Implement shared logic and basic refactoring prerequisites.*
+_Goal: Implement shared logic and basic refactoring prerequisites._
 
 - [x] T003 Implement `getExchange(symbol)` helper function in `modules/watchlist/svelte/src/widgets/MyTickersWidget.svelte` (or a utility file if preferred) using the **Static Mapping** strategy (e.g. key map of common symbols to ISO exchange names).
 - [x] T004 Create a derived store or reactive declaration for `exchangeCounts` in the widget using `getExchange`.
 
 ## Phase 3: View Watchlist Summary (P1)
 
-*Story: As a dashboard user, I want to see the total count and exchange breakdown in a clean summary card.*
-*Test: Verify card renders with "5 Tickers" and "• 2 Exchanges" subtext.*
+_Story: As a dashboard user, I want to see the total count and exchange breakdown in a clean summary card._
+_Test: Verify card renders with "5 Tickers" and "• 2 Exchanges" subtext._
 
 - [x] T005 [US1] Refactor `MyTickersWidget.svelte` root element to use `Card.Root`, `Card.Header`, `Card.Title`, and `Card.Description` from ShadCN.
 - [x] T006 [US1] Remove all "Add Ticker" inputs, buttons, and associated script logic (handlers, imports).
@@ -32,8 +32,8 @@
 
 ## Phase 4: View Watched Tickers List (P2)
 
-*Story: As a user, I want to see the read-only list of tickers.*
-*Test: Verify list appears and is scrollable.*
+_Story: As a user, I want to see the read-only list of tickers._
+_Test: Verify list appears and is scrollable._
 
 - [x] T009 [US2] Implement `Card.Content` to display the list of tickers.
 - [x] T010 [US2] Ensure the list container has `max-h-[value]` and `overflow-y-auto` (or similar) to support scrolling for long lists.

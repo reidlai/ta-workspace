@@ -11,14 +11,15 @@
 ## Setup
 
 1.  **Install Dependencies**:
+
     ```bash
     moon setup
     ```
 
 2.  **Infrastructure (SvelteKit App)**:
     The app is located at `apps/sv-appshell`.
-    
-    *Note: The app is created via the `002` feature implementation.*
+
+    _Note: The app is created via the `002` feature implementation._
 
 ## Running the App Shell
 

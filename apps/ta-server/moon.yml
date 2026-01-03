@@ -1,45 +1,45 @@
-language: 'go'
-type: 'application'
-id: 'ta-server'
+language: "go"
+type: "application"
+id: "ta-server"
 
 tasks:
   build:
     command: 'cmd /c "go build -o ta-server.exe ."'
     inputs:
-      - '**/*.go'
-      - 'go.mod'
-      - 'go.sum'
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
     outputs:
-      - 'ta-server.exe'
+      - "ta-server.exe"
     local: true
 
   test:
     command: 'cmd /c "go test ./..."'
     inputs:
-      - '**/*.go'
-      - 'go.mod'
+      - "**/*.go"
+      - "go.mod"
     options:
       runInCI: true
 
   gen:
-    command: 'goa gen github.com/reidlai/ta-workspace/apps/ta-server/design'
+    command: "goa gen github.com/reidlai/ta-workspace/apps/ta-server/design"
     inputs:
-      - 'design/**/*.go'
-      - 'go.mod'
+      - "design/**/*.go"
+      - "go.mod"
 
   run:
-    command: 'go run . api-server'
+    command: "go run . api-server"
     env:
-      TA_SERVER_LOG_LEVEL: 'DEBUG'
-      TA_SERVER_LOG_FORMAT: 'text'
+      TA_SERVER_LOG_LEVEL: "DEBUG"
+      TA_SERVER_LOG_FORMAT: "text"
     local: true
 
   dev:
-    extends: 'run'
+    extends: "run"
     env:
-      TA_SERVER_LOG_LEVEL: 'DEBUG'
-      TA_SERVER_LOG_FORMAT: 'text'
+      TA_SERVER_LOG_LEVEL: "DEBUG"
+      TA_SERVER_LOG_FORMAT: "text"
 
   lint:
     command: 'echo "Linting not configured for Go yet"'
-    platform: 'system'
+    platform: "system"

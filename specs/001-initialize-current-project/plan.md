@@ -21,7 +21,7 @@ Initialize the repository as a Moonrepo-managed monorepo. This involves creating
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - [x] **Monorepo Architecture**: "The project MUST use moonrepo...". This plan implements this mandated structure.
 - [x] **Toolchain Consistency**: "All environments... must use Moonrepo's toolchain management". This plan enforces Node.js and toolchain pinning.
@@ -60,5 +60,5 @@ packages/                # Shared package directory
 ## Complexity Tracking
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| N/A | | |
+| --------- | ---------- | ------------------------------------ |
+| N/A       |            |                                      |

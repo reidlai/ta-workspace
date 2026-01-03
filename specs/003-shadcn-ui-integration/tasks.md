@@ -45,6 +45,7 @@
 **Independent Test**: Verify that the dashboard loads at `/` with the Demo gadget and clicking it navigates to `/demo`
 
 ### BDD Tests for User Story 1 (Mandatory)
+
 - [x] T012 [P] [US1] Create `features/shadcn-dashboard/dashboard-load.feature` with dashboard loading and navigation scenarios
 - [x] T013 [US1] Implement Cucumber step definitions for dashboard loading in `tests/integration/shadcn-dashboard/dashboard-load.steps.ts`
 
@@ -70,6 +71,7 @@
 **Independent Test**: Interact with a gadget that updates shared state and verify another component reflects the change
 
 ### BDD Tests for User Story 2 (Mandatory)
+
 - [x] T022 [P] [US2] Create `features/shadcn-dashboard/module-state.feature` for reactive state synchronization
 - [x] T023 [US2] Implement Cucumber step definitions for state updates in `tests/integration/shadcn-dashboard/module-state.steps.ts`
 
@@ -90,6 +92,7 @@
 **Independent Test**: Call a service exported by the Demo module from the Dashboard component
 
 ### BDD Tests for User Story 3 (Mandatory)
+
 - [x] T027 [P] [US3] Create `features/shadcn-dashboard/module-service.feature` for service discovery and invocation
 - [x] T028 [US3] Implement Cucumber step definitions for service calls in `tests/integration/shadcn-dashboard/module-service.steps.ts`
 

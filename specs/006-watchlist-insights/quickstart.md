@@ -7,6 +7,7 @@
 You need both the Frontend and the Backend running.
 
 **Backend (Go)**
+
 ```bash
 # Terminal 1
 go run ./apps/taassistant-api/cmd/taassistant-api
@@ -14,6 +15,7 @@ go run ./apps/taassistant-api/cmd/taassistant-api
 ```
 
 **Frontend (App Shell)**
+
 ```bash
 # Terminal 2
 moon run sv-appshell:dev

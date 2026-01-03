@@ -13,22 +13,23 @@ This feature standardizes application logging across `ta-server` and its modules
 
 **Language/Version**: Go 1.24.0 (as per `apps/ta-server/go.mod`)
 **Primary Dependencies**:
+
 - `log/slog` (Standard Library)
 - `goa.design/clue` (v0.20.0 - need to verify slog compatibility)
 - `go.opentelemetry.io/otel` (v1.38.0 - for trace context)
-**Storage**: N/A
-**Testing**: `go test` (Unit), Manual verification of log output
-**Target Platform**: Linux (Docker/Distroless) via Moonrepo
-**Project Type**: Backend Service (`apps/ta-server`) + Modules (`modules/watchlist`, `modules/portfolio`)
-**Performance Goals**: Minimal allocation overhead for logging (slog is performant by design).
-**Constraints**:
+  **Storage**: N/A
+  **Testing**: `go test` (Unit), Manual verification of log output
+  **Target Platform**: Linux (Docker/Distroless) via Moonrepo
+  **Project Type**: Backend Service (`apps/ta-server`) + Modules (`modules/watchlist`, `modules/portfolio`)
+  **Performance Goals**: Minimal allocation overhead for logging (slog is performant by design).
+  **Constraints**:
 - 12-Factor App (Stdout/Stderr only)
 - Phase out `--debug` flag in favor of `TA_SERVER_LOG_LEVEL`
-**Scale/Scope**: Refactor touches `cmd/api-server.go`, `internal/server/http.go`, and service constructors in `modules/*/go`.
+  **Scale/Scope**: Refactor touches `cmd/api-server.go`, `internal/server/http.go`, and service constructors in `modules/*/go`.
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - **12-Factor**: Compliant. Logs written to stdout/stderr.
 - **Dependencies**: Using standard library `slog` reduces 3rd party dependency risk. `clue` and `otel` are existing.
@@ -81,6 +82,7 @@ modules/
 ### Configuration & Entrypoint
 
 #### [MODIFY] [apps/ta-server/cmd/api-server.go](file:///c:/Users/reidl/GitLocal/ta-workspace/apps/ta-server/cmd/api-server.go)
+
 - Initialize `slog.Logger` based on `TA_SERVER_LOG_LEVEL` (debug/info/warn/error) and `TA_SERVER_LOG_FORMAT` (text/json).
 - Remove `goa.design/clue/log` setup.
 - Inject `slog.Logger` into `watchlist.NewWatchlist` and `portfolio.NewPortfolio`.
@@ -88,6 +90,7 @@ modules/
 ### Core Middleware
 
 #### [MODIFY] [apps/ta-server/internal/server/http.go](file:///c:/Users/reidl/GitLocal/ta-workspace/apps/ta-server/internal/server/http.go)
+
 - Create new Slog middleware.
 - Extract `trace_id` and `span_id` using `go.opentelemetry.io/otel/trace`.
 - Inject request-scoped `slog.Logger` (with trace attributes) into `context`.
@@ -96,20 +99,24 @@ modules/
 ### Modules (Watchlist & Portfolio)
 
 #### [MODIFY] [modules/watchlist/go/pkg/watchlist_service.go](file:///c:/Users/reidl/GitLocal/ta-workspace/modules/watchlist/go/pkg/watchlist_service.go)
+
 - Change constructor to accept `*slog.Logger`.
 - Replace `log.Printf` with `slog.InfoContext(ctx, ...)` or `s.logger.Info(...)`.
 
 #### [MODIFY] [modules/portfolio/go/pkg/portfolio_service.go](file:///c:/Users/reidl/GitLocal/ta-workspace/modules/portfolio/go/pkg/portfolio_service.go)
+
 - Change constructor to accept `*slog.Logger`.
 - Replace `log.Printf` with `slog.InfoContext(ctx, ...)` or `s.logger.Info(...)`.
 
 ## Verification Plan
 
 ### Automated Tests
+
 - `go test ./...`: Verify no build breakages.
 - Unit tests for new Slog Middleware (mocking context extraction).
 
 ### Manual Verification
+
 1. **Dev Mode**:
    - Run `TA_SERVER_LOG_FORMAT=text go run . api-server`
    - Verify: Logs are human-readable, colorized (if supported), no JSON.
@@ -119,4 +126,3 @@ modules/
 3. **Trace Correlation**:
    - Send HTTP request.
    - Verify: Log entry contains `logging.googleapis.com/trace`.
-
