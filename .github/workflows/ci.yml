@@ -59,12 +59,18 @@ jobs:
 
       - name: Lint - Go Format & Tidy
         run: |
-          go fmt ./...
-          go mod tidy
+          for dir in apps/ta-server modules/portfolio/go modules/watchlist/go; do
+            echo "Linting $dir..."
+            (cd "$dir" && go fmt ./... && go mod tidy)
+          done
 
       # Stage 3: Code Quality
       - name: Quality - Go Vet
-        run: go vet ./...
+        run: |
+          for dir in apps/ta-server modules/portfolio/go modules/watchlist/go; do
+            echo "Vetting $dir..."
+            (cd "$dir" && go vet ./...)
+          done
 
       - name: Quality - Moon Lint (TS/JS)
         run: npx @moonrepo/cli run :lint
@@ -75,7 +81,11 @@ jobs:
 
       # Stage 5: SAST
       - name: SAST - Gosec (Go)
-        run: go run github.com/securego/gosec/v2/cmd/gosec@latest -no-fail ./...
+        run: |
+          for dir in apps/ta-server modules/portfolio/go modules/watchlist/go; do
+            echo "Scanning $dir..."
+            (cd "$dir" && go run github.com/securego/gosec/v2/cmd/gosec@latest -no-fail ./...)
+          done
 
       - name: SAST - Semgrep (Polyglot)
         run: semgrep --config=p/security-audit --error .
