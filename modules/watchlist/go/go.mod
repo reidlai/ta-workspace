@@ -2,8 +2,6 @@ module github.com/reidlai/ta-workspace/modules/watchlist/go
 
 go 1.24.11
 
-toolchain go1.24.11
-
 require (
 	github.com/reidlai/ta-workspace/apps/ta-server v0.0.0-00010101000000-000000000000
 	goa.design/goa/v3 v3.23.4

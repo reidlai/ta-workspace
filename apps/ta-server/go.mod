@@ -2,8 +2,6 @@ module github.com/reidlai/ta-workspace/apps/ta-server
 
 go 1.24.11
 
-toolchain go1.24.11
-
 require (
 	github.com/go-chi/chi/v5 v5.2.3
 	github.com/reidlai/ta-workspace/modules/portfolio/go v0.0.0-00010101000000-000000000000

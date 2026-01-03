@@ -2,8 +2,6 @@ module github.com/reidlai/ta-workspace/modules/portfolio/go
 
 go 1.24.11
 
-toolchain go1.24.11
-
 require goa.design/goa/v3 v3.23.4
 
 require (
