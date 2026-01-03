@@ -9,10 +9,10 @@ tasks:
     local: true
 
   build:
-    command:
-      - 'pnpm'
-      - 'run'
-      - 'build'
+    command: 'npx vite build'
+    env:
+      CI: 'true'
+      PUBLIC_API_URL: 'http://localhost:8080'
     inputs:
       - 'src/**/*'
       - 'static/**/*'
@@ -24,9 +24,13 @@ tasks:
 
   test:
     command: 'pnpm run test:unit'
+    env:
+        PUBLIC_API_URL: 'http://localhost:8080'
     inputs:
       - 'src/**/*'
       - 'tests/**/*'
 
   lint:
     command: 'pnpm run lint'
+    env:
+        PUBLIC_API_URL: 'http://localhost:8080'
