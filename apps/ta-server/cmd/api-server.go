@@ -148,6 +148,7 @@ func runAPIServer(cmd *cobra.Command, args []string) error {
 
 	var wg sync.WaitGroup
 	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
 	// Build URL
 	scheme := "http"
