@@ -28,8 +28,8 @@ This feature integrates ShadCN UI as the core UI framework for the SvelteKit app
 
 ### Framework Choice Resolution
 
-| Constitution Requirement | Current Feature | Status |
-|--------------------------|----------------|--------|
+| Constitution Requirement                              | Current Feature                                                                  | Status           |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------- | ---------------- |
 | **Frontend Layer**: Next.js is the mandated framework | Feature targets **SvelteKit** (`apps/sv-appshell`) for modular application shell | ✅ **COMPLIANT** |
 
 **Resolution**: Constitution updated (2025-12-27) to add SvelteKit exception for modular application shells that implement plugin/module architecture.
@@ -42,14 +42,14 @@ This feature integrates ShadCN UI as the core UI framework for the SvelteKit app
 
 ### Other Constitution Requirements
 
-| Requirement | Compliance | Notes |
-|-------------|------------|-------|
-| Moonrepo build system | ✅ Yes | Using `moon.yml` configurations |
-| BDD Testing (Cucumber) | ✅ Yes | Will create Gherkin feature files |
-| Docker with distroless images | ✅ Yes | Sv-appshell already containerized |
-| Branch naming (`###-feature-name`) | ✅ Yes | Using `003-shadcn-ui-integration` |
-| No secrets in repo | ✅ Yes | N/A for this feature |
-| SCA/SAST gates | ✅ Yes | CI pipelines apply |
+| Requirement                        | Compliance | Notes                             |
+| ---------------------------------- | ---------- | --------------------------------- |
+| Moonrepo build system              | ✅ Yes     | Using `moon.yml` configurations   |
+| BDD Testing (Cucumber)             | ✅ Yes     | Will create Gherkin feature files |
+| Docker with distroless images      | ✅ Yes     | Sv-appshell already containerized |
+| Branch naming (`###-feature-name`) | ✅ Yes     | Using `003-shadcn-ui-integration` |
+| No secrets in repo                 | ✅ Yes     | N/A for this feature              |
+| SCA/SAST gates                     | ✅ Yes     | CI pipelines apply                |
 
 **Gate Status**: ✅ **PASSED** - All constitution requirements met
 

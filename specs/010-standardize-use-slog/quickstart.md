@@ -13,7 +13,7 @@ Always use the logger from the `context.Context` to ensure **Trace IDs** are inc
 slog.InfoContext(ctx, "processing order", "order_id", 123)
 
 // BAD: Uses global logger (no trace_id)
-slog.Info("processing order") 
+slog.Info("processing order")
 ```
 
 ### 2. In Services
@@ -32,7 +32,7 @@ func NewService(logger *slog.Logger) *Service {
 func (s *Service) DoSomething(ctx context.Context) {
     // Prefer Context logging if available
     slog.InfoContext(ctx, "operation started")
-    
+
     // Fallback to struct logger if no context (e.g. background worker)
     s.logger.Info("background job running")
 }
@@ -42,10 +42,10 @@ func (s *Service) DoSomething(ctx context.Context) {
 
 Control logging via environment variables:
 
-| Variable | Values | Default | Description |
-|----------|--------|---------|-------------|
-| `TA_SERVER_LOG_LEVEL` | `DEBUG`, `INFO`, `WARN`, `ERROR` | `INFO` | Minimum log severity. |
-| `TA_SERVER_LOG_FORMAT`| `json`, `text` | *(Auto)* | `json` in Production key/val, `text` in Dev. |
+| Variable               | Values                           | Default  | Description                                  |
+| ---------------------- | -------------------------------- | -------- | -------------------------------------------- |
+| `TA_SERVER_LOG_LEVEL`  | `DEBUG`, `INFO`, `WARN`, `ERROR` | `INFO`   | Minimum log severity.                        |
+| `TA_SERVER_LOG_FORMAT` | `json`, `text`                   | _(Auto)_ | `json` in Production key/val, `text` in Dev. |
 
 ### Development Example
 

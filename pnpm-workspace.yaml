@@ -1,10 +1,10 @@
 packages:
-  - 'apps/*'
-  - 'modules/demo/*'
-  - 'modules/core/ts/*'
-  - 'modules/watchlist/ts'
-  - 'modules/watchlist/svelte'
-  - 'modules/portfolio/ts'
-  - 'modules/portfolio/svelte'
-  - 'modules/demo/ts'
-  - 'scripts/module-workflow'
+  - "apps/*"
+  - "modules/demo/*"
+  - "modules/core/ts/*"
+  - "modules/watchlist/ts"
+  - "modules/watchlist/svelte"
+  - "modules/portfolio/ts"
+  - "modules/portfolio/svelte"
+  - "modules/demo/ts"
+  - "scripts/module-workflow"

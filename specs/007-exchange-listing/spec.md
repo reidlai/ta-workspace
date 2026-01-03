@@ -8,6 +8,7 @@
 ## Clarifications
 
 ### Session 2025-12-30
+
 - Q: Segment MIC Inclusion → A: Operating MICs Only (strictly follow reference code).
 - Q: Search Logic Details → A: Case-insensitive Partial Match (Contains).
 - Q: Runtime Data Access Strategy → A: Load Once at Startup (Fastest API, stays in RAM).
@@ -16,7 +17,7 @@
 - Q: UI Usage & Framework → A: API initialized during watchlist entry form; used to populate exchange select list. Design MUST use Goa.
 - Q: Select List Item Formatting → A: Pre-formatted Label (e.g., "ACRONYM - FULL NAME (COUNTRY)").
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - List All Active Operating Exchanges (Priority: P1)
 
@@ -53,7 +54,7 @@ As a developer, I want to be able to filter the list of exchanges by country or 
 - **Invalid CSV Format**: What happens if the CSV structure changes or contains unexpected data types?
 - **Empty Result**: If filtering results in no matches, the system should return an empty but valid list structure.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -81,7 +82,7 @@ As a developer, I want to be able to filter the list of exchanges by country or 
   - `City`: Geographical location of the exchange.
   - `Acronym`: Short identifier for the exchange.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

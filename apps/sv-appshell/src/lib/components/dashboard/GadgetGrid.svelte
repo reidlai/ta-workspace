@@ -1,15 +1,15 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { IGadget } from "@core/types";
+  import type { IWidget } from "@core/types";
   import { gadgetRegistry } from "@core/registry";
   import * as Card from "$lib/components/ui/card";
   import GadgetErrorBoundary from "./GadgetErrorBoundary.svelte";
   import { cn } from "$lib/utils";
 
-  let gadgets: IGadget[] = [];
+  let gadgets: IWidget[] = [];
 
   onMount(() => {
-    gadgets = gadgetRegistry.getGadgets();
+    gadgets = gadgetRegistry.getWidgets();
   });
 </script>
 

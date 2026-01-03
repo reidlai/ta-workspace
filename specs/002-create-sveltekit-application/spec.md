@@ -33,13 +33,11 @@ As a developer, I want to inject a module implementation into the app shell usin
 1. **Given** an interface `IModule` defined in `packages/shared/typescripts`, **When** I define a class provided by the app that implements it, **Then** I can register this implementation in the App Shell.
 2. **Given** a module implementation is registered, **When** the App Shell runs, **Then** the app can retrieve and invoke methods on the injected module instance.
 
-
 ### Edge Cases
 
 - **Missing Shared Directory**: If `./packages/shared/typescripts` does not exist, the build/start should fail with a clear error or the setup script should create it.
 - **Invalid Module Interface**: If a module does not implement the interface correctly, the compiler should catch it (TypeScript).
 - **Dependency Cycle**: If modules have circular dependencies, the DI container should handle it gracefully or throw a descriptive error.
-
 
 ## Clarifications
 

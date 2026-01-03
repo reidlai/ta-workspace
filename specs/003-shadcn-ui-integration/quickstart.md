@@ -1,9 +1,11 @@
 # ShadCN UI Integration - Developer Quickstart
 
 ## Overview
+
 This guide helps developers integrate new feature modules into the SvelteKit application shell using the ShadCN UI dashboard system.
 
 ## Prerequisites
+
 - Node.js 20+
 - pnpm 8+
 - Basic understanding of SvelteKit and Svelte 5
@@ -19,29 +21,31 @@ cd packages/ts/svelte/features/my-feature
 ```
 
 Create `package.json`:
+
 ```json
 {
-    "name": "@svelte/my-feature",
-    "version": "0.0.1",
-    "main": "src/index.ts",
-    "svelte": "src/index.ts",
-    "exports": {
-        ".": "./src/index.ts"
-    },
-    "dependencies": {
-        "@ts/types": "*",
-        "@ts/registry": "*"
-    }
+  "name": "@svelte/my-feature",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "svelte": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@ts/types": "*",
+    "@ts/registry": "*"
+  }
 }
 ```
 
 ### 2. Create Your Gadget Component
 
 Create `src/MyGadget.svelte`:
+
 ```svelte
 <script lang="ts">
   import { gadgetRegistry } from '@ts/registry';
-  
+
   // Access shared state if needed
   const stateStore = gadgetRegistry.getStateStore();
   const myChannel = stateStore?.getChannel('my-feature.data', {});
@@ -56,19 +60,20 @@ Create `src/MyGadget.svelte`:
 ### 3. Register Your Gadget
 
 Create `src/index.ts`:
+
 ```typescript
-import MyGadget from './MyGadget.svelte';
-import { gadgetRegistry } from '@ts/registry';
+import MyGadget from "./MyGadget.svelte";
+import { gadgetRegistry } from "@ts/registry";
 
 // Register the gadget
 gadgetRegistry.registerGadget({
-    id: 'my-feature-gadget',
-    title: 'My Feature',
-    description: 'Description of my feature',
-    component: MyGadget,
-    icon: 'Star', // Lucide icon name
-    priority: 5,
-    size: 'medium'
+  id: "my-feature-gadget",
+  title: "My Feature",
+  description: "Description of my feature",
+  component: MyGadget,
+  icon: "Star", // Lucide icon name
+  priority: 5,
+  size: "medium",
 });
 
 export { MyGadget };
@@ -77,6 +82,7 @@ export { MyGadget };
 ### 4. Import in App Shell
 
 Edit `apps/sv-appshell/src/routes/+layout.svelte`:
+
 ```svelte
 <script>
   import '../app.css';
@@ -108,11 +114,14 @@ Visit `http://localhost:5173` to see your gadget on the dashboard!
 ```typescript
 // In your gadget component
 const stateStore = gadgetRegistry.getStateStore();
-const myData = stateStore?.getChannel<MyDataType>('my-feature.data', initialValue);
+const myData = stateStore?.getChannel<MyDataType>(
+  "my-feature.data",
+  initialValue,
+);
 
 // Update state
 function updateData(newValue: MyDataType) {
-    stateStore?.updateState('my-feature.data', newValue, 'my-feature');
+  stateStore?.updateState("my-feature.data", newValue, "my-feature");
 }
 
 // Subscribe to changes
@@ -124,25 +133,25 @@ $: currentData = $myData;
 ```typescript
 // src/MyService.ts
 export class MyService {
-    doSomething(input: string): string {
-        return `Processed: ${input}`;
-    }
+  doSomething(input: string): string {
+    return `Processed: ${input}`;
+  }
 }
 
 // src/index.ts
-import { MyService } from './MyService';
+import { MyService } from "./MyService";
 
 const myService = new MyService();
-gadgetRegistry.registerService('MyService', myService);
+gadgetRegistry.registerService("MyService", myService);
 ```
 
 ### Consuming a Service
 
 ```typescript
 // In another module or component
-const myService = gadgetRegistry.getService<MyService>('MyService');
+const myService = gadgetRegistry.getService<MyService>("MyService");
 if (myService) {
-    const result = myService.doSomething('test');
+  const result = myService.doSomething("test");
 }
 ```
 
@@ -153,15 +162,19 @@ if (myService) {
 let currentStep = 1;
 
 function nextStep() {
-    currentStep++;
-    window.history.pushState({ step: currentStep }, '', `/my-feature/step-${currentStep}`);
+  currentStep++;
+  window.history.pushState(
+    { step: currentStep },
+    "",
+    `/my-feature/step-${currentStep}`,
+  );
 }
 
 // Handle browser back/forward
-window.addEventListener('popstate', (event) => {
-    if (event.state?.step) {
-        currentStep = event.state.step;
-    }
+window.addEventListener("popstate", (event) => {
+  if (event.state?.step) {
+    currentStep = event.state.step;
+  }
 });
 ```
 
@@ -170,7 +183,9 @@ window.addEventListener('popstate', (event) => {
 ## Best Practices
 
 ### 1. Error Handling
+
 Always wrap your gadget content in error boundaries:
+
 ```svelte
 <GadgetErrorBoundary gadgetTitle="My Feature">
     <MyGadgetContent />
@@ -178,23 +193,29 @@ Always wrap your gadget content in error boundaries:
 ```
 
 ### 2. State Channel Naming
+
 Use namespaced channel names:
+
 - ✅ `my-feature.user-data`
 - ✅ `my-feature.settings`
 - ❌ `userData` (too generic)
 
 ### 3. Service Keys
+
 Use descriptive, unique service keys:
+
 - ✅ `MyFeatureService`
 - ✅ `UserAuthenticationService`
 - ❌ `Service` (too generic)
 
 ### 4. Gadget Priorities
+
 - High priority (8-10): Critical features
 - Medium priority (4-7): Standard features
 - Low priority (1-3): Optional features
 
 ### 5. Accessibility
+
 - Use semantic HTML
 - Add ARIA labels for interactive elements
 - Ensure keyboard navigation works
@@ -205,29 +226,34 @@ Use descriptive, unique service keys:
 ## Testing Your Module
 
 ### Unit Tests
-Create `src/MyGadget.spec.ts`:
-```typescript
-import { describe, it, expect } from 'vitest';
-import MyGadget from './MyGadget.svelte';
 
-describe('MyGadget', () => {
-    it('should render', () => {
-        const component = new MyGadget({
-            target: document.createElement('div')
-        });
-        expect(component).toBeDefined();
-        component.$destroy();
+Create `src/MyGadget.spec.ts`:
+
+```typescript
+import { describe, it, expect } from "vitest";
+import MyGadget from "./MyGadget.svelte";
+
+describe("MyGadget", () => {
+  it("should render", () => {
+    const component = new MyGadget({
+      target: document.createElement("div"),
     });
+    expect(component).toBeDefined();
+    component.$destroy();
+  });
 });
 ```
 
 Run tests:
+
 ```bash
 pnpm test:unit -C apps/sv-appshell
 ```
 
 ### BDD Tests
+
 Create `features/my-feature/my-feature.feature`:
+
 ```gherkin
 Feature: My Feature
   Scenario: User interacts with my feature
@@ -241,16 +267,19 @@ Feature: My Feature
 ## Troubleshooting
 
 ### Gadget Not Appearing
+
 1. Check that module is imported in `+layout.svelte`
 2. Verify `registerGadget` is called
 3. Check browser console for errors
 
 ### State Not Syncing
+
 1. Ensure `ModuleStateStore` is registered in layout
 2. Verify channel names match exactly
 3. Check that `updateState` is called with correct parameters
 
 ### Service Not Found
+
 1. Verify service is registered before use
 2. Check service key spelling
 3. Ensure module is loaded before service access
@@ -260,6 +289,7 @@ Feature: My Feature
 ## UI Components
 
 ### Using ShadCN Components
+
 The app shell provides Card and Button components:
 
 ```svelte
@@ -284,6 +314,7 @@ The app shell provides Card and Button components:
 ```
 
 ### Available Variants
+
 **Button**: `default`, `destructive`, `outline`, `secondary`, `ghost`, `link`
 **Sizes**: `default`, `sm`, `lg`, `icon`
 
@@ -301,6 +332,7 @@ The app shell provides Card and Button components:
 ## Support
 
 For questions or issues:
+
 1. Check the [walkthrough](file:///C:/Users/reidl/.gemini/antigravity/brain/b2c181fe-23f5-4c73-8635-fa02122d79f8/walkthrough.md)
 2. Review existing modules in `packages/ts/svelte/features/demo`
 3. Consult the implementation plan

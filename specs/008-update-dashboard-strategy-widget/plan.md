@@ -12,37 +12,38 @@ Replace the second dashboard gadget with a ShadCN Card-based `PortfolioSummaryWi
 ## Technical Context
 
 **Language/Version**: TypeScript (ES2022), Golang 1.22+  
-**Primary Dependencies**: 
+**Primary Dependencies**:
+
 - Frontend: SvelteKit 2.x, RxJS 7.x, Tailwind CSS 4.x, ShadCN UI components
 - Backend: Goa 3.x, Chi router, Go standard library
-**Storage**: N/A (mock data for MVP)  
-**Testing**: Vitest (unit), Cucumber (BDD), Playwright (E2E)  
-**Target Platform**: Web (SvelteKit SSR disabled), Docker containers (distroless base)
-**Project Type**: Monorepo web application (Frontend: SvelteKit, Backend: Golang API)  
-**Performance Goals**: 
+  **Storage**: N/A (mock data for MVP)  
+  **Testing**: Vitest (unit), Cucumber (BDD), Playwright (E2E)  
+  **Target Platform**: Web (SvelteKit SSR disabled), Docker containers (distroless base)
+  **Project Type**: Monorepo web application (Frontend: SvelteKit, Backend: Golang API)  
+  **Performance Goals**:
 - Navigation to `/portfolio` page < 200ms (SC-002)
 - Zero console errors on render (SC-001)
-**Constraints**: 
+  **Constraints**:
 - Must use ShadCN Card component with 100% visual fidelity (SC-003)
 - Must maintain Tailwind container query responsiveness
 - Must comply with architectural restructuring (SC-004)
-**Scale/Scope**: Single-page widget update + architectural refactoring across 2 modules (`portfolio`, `watchlist`) + 1 demo module
+  **Scale/Scope**: Single-page widget update + architectural refactoring across 2 modules (`portfolio`, `watchlist`) + 1 demo module
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-| Rule | Status | Notes |
-|------|--------|-------|
-| **Branching** (§1) | ✅ PASS | Feature branch `008-update-dashboard-portfolio-widget` follows pattern |
-| **Containers** (§3) | ✅ PASS | Existing Dockerfile uses distroless; no changes required |
-| **Secrets** (§4) | ✅ PASS | No secrets involved (mock data only) |
-| **Testing (BDD)** (§6) | ⚠️ DEFERRED | BDD scenarios to be added in Phase 2 (tasks) |
-| **DevSecOps Gates** (§7) | ✅ PASS | Standard CI/CD applies; no special gates |
-| **AI Agent Guardrails** (§8) | ✅ PASS | Working on issue branch; will generate BDD in Phase 2 |
-| **Directory Structure** (§9) | ✅ PASS | All required directories exist |
-| **Monorepo (Moonrepo)** (§Monorepo) | ✅ PASS | Using Moonrepo; task definitions in `moon.yml` |
-| **Authorized Stack** (§Monorepo) | ✅ PASS | SvelteKit (frontend) + Golang (backend) authorized |
+| Rule                                | Status      | Notes                                                                  |
+| ----------------------------------- | ----------- | ---------------------------------------------------------------------- |
+| **Branching** (§1)                  | ✅ PASS     | Feature branch `008-update-dashboard-portfolio-widget` follows pattern |
+| **Containers** (§3)                 | ✅ PASS     | Existing Dockerfile uses distroless; no changes required               |
+| **Secrets** (§4)                    | ✅ PASS     | No secrets involved (mock data only)                                   |
+| **Testing (BDD)** (§6)              | ⚠️ DEFERRED | BDD scenarios to be added in Phase 2 (tasks)                           |
+| **DevSecOps Gates** (§7)            | ✅ PASS     | Standard CI/CD applies; no special gates                               |
+| **AI Agent Guardrails** (§8)        | ✅ PASS     | Working on issue branch; will generate BDD in Phase 2                  |
+| **Directory Structure** (§9)        | ✅ PASS     | All required directories exist                                         |
+| **Monorepo (Moonrepo)** (§Monorepo) | ✅ PASS     | Using Moonrepo; task definitions in `moon.yml`                         |
+| **Authorized Stack** (§Monorepo)    | ✅ PASS     | SvelteKit (frontend) + Golang (backend) authorized                     |
 
 **Re-evaluation after Phase 1**: Will confirm BDD feature files are created and CI passes locally.
 
@@ -136,4 +137,4 @@ features/                             # [NEW] BDD scenarios (Phase 2)
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
-*No violations detected. All constitution rules are satisfied.*
+_No violations detected. All constitution rules are satisfied._

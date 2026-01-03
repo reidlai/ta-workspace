@@ -16,13 +16,13 @@ flowchart TD
         SV[sv-appshell<br/>SvelteKit Frontend]
         TA[ta-server<br/>Go Backend]
     end
-    
+
     subgraph Modules["modules/"]
         Core[core/ts<br/>Types, Registry]
         WL[watchlist<br/>go/, ts/, svelte/]
         PF[portfolio<br/>go/, ts/, svelte/]
     end
-    
+
     SV -->|imports| Core
     SV -->|loads| WL
     SV -->|loads| PF
@@ -65,24 +65,24 @@ static async loadModules(context: IContext, config: IAppConfig[]): Promise<void>
 
 ```typescript
 export class Registry {
-    private static instance: Registry;
-    private modules = new Map<string, IModuleBundle>();
-    private widgetMap = new Map<string, IWidget>();
-    private handlers: IHandler[] = [];
-    private servicesMap = new Map<string, any>();
+  private static instance: Registry;
+  private modules = new Map<string, IModuleBundle>();
+  private widgetMap = new Map<string, IWidget>();
+  private handlers: IHandler[] = [];
+  private servicesMap = new Map<string, any>();
 
-    register(bundle: IModuleBundle): void {
-        this.modules.set(bundle.id, bundle);
-        // Auto-register widgets, handlers, services
-        if (bundle.widgets) {
-            for (const widget of bundle.widgets) {
-                this.widgetMap.set(widget.id, widget);
-            }
-        }
-        if (bundle.handlers) {
-            this.handlers.push(...bundle.handlers);
-        }
+  register(bundle: IModuleBundle): void {
+    this.modules.set(bundle.id, bundle);
+    // Auto-register widgets, handlers, services
+    if (bundle.widgets) {
+      for (const widget of bundle.widgets) {
+        this.widgetMap.set(widget.id, widget);
+      }
     }
+    if (bundle.handlers) {
+      this.handlers.push(...bundle.handlers);
+    }
+  }
 }
 ```
 
@@ -94,25 +94,25 @@ All modules implement [IModuleBundle](file:///c:/Users/reidl/GitLocal/ta-workspa
 
 ```typescript
 export interface IModuleBundle {
-    id: string;
-    widgets?: IWidget[];      // Dashboard tiles, UI components
-    handlers?: IHandler[];    // Menu actions, commands
-    services?: Record<string, any>;
-    routes?: IParamsRoute[];  // Internal navigation routes
+  id: string;
+  widgets?: IWidget[]; // Dashboard tiles, UI components
+  handlers?: IHandler[]; // Menu actions, commands
+  services?: Record<string, any>;
+  routes?: IParamsRoute[]; // Internal navigation routes
 }
 
 export interface IWidget {
-    id: string;
-    title: string;
-    component: any;           // Svelte component
-    location?: string;        // 'dashboard', 'sidebar', 'header'
-    size?: 'small' | 'medium' | 'large';
+  id: string;
+  title: string;
+  component: any; // Svelte component
+  location?: string; // 'dashboard', 'sidebar', 'header'
+  size?: "small" | "medium" | "large";
 }
 
 export interface IHandler {
-    id: string;
-    title: string;
-    execute: (context: IContext) => void | Promise<void>;
+  id: string;
+  title: string;
+  execute: (context: IContext) => void | Promise<void>;
 }
 
 export type ModuleInit = (context: IContext) => Promise<IModuleBundle>;
@@ -123,19 +123,19 @@ export type ModuleInit = (context: IContext) => Promise<IModuleBundle>;
 ```typescript
 // modules/watchlist/svelte/src/index.ts
 export const init: ModuleInit = async (context) => {
-    return {
-        id: 'watchlist',
-        widgets: [{
-            id: 'my-tickers',
-            title: 'My Tickers',
-            component: MyTickersWidget,
-            location: 'dashboard',
-            size: 'small'
-        }],
-        routes: [
-            { path: '/watchlist', component: WatchlistPage }
-        ]
-    };
+  return {
+    id: "watchlist",
+    widgets: [
+      {
+        id: "my-tickers",
+        title: "My Tickers",
+        component: MyTickersWidget,
+        location: "dashboard",
+        size: "small",
+      },
+    ],
+    routes: [{ path: "/watchlist", component: WatchlistPage }],
+  };
 };
 ```
 
@@ -165,12 +165,12 @@ The Go backend uses the **Goa framework** with service injection from virtual mo
 
 [Goa](https://goa.design) is a **design-first** API framework for Go that provides:
 
-| Feature | Benefit |
-|---------|---------|
-| **DSL-based Design** | API contracts defined in Go code, not YAML/JSON |
-| **Code Generation** | Server stubs, clients, OpenAPI specs auto-generated |
-| **Type Safety** | Compile-time validation of request/response types |
-| **Transport Agnostic** | Same design generates HTTP, gRPC, or WebSocket handlers |
+| Feature                | Benefit                                                   |
+| ---------------------- | --------------------------------------------------------- |
+| **DSL-based Design**   | API contracts defined in Go code, not YAML/JSON           |
+| **Code Generation**    | Server stubs, clients, OpenAPI specs auto-generated       |
+| **Type Safety**        | Compile-time validation of request/response types         |
+| **Transport Agnostic** | Same design generates HTTP, gRPC, or WebSocket handlers   |
 | **Middleware Support** | Integrates with Chi router for flexible middleware chains |
 
 This aligns with the virtual module pattern—each module defines its API contract, and Goa generates the transport layer.
@@ -188,13 +188,13 @@ import (
 
 var _ = ai.Agent("ta-assistant", func() {
     ai.Description("Technical Analysis Assistant Agent")
-    
+
     // Expose existing services as AI tools
     ai.Tool("get-watchlist", func() {
         ai.Description("Retrieve user's stock watchlist")
         ai.ToolService(WatchlistService)  // Reference existing Goa service
     })
-    
+
     ai.Tool("get-portfolio-insights", func() {
         ai.Description("Get AI-generated portfolio insights")
         ai.ToolService(PortfolioService)
@@ -203,6 +203,7 @@ var _ = ai.Agent("ta-assistant", func() {
 ```
 
 **MCP Server Benefits:**
+
 - **Tool Discovery**: LLMs automatically discover available tools
 - **Typed Contracts**: Same Goa type safety for AI interactions
 - **Streaming**: Built-in support for streaming responses to agents
@@ -216,17 +217,17 @@ flowchart LR
         API[ta-server<br/>REST API]
         MCP[mcp-server<br/>AI Tools]
     end
-    
+
     subgraph Modules["modules/"]
         WL[watchlist/go]
         PF[portfolio/go]
     end
-    
+
     API -->|imports| WL
     API -->|imports| PF
     MCP -->|imports| WL
     MCP -->|imports| PF
-    
+
     LLM[LLM Agent] -->|MCP Protocol| MCP
     Client[Frontend] -->|HTTP| API
 ```
@@ -286,14 +287,14 @@ RxJS `BehaviorSubject` integrates seamlessly with Svelte's store contract:
 ```typescript
 // modules/watchlist/ts/src/services/WatchlistService.ts
 export class WatchlistService {
-    private _tickers$ = new BehaviorSubject<TickerItem[]>([]);
-    public readonly tickers$ = this._tickers$.asObservable();
+  private _tickers$ = new BehaviorSubject<TickerItem[]>([]);
+  public readonly tickers$ = this._tickers$.asObservable();
 
-    // Svelte-compatible subscribe method
-    public subscribe(run: (value: TickerItem[]) => void): () => void {
-        const subscription = this._tickers$.subscribe(run);
-        return () => subscription.unsubscribe();
-    }
+  // Svelte-compatible subscribe method
+  public subscribe(run: (value: TickerItem[]) => void): () => void {
+    const subscription = this._tickers$.subscribe(run);
+    return () => subscription.unsubscribe();
+  }
 }
 ```
 
@@ -315,18 +316,18 @@ For cross-module state, [moduleState.ts](file:///c:/Users/reidl/GitLocal/ta-work
 
 ```typescript
 class ModuleStateStore {
-    private channels: Map<string, Writable<any>> = new Map();
+  private channels: Map<string, Writable<any>> = new Map();
 
-    getChannel<T>(channelId: string, initialValue?: T): Writable<T> {
-        if (!this.channels.has(channelId)) {
-            this.channels.set(channelId, writable<T>(initialValue));
-        }
-        return this.channels.get(channelId);
+  getChannel<T>(channelId: string, initialValue?: T): Writable<T> {
+    if (!this.channels.has(channelId)) {
+      this.channels.set(channelId, writable<T>(initialValue));
     }
+    return this.channels.get(channelId);
+  }
 
-    updateState<T>(channelId: string, value: T, source: string) {
-        // Last-writer-wins with requestAnimationFrame batching
-    }
+  updateState<T>(channelId: string, value: T, source: string) {
+    // Last-writer-wins with requestAnimationFrame batching
+  }
 }
 ```
 
@@ -338,8 +339,8 @@ When developing Svelte components in isolated packages (e.g., `modules/portfolio
 
 ```typescript
 // modules/portfolio/svelte/src/app.d.ts
-declare module '$app/navigation' {
-    export function goto(url: string | URL, opts?: any): Promise<void>;
+declare module "$app/navigation" {
+  export function goto(url: string | URL, opts?: any): Promise<void>;
 }
 ```
 
@@ -358,6 +359,7 @@ NextJS can serve as an alternative frontend appshell, with or without Redux for 
 #### Option 1: NextJS with Direct RxJS (No Redux)
 
 **Module Structure:**
+
 ```
 modules/watchlist/
 ├── go/          # Backend service
@@ -380,89 +382,89 @@ modules/watchlist/
 **1. Shared RxJS Service** (already exists in `modules/watchlist/ts/`):
 
 ```typescript
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from "rxjs";
 
 export interface TickerItem {
-    symbol: string;
-    on_hand: boolean;
-    created_at?: string;
+  symbol: string;
+  on_hand: boolean;
+  created_at?: string;
 }
 
 export class WatchlistService {
-    private static instance: WatchlistService;
-    private userId = "demo-user";
+  private static instance: WatchlistService;
+  private userId = "demo-user";
 
-    // RxJS BehaviorSubject for state management
-    private _tickers$ = new BehaviorSubject<TickerItem[]>([]);
+  // RxJS BehaviorSubject for state management
+  private _tickers$ = new BehaviorSubject<TickerItem[]>([]);
 
-    // Expose as observable for read-only access
-    public readonly tickers$ = this._tickers$.asObservable();
+  // Expose as observable for read-only access
+  public readonly tickers$ = this._tickers$.asObservable();
 
-    private constructor() {
-        this.fetchTickers();
+  private constructor() {
+    this.fetchTickers();
+  }
+
+  public static getInstance(): WatchlistService {
+    if (!WatchlistService.instance) {
+      WatchlistService.instance = new WatchlistService();
     }
+    return WatchlistService.instance;
+  }
 
-    public static getInstance(): WatchlistService {
-        if (!WatchlistService.instance) {
-            WatchlistService.instance = new WatchlistService();
-        }
-        return WatchlistService.instance;
-    }
+  /**
+   * Svelte-compatible subscribe method.
+   * Svelte auto-subscribes to any object with this signature.
+   */
+  public subscribe(run: (value: TickerItem[]) => void): () => void {
+    const subscription = this._tickers$.subscribe(run);
+    return () => subscription.unsubscribe();
+  }
 
-    /**
-     * Svelte-compatible subscribe method.
-     * Svelte auto-subscribes to any object with this signature.
-     */
-    public subscribe(run: (value: TickerItem[]) => void): () => void {
-        const subscription = this._tickers$.subscribe(run);
-        return () => subscription.unsubscribe();
+  public async fetchTickers(): Promise<void> {
+    try {
+      const res = await fetch("/api/watchlist", {
+        headers: { "X-User-ID": this.userId },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        this._tickers$.next(data);
+      }
+    } catch (e) {
+      console.error(e);
     }
+  }
 
-    public async fetchTickers(): Promise<void> {
-        try {
-            const res = await fetch('/api/watchlist', {
-                headers: { 'X-User-ID': this.userId }
-            });
-            if (res.ok) {
-                const data = await res.json();
-                this._tickers$.next(data);
-            }
-        } catch (e) {
-            console.error(e);
-        }
+  public async addTicker(symbol: string, onHand: boolean): Promise<void> {
+    try {
+      const res = await fetch("/api/watchlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-User-ID": this.userId,
+        },
+        body: JSON.stringify({ symbol, on_hand: onHand, user_id: this.userId }),
+      });
+      if (res.ok) {
+        await this.fetchTickers();
+      }
+    } catch (e) {
+      console.error(e);
     }
+  }
 
-    public async addTicker(symbol: string, onHand: boolean): Promise<void> {
-        try {
-            const res = await fetch('/api/watchlist', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-User-ID': this.userId
-                },
-                body: JSON.stringify({ symbol, on_hand: onHand, user_id: this.userId })
-            });
-            if (res.ok) {
-                await this.fetchTickers();
-            }
-        } catch (e) {
-            console.error(e);
-        }
+  public async removeTicker(symbol: string): Promise<void> {
+    try {
+      const res = await fetch(`/api/watchlist/${symbol}`, {
+        method: "DELETE",
+        headers: { "X-User-ID": this.userId },
+      });
+      if (res.ok) {
+        await this.fetchTickers();
+      }
+    } catch (e) {
+      console.error(e);
     }
-
-    public async removeTicker(symbol: string): Promise<void> {
-        try {
-            const res = await fetch(`/api/watchlist/${symbol}`, {
-                method: 'DELETE',
-                headers: { 'X-User-ID': this.userId }
-            });
-            if (res.ok) {
-                await this.fetchTickers();
-            }
-        } catch (e) {
-            console.error(e);
-        }
-    }
+  }
 }
 
 export const watchlistService = WatchlistService.getInstance();
@@ -481,24 +483,26 @@ This means `modules/watchlist/nextjs/` can **import and use** the exact same ser
 
 ```tsx
 // modules/watchlist/nextjs/components/MyTickersWidget.tsx
-import { useEffect, useState } from 'react';
-import { watchlistService } from '@watchlist/services';
+import { useEffect, useState } from "react";
+import { watchlistService } from "@watchlist/services";
 
 export const MyTickersWidget = () => {
-    const [tickers, setTickers] = useState<TickerItem[]>([]);
-    
-    useEffect(() => {
-        const subscription = watchlistService.tickers$.subscribe(setTickers);
-        watchlistService.fetchTickers();
-        return () => subscription.unsubscribe();
-    }, []);
-    
-    return (
-        <div className="card">
-            <h2>My Tickers</h2>
-            {tickers.map(t => <div key={t.symbol}>{t.symbol}</div>)}
-        </div>
-    );
+  const [tickers, setTickers] = useState<TickerItem[]>([]);
+
+  useEffect(() => {
+    const subscription = watchlistService.tickers$.subscribe(setTickers);
+    watchlistService.fetchTickers();
+    return () => subscription.unsubscribe();
+  }, []);
+
+  return (
+    <div className="card">
+      <h2>My Tickers</h2>
+      {tickers.map((t) => (
+        <div key={t.symbol}>{t.symbol}</div>
+      ))}
+    </div>
+  );
 };
 ```
 
@@ -515,21 +519,21 @@ For larger applications, Redux can centralize state management:
 3. **No Framework Lock-in**: The `WatchlistService` from `modules/watchlist/ts/` is framework-agnostic—it's pure TypeScript with RxJS
 4. **Type Safety**: TypeScript types (`TickerItem[]`) are shared across all frameworks
 
-This means `modules/watchlist/nextjs/` can **import and use** the exact same service instance as `modules/watchlist/svelte/` without any adaptation layer.  
+This means `modules/watchlist/nextjs/` can **import and use** the exact same service instance as `modules/watchlist/svelte/` without any adaptation layer.
 
 ```typescript
 // modules/watchlist/nextjs/store/watchlistSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { watchlistService } from '@watchlist/services';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { watchlistService } from "@watchlist/services";
 
 const watchlistSlice = createSlice({
-    name: 'watchlist',
-    initialState: { tickers: [] as TickerItem[] },
-    reducers: {
-        setTickers: (state, action: PayloadAction<TickerItem[]>) => {
-            state.tickers = action.payload;
-        }
-    }
+  name: "watchlist",
+  initialState: { tickers: [] as TickerItem[] },
+  reducers: {
+    setTickers: (state, action: PayloadAction<TickerItem[]>) => {
+      state.tickers = action.payload;
+    },
+  },
 });
 
 export const { setTickers } = watchlistSlice.actions;
@@ -537,9 +541,9 @@ export default watchlistSlice.reducer;
 
 // Bridge: Subscribe RxJS to Redux
 export const initWatchlistSync = (store: any) => {
-    watchlistService.tickers$.subscribe(tickers => {
-        store.dispatch(setTickers(tickers));
-    });
+  watchlistService.tickers$.subscribe((tickers) => {
+    store.dispatch(setTickers(tickers));
+  });
 };
 ```
 
@@ -547,17 +551,17 @@ export const initWatchlistSync = (store: any) => {
 
 ```typescript
 // modules/watchlist/nextjs/hooks/useWatchlist.ts
-import { useSelector } from 'react-redux';
-import { watchlistService } from '@watchlist/services';
+import { useSelector } from "react-redux";
+import { watchlistService } from "@watchlist/services";
 
 export const useWatchlist = () => {
-    const tickers = useSelector((state: RootState) => state.watchlist.tickers);
-    
-    return {
-        tickers,
-        fetchTickers: () => watchlistService.fetchTickers(),
-        addTicker: (symbol: string) => watchlistService.addTicker(symbol, false)
-    };
+  const tickers = useSelector((state: RootState) => state.watchlist.tickers);
+
+  return {
+    tickers,
+    fetchTickers: () => watchlistService.fetchTickers(),
+    addTicker: (symbol: string) => watchlistService.addTicker(symbol, false),
+  };
 };
 ```
 
@@ -565,21 +569,23 @@ export const useWatchlist = () => {
 
 ```tsx
 // modules/watchlist/nextjs/components/MyTickersWidget.tsx
-import { useWatchlist } from '../hooks/useWatchlist';
+import { useWatchlist } from "../hooks/useWatchlist";
 
 export const MyTickersWidget = () => {
-    const { tickers, fetchTickers } = useWatchlist();
-    
-    useEffect(() => {
-        fetchTickers();
-    }, []);
-    
-    return (
-        <div className="card">
-            <h2>My Tickers</h2>
-            {tickers.map(t => <div key={t.symbol}>{t.symbol}</div>)}
-        </div>
-    );
+  const { tickers, fetchTickers } = useWatchlist();
+
+  useEffect(() => {
+    fetchTickers();
+  }, []);
+
+  return (
+    <div className="card">
+      <h2>My Tickers</h2>
+      {tickers.map((t) => (
+        <div key={t.symbol}>{t.symbol}</div>
+      ))}
+    </div>
+  );
 };
 ```
 
@@ -608,6 +614,7 @@ export default function RootLayout({ children }) {
 ### Flutter + RxDart Integration
 
 **Module Structure:**
+
 ```
 modules/watchlist/
 ├── go/          # Backend service
@@ -638,10 +645,10 @@ class WatchlistService {
   WatchlistService._internal();
 
   final _tickers$ = BehaviorSubject<List<TickerItem>>.seeded([]);
-  
+
   // Expose as stream (read-only)
   Stream<List<TickerItem>> get tickers$ => _tickers$.stream;
-  
+
   // Current value accessor
   List<TickerItem> get currentTickers => _tickers$.value;
 
@@ -684,7 +691,7 @@ class MyTickersWidget extends StatelessWidget {
           if (!snapshot.hasData) {
             return CircularProgressIndicator();
           }
-          
+
           return ListView.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
@@ -734,6 +741,7 @@ class MyApp extends StatelessWidget {
 ```
 
 **Flutter Benefits:**
+
 - **Cross-platform**: iOS, Android, Web, Desktop from single codebase
 - **Same RxDart patterns**: BehaviorSubject, Observable streams mirror RxJS
 - **Module structure**: `modules/*/dart/` follows same pattern as `modules/*/ts/`
@@ -743,15 +751,15 @@ class MyApp extends StatelessWidget {
 
 ## Summary
 
-| Layer | Frontend (SvelteKit) | Backend (Go/Goa) |
-|-------|---------------------|------------------|
-| **Host** | `apps/sv-appshell` | `apps/ta-server` |
-| **Discovery** | `ModuleLoader` + glob | Go imports in `cmd/*.go` |
-| **Registration** | `Registry.register(bundle)` | `NewEndpoints(svc)` |
-| **Widgets** | `IWidget` → Svelte component | N/A |
-| **Handlers** | `IHandler.execute()` | N/A |
-| **Routes** | `IParamsRoute` | Goa HTTP DSL |
-| **State** | RxJS + Svelte stores | In-memory / DB |
+| Layer            | Frontend (SvelteKit)         | Backend (Go/Goa)         |
+| ---------------- | ---------------------------- | ------------------------ |
+| **Host**         | `apps/sv-appshell`           | `apps/ta-server`         |
+| **Discovery**    | `ModuleLoader` + glob        | Go imports in `cmd/*.go` |
+| **Registration** | `Registry.register(bundle)`  | `NewEndpoints(svc)`      |
+| **Widgets**      | `IWidget` → Svelte component | N/A                      |
+| **Handlers**     | `IHandler.execute()`         | N/A                      |
+| **Routes**       | `IParamsRoute`               | Goa HTTP DSL             |
+| **State**        | RxJS + Svelte stores         | In-memory / DB           |
 
 ## Module Workflow Tooling
 
@@ -759,17 +767,17 @@ To manage the lifecycle of modules within the monorepo, a CLI tool is provided i
 
 ### Core Commands
 
-| Command | Description |
-|---------|-------------|
-| `moon run :add-module` | Adds a new feature module (submodule), updates registry and workspace configs. |
-| `moon run :delete-module` | Removes a module, cleaning up git submodules and config references. |
+| Command                   | Description                                                                    |
+| ------------------------- | ------------------------------------------------------------------------------ |
+| `moon run :add-module`    | Adds a new feature module (submodule), updates registry and workspace configs. |
+| `moon run :delete-module` | Removes a module, cleaning up git submodules and config references.            |
 | `moon run :rename-module` | Renames a module, moving the submodule and refactoring internal imports/names. |
 
 ### Configuration Automation
 
 The tooling automatically manages:
+
 1.  **Registry**: `apps/sv-appshell/src/lib/module-registry.ts` (or equivalent)
 2.  **Node Workspace**: `pnpm-workspace.yaml`
 3.  **Go Workspace**: `go.work`
 4.  **Git Submodules**: `.gitmodules`, `.git/config`
-

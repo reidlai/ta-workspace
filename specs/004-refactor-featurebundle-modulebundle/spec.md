@@ -5,7 +5,7 @@
 **Status**: Draft
 **Input**: User description: "Refactor FeatureBundle to ModuleBundle and replace Gadgets with Handlers"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Developer Defines a Module Journey (Priority: P1)
 
@@ -14,9 +14,10 @@ As a Module Developer, I want to define my module's capabilities using `IModuleB
 **Why this priority**: Fundamental architectural change required to support the new "User Journey" driven navigation model.
 
 **Independent Test**:
+
 - Create a test module implementing `IModuleBundle`.
 - Verify it exports a `Handler`.
-- Verify it does *not* export a `Gadget` directly in the bundle properties.
+- Verify it does _not_ export a `Gadget` directly in the bundle properties.
 
 **Acceptance Scenarios**:
 
@@ -32,6 +33,7 @@ As an App User, I want to click a menu item that triggers a Module Handler, so t
 **Why this priority**: Validation that the new architecture supports the core user interaction (navigation).
 
 **Independent Test**:
+
 - Mock an App Shell with a Sidebar.
 - Click a link associated with a Handler.
 - Verify the Handler executes and navigates to the expected route.
@@ -45,10 +47,11 @@ As an App User, I want to click a menu item that triggers a Module Handler, so t
 ## Clarifications
 
 ### Session 2025-12-29
+
 - Q: Clarify definition of "Widget" vs "Handler" → A: Option A - "Widget" is a specialized Component definition `{ id, component, location }` for dynamic rendering (e.g. Dashboard tile), while "Handler" controls navigation actions.
 - Q: Clarify need for "Handlers" → A: User clarified that Handlers are NOT valid. The system should rely solely on Widgets (and presumably standard Routes) for integration.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -63,8 +66,7 @@ As an App User, I want to click a menu item that triggers a Module Handler, so t
 - **IModuleBundle**: The new contract for modules.
 - **IWidget**: A strong-typed definition for embeddable UI components `{ id, component, location, size }`.
 
-
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

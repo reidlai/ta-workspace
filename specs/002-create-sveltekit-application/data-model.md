@@ -27,7 +27,7 @@ export interface IParamsRoute {
   /** Path pattern (e.g., '/dashboard', '/users/:id') */
   path: string;
   /** Component constructor/import */
-  component: any; 
+  component: any;
   /** Layout preferences */
   layout?: {
     hideHeader?: boolean;
@@ -68,7 +68,9 @@ export interface IAppConfig {
 The factory function signature.
 
 ```typescript
-export type ModuleInit = (context: IContext) => IFeatureBundle | Promise<IFeatureBundle>;
+export type ModuleInit = (
+  context: IContext,
+) => IFeatureBundle | Promise<IFeatureBundle>;
 ```
 
 ## Internal Entities (App Shell)
@@ -90,7 +92,7 @@ Configuration file format for enabling modules.
     {
       "id": "user-profile",
       "enabled": true,
-      "src": "./modules/user-profile" 
+      "src": "./modules/user-profile"
     }
   ]
 }

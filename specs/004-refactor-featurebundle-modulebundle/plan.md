@@ -21,7 +21,7 @@ Refactor the module system to replace `IFeatureBundle` with `IModuleBundle`. The
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - [x] **1. Branching**: Working on issue branch `004-refactor-featurebundle-modulebundle`.
 - [x] **2. Environments**: configuration logic remains unchanged (12-Factor).
@@ -62,5 +62,5 @@ modules/demo/svelte/
 ## Complexity Tracking
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| N/A | | |
+| --------- | ---------- | ------------------------------------ |
+| N/A       |            |                                      |

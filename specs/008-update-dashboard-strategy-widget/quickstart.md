@@ -13,6 +13,7 @@
 ## Setup
 
 1. **Install dependencies**:
+
    ```bash
    pnpm install
    ```
@@ -27,9 +28,11 @@
 ### Frontend Development
 
 1. **Start the SvelteKit dev server**:
+
    ```bash
    npx @moonrepo/cli run sv-appshell:dev
    ```
+
    Access at: `http://localhost:5173` (or network IP if using WSL)
 
 2. **Watch for changes**:
@@ -39,9 +42,11 @@
 ### Backend Development
 
 1. **Start the API server**:
+
    ```bash
    npx @moonrepo/cli run ta-server:run
    ```
+
    API available at: `http://localhost:8080`
 
 2. **Regenerate Goa code** (after design changes):
@@ -54,6 +59,7 @@
 ### Running Both Servers
 
 Open two terminal windows:
+
 - **Terminal 1**: `npx @moonrepo/cli run ta-server:run`
 - **Terminal 2**: `npx @moonrepo/cli run sv-appshell:dev`
 
@@ -85,18 +91,21 @@ Open two terminal windows:
 ## Common Issues
 
 ### Port 5173 Already in Use
+
 ```bash
 # Kill existing Vite process
 pkill -f vite
 ```
 
 ### Port 8080 Already in Use
+
 ```bash
 # Kill existing Go process
 pkill -f ta-server
 ```
 
 ### WSL Localhost Access Issues
+
 - Use network IP instead: `http://172.25.122.170:5173`
 - Or ensure `vite.config.ts` has `server.host: true`
 

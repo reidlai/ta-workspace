@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "standardize to use slog as golang logging framework to integrate with OpenTelemetry, GCP Cloud Logging amd Monitoring, AWS Cloud Watch, FluenD, LogD, etc"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Structured Cloud Logging (Priority: P1)
 
@@ -50,7 +50,7 @@ As a Developer, I want a consistent logging interface across all modules (Portfo
 
 ---
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -72,12 +72,12 @@ As a Developer, I want a consistent logging interface across all modules (Portfo
 - Q: How should logs be exported to external systems (CloudWatch, GCP, etc.)? -> A: **Stdout/Stderr** (Write to standard output; rely on external agents like FluentD/OTel Collector to forward logs).
 - Q: What JSON schema should be used for cloud compatibility? -> A: **GCP/OTel Hybrid** (Remap keys for GCP compatibility while keeping standard structure).
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **Logger**: A configured `*slog.Logger` instance.
 - **LogRecord**: A structured log entry containing time, level, message, and attributes.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

@@ -1,0 +1,9 @@
+{
+    "name": "ta-server",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "build": "node scripts/go-wrapper.js build",
+        "test": "node scripts/go-wrapper.js test"
+    }
+}

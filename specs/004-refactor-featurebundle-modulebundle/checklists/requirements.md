@@ -6,7 +6,7 @@
 
 ## Content Quality
 
-- [x] No implementation details (languages, frameworks, APIs) - *Interface names are required for strict refactoring specs*
+- [x] No implementation details (languages, frameworks, APIs) - _Interface names are required for strict refactoring specs_
 - [x] Focused on user value and business needs
 - [x] Written for non-technical stakeholders
 - [x] All mandatory sections completed

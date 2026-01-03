@@ -2,7 +2,10 @@
   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
   import type { ComponentProps } from "svelte";
 
-  let { items, ...restProps }: { items: any[] } & ComponentProps<typeof Sidebar.Group> = $props();
+  let {
+    items,
+    ...restProps
+  }: { items: any[] } & ComponentProps<typeof Sidebar.Group> = $props();
 </script>
 
 <Sidebar.Group {...restProps}>

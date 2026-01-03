@@ -32,4 +32,3 @@
 ## Notes
 
 - Clarification resolved: Widget is strictly read-only (Option B).
-

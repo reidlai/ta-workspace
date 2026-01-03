@@ -9,14 +9,14 @@ No changes needed to module registration, but ensure your widget IDs are unique.
 ```typescript
 // modules/my-module/index.ts
 const myWidget: IWidget = {
-    id: 'my-unique-widget',
-    title: 'My Widget',
-    component: MyComponent
+  id: "my-unique-widget",
+  title: "My Widget",
+  component: MyComponent,
 };
 
 return {
-    id: 'my-module',
-    widgets: [myWidget]
+  id: "my-module",
+  widgets: [myWidget],
 };
 ```
 
@@ -25,19 +25,19 @@ return {
 Use the new `getWidget` method on the Registry singleton.
 
 ```typescript
-import { Registry } from '@core/registry';
+import { Registry } from "@core/registry";
 
 // Get the registry instance
 const registry = Registry.getInstance();
 
 // Retrieve by ID
-const widget = registry.getWidget('my-unique-widget');
+const widget = registry.getWidget("my-unique-widget");
 
 if (widget) {
-    console.log('Found widget:', widget.title);
-    // Render it
+  console.log("Found widget:", widget.title);
+  // Render it
 } else {
-    console.warn('Widget not found');
+  console.warn("Widget not found");
 }
 ```
 

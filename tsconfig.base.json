@@ -1,22 +1,12 @@
 {
-    "compilerOptions": {
-        "baseUrl": ".",
-        "paths": {
-            "@core/*": [
-                "./modules/core/ts/*"
-            ],
-            "@modules/watchlist-ts": [
-                "./modules/watchlist/ts/src/index.ts"
-            ],
-            "@modules/portfolio-ts": [
-                "./modules/portfolio/ts/src/index.ts"
-            ],
-            "@modules/demo-ts": [
-                "./modules/demo/ts/src/index.ts"
-            ],
-            "@ui/*": [
-                "./apps/sv-appshell/src/lib/components/ui/*"
-            ]
-        }
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@core/*": ["./modules/core/ts/*"],
+      "@modules/watchlist-ts": ["./modules/watchlist/ts/src/index.ts"],
+      "@modules/portfolio-ts": ["./modules/portfolio/ts/src/index.ts"],
+      "@modules/demo-ts": ["./modules/demo/ts/src/index.ts"],
+      "@ui/*": ["./apps/sv-appshell/src/lib/components/ui/*"]
     }
+  }
 }

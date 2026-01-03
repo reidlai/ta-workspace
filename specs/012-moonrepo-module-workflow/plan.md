@@ -21,7 +21,7 @@ Implement `moon add-module`, `moon rename-module`, and `moon delete-module` comm
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - [x] **Branching**: Feature branch `012-moonrepo-module-workflow` used.
 - [x] **Environments**: Local dev tool, no deployment to prod envs.

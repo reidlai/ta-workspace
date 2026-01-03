@@ -1,1 +1,202 @@
-{"openapi":"3.0.3","info":{"title":"Goa API","version":"0.0.1"},"servers":[{"url":"http://localhost:80","description":"Default server for watchlist"}],"paths":{"/watchlist":{"get":{"tags":["watchlist"],"summary":"list watchlist","operationId":"watchlist#list","parameters":[{"name":"X-User-ID","in":"header","description":"User ID","allowEmptyValue":true,"required":true,"schema":{"type":"string","description":"User ID","example":"Recusandae veniam enim aut."},"example":"Ullam officiis aut quo molestiae."}],"responses":{"200":{"description":"OK response.","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/TickerItem"},"example":[{"created_at":"2023-10-27T10:00:00Z","on_hand":true,"symbol":"AAPL"},{"created_at":"2023-10-27T10:00:00Z","on_hand":true,"symbol":"AAPL"}]},"example":[{"created_at":"2023-10-27T10:00:00Z","on_hand":true,"symbol":"AAPL"},{"created_at":"2023-10-27T10:00:00Z","on_hand":true,"symbol":"AAPL"},{"created_at":"2023-10-27T10:00:00Z","on_hand":true,"symbol":"AAPL"},{"created_at":"2023-10-27T10:00:00Z","on_hand":true,"symbol":"AAPL"}]}}}}},"post":{"tags":["watchlist"],"summary":"add watchlist","operationId":"watchlist#add","parameters":[{"name":"X-User-ID","in":"header","description":"User ID","allowEmptyValue":true,"required":true,"schema":{"type":"string","description":"User ID","example":"Fugit consequatur maiores sint dolor."},"example":"Facilis sed eos ut et."}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AddRequestBody"},"example":{"on_hand":false,"symbol":"Vel ea fugit et ab nobis."}}}},"responses":{"200":{"description":"OK response.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/TickerItem"},"example":{"created_at":"2023-10-27T10:00:00Z","on_hand":true,"symbol":"AAPL"}}}}}}},"/watchlist/{symbol}":{"delete":{"tags":["watchlist"],"summary":"remove watchlist","operationId":"watchlist#remove","parameters":[{"name":"symbol","in":"path","required":true,"schema":{"type":"string","example":"Expedita voluptas vel explicabo aliquam libero."},"example":"Aut dolorum in."},{"name":"X-User-ID","in":"header","description":"User ID","allowEmptyValue":true,"required":true,"schema":{"type":"string","description":"User ID","example":"In molestiae."},"example":"Nobis quia consequatur totam et."}],"responses":{"204":{"description":"No Content response."}}}}},"components":{"schemas":{"AddRequestBody":{"type":"object","properties":{"on_hand":{"type":"boolean","example":false},"symbol":{"type":"string","example":"Nemo magnam sint."}},"example":{"on_hand":false,"symbol":"Consequatur doloribus."},"required":["symbol","on_hand"]},"TickerItem":{"type":"object","properties":{"created_at":{"type":"string","description":"Creation timestamp","example":"2023-10-27T10:00:00Z","format":"date-time"},"on_hand":{"type":"boolean","description":"Whether user holds the stock","example":true},"symbol":{"type":"string","description":"Stock Symbol","example":"AAPL"}},"example":{"created_at":"2023-10-27T10:00:00Z","on_hand":true,"symbol":"AAPL"},"required":["symbol","on_hand"]}}},"tags":[{"name":"watchlist","description":"Manage user watchlist"}]}
+{
+  "openapi": "3.0.3",
+  "info": { "title": "Goa API", "version": "0.0.1" },
+  "servers": [
+    {
+      "url": "http://localhost:80",
+      "description": "Default server for watchlist"
+    }
+  ],
+  "paths": {
+    "/watchlist": {
+      "get": {
+        "tags": ["watchlist"],
+        "summary": "list watchlist",
+        "operationId": "watchlist#list",
+        "parameters": [
+          {
+            "name": "X-User-ID",
+            "in": "header",
+            "description": "User ID",
+            "allowEmptyValue": true,
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "User ID",
+              "example": "Recusandae veniam enim aut."
+            },
+            "example": "Ullam officiis aut quo molestiae."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/TickerItem" },
+                  "example": [
+                    {
+                      "created_at": "2023-10-27T10:00:00Z",
+                      "on_hand": true,
+                      "symbol": "AAPL"
+                    },
+                    {
+                      "created_at": "2023-10-27T10:00:00Z",
+                      "on_hand": true,
+                      "symbol": "AAPL"
+                    }
+                  ]
+                },
+                "example": [
+                  {
+                    "created_at": "2023-10-27T10:00:00Z",
+                    "on_hand": true,
+                    "symbol": "AAPL"
+                  },
+                  {
+                    "created_at": "2023-10-27T10:00:00Z",
+                    "on_hand": true,
+                    "symbol": "AAPL"
+                  },
+                  {
+                    "created_at": "2023-10-27T10:00:00Z",
+                    "on_hand": true,
+                    "symbol": "AAPL"
+                  },
+                  {
+                    "created_at": "2023-10-27T10:00:00Z",
+                    "on_hand": true,
+                    "symbol": "AAPL"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["watchlist"],
+        "summary": "add watchlist",
+        "operationId": "watchlist#add",
+        "parameters": [
+          {
+            "name": "X-User-ID",
+            "in": "header",
+            "description": "User ID",
+            "allowEmptyValue": true,
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "User ID",
+              "example": "Fugit consequatur maiores sint dolor."
+            },
+            "example": "Facilis sed eos ut et."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AddRequestBody" },
+              "example": {
+                "on_hand": false,
+                "symbol": "Vel ea fugit et ab nobis."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK response.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TickerItem" },
+                "example": {
+                  "created_at": "2023-10-27T10:00:00Z",
+                  "on_hand": true,
+                  "symbol": "AAPL"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/watchlist/{symbol}": {
+      "delete": {
+        "tags": ["watchlist"],
+        "summary": "remove watchlist",
+        "operationId": "watchlist#remove",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Expedita voluptas vel explicabo aliquam libero."
+            },
+            "example": "Aut dolorum in."
+          },
+          {
+            "name": "X-User-ID",
+            "in": "header",
+            "description": "User ID",
+            "allowEmptyValue": true,
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "User ID",
+              "example": "In molestiae."
+            },
+            "example": "Nobis quia consequatur totam et."
+          }
+        ],
+        "responses": { "204": { "description": "No Content response." } }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddRequestBody": {
+        "type": "object",
+        "properties": {
+          "on_hand": { "type": "boolean", "example": false },
+          "symbol": { "type": "string", "example": "Nemo magnam sint." }
+        },
+        "example": { "on_hand": false, "symbol": "Consequatur doloribus." },
+        "required": ["symbol", "on_hand"]
+      },
+      "TickerItem": {
+        "type": "object",
+        "properties": {
+          "created_at": {
+            "type": "string",
+            "description": "Creation timestamp",
+            "example": "2023-10-27T10:00:00Z",
+            "format": "date-time"
+          },
+          "on_hand": {
+            "type": "boolean",
+            "description": "Whether user holds the stock",
+            "example": true
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Stock Symbol",
+            "example": "AAPL"
+          }
+        },
+        "example": {
+          "created_at": "2023-10-27T10:00:00Z",
+          "on_hand": true,
+          "symbol": "AAPL"
+        },
+        "required": ["symbol", "on_hand"]
+      }
+    }
+  },
+  "tags": [{ "name": "watchlist", "description": "Manage user watchlist" }]
+}

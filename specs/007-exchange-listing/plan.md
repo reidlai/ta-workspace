@@ -17,11 +17,11 @@ Implement a new Goa-based microservice within `modules/watchlist/go` to serve th
 **Project Type**: Monorepo Go Module (Goa service)  
 **Performance Goals**: <100ms API response time (data is in RAM)  
 **Constraints**: Bundled CSV must be <1MB, Startup "Fail Fast" if CSV is invalid  
-**Scale/Scope**: ~1,500 Operating MICs, <200KB memory footprint  
+**Scale/Scope**: ~1,500 Operating MICs, <200KB memory footprint
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 - [x] **Monorepo Authority**: Using Moonrepo for build and task management.
 - [x] **Tech Stack**: Using Authorized Golang for backend.
@@ -45,6 +45,7 @@ specs/[###-feature]/
 ```
 
 ### Source Code (repository root)
+
 <!--
   ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
   for this feature. Delete unused options and expand the chosen structure with
@@ -95,7 +96,7 @@ directories captured above]
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Violation                  | Why Needed         | Simpler Alternative Rejected Because |
+| -------------------------- | ------------------ | ------------------------------------ |
+| [e.g., 4th project]        | [current need]     | [why 3 projects insufficient]        |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient]  |

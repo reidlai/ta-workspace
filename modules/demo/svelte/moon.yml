@@ -1,14 +1,12 @@
-language: 'typescript'
-type: 'library'
-id: 'svelte-demo'
-
-
+language: "typescript"
+type: "library"
+id: "svelte-demo"
 
 tasks:
   build:
-    command: 'pnpm run build'
+    command: "pnpm run build"
     inputs:
-      - 'src/**/*'
-      - 'tsconfig.json'
+      - "src/**/*"
+      - "tsconfig.json"
     outputs:
-      - 'dist'
+      - "dist"

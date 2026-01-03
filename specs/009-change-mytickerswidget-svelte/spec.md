@@ -16,6 +16,7 @@ As a dashboard user, I want to see the total count of tickers in my watchlist fo
 **Independent Test**: Can be tested by checking if the widget renders a ShadCN Card containing the correct count of tickers and no input fields.
 
 **Acceptance Scenarios**:
+
 1. **Given** a watchlist with 5 tickers, **When** the dashboard loads, **Then** the MyTickers widget displays "5" (or "5 watched") prominently.
 2. **Given** the widget is displayed, **When** inspecting the DOM, **Then** it uses ShadCN `Card` components (`Card.Root`, `Card.Header`, `Card.Content`).
 3. **Given** the widget is displayed, **When** checking for interactive elements, **Then** NO input fields or "Add" buttons are present.
@@ -31,9 +32,10 @@ As a user, I want to see the list of tickers I am watching within the card, so t
 **Independent Test**: Can be tested by verifying the list of tickers appears inside the card content.
 
 **Acceptance Scenarios**:
+
 1. **Given** a watchlist with tickers "AAPL" and "GOOGL", **When** viewing the widget, **Then** "AAPL" and "GOOGL" are listed.
-2. **Given** the list is displayed, **When** interacting, **Then** there is no option to add new tickers (only potentially remove, if consistent with "without data entry" - assuming "data entry" means *input*, but removal might be preserved or removed. Default to keeping removal as it's not "entry").
-   - *Refinement*: User selected **Strictly Read-Only**. No "Remove" button will be shown.
+2. **Given** the list is displayed, **When** interacting, **Then** there is no option to add new tickers (only potentially remove, if consistent with "without data entry" - assuming "data entry" means _input_, but removal might be preserved or removed. Default to keeping removal as it's not "entry").
+   - _Refinement_: User selected **Strictly Read-Only**. No "Remove" button will be shown.
 
 ### Edge Cases
 
@@ -60,7 +62,6 @@ As a user, I want to see the list of tickers I am watching within the card, so t
 
 - Data entry (Add/Remove) is performed on dedicated pages within the `modules/watchlist` scope, not this widget.
 - **Exchange Attribution**: Since `TickerItem` currently lacks exchange data, the widget will use a **Static Mapping** (e.g., AAPL -> "NASDAQ") on the frontend to derive the count. These exchange names MUST align with the **ISO 10383 MIC** standard established in Feature 007.
-
 
 ## Success Criteria
 

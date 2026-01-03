@@ -15,12 +15,16 @@
   "pnpm": {
     "overrides": {
       "cookie": "^0.7.0"
-    }
+    },
+    "ignoredBuiltDependencies": [
+      "esbuild"
+    ]
   },
   "engines": {
     "node": "~20"
   },
   "devDependencies": {
     "@moonrepo/cli": "^1.41.7"
-  }
+  },
+  "packageManager": "pnpm@10.26.2"
 }

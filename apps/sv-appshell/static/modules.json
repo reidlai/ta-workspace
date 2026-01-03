@@ -1,19 +1,19 @@
 {
-    "modules": [
-        {
-            "id": "demo-module",
-            "enabled": true,
-            "src": "demo"
-        },
-        {
-            "id": "watchlist-module",
-            "enabled": true,
-            "src": "watchlist"
-        },
-        {
-            "id": "portfolio-module",
-            "enabled": true,
-            "src": "portfolio"
-        }
-    ]
+  "modules": [
+    {
+      "id": "demo-module",
+      "enabled": true,
+      "src": "demo"
+    },
+    {
+      "id": "watchlist-module",
+      "enabled": true,
+      "src": "watchlist"
+    },
+    {
+      "id": "portfolio-module",
+      "enabled": true,
+      "src": "portfolio"
+    }
+  ]
 }
