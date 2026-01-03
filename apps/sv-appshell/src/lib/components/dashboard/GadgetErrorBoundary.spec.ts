@@ -10,17 +10,17 @@ describe("GadgetErrorBoundary", () => {
 
   it("should handle error state management", () => {
     // Test the error handling logic exists using Svelte 5 mount API
-    const exports: { setError?: (e: Error) => void } = {};
+    // In Svelte 5, mount() returns the component's exports directly
     const component = mount(GadgetErrorBoundary, {
       target: document.createElement("div"),
       props: {
         gadgetTitle: "Test Gadget",
       },
-      exports,
     });
 
     expect(component).toBeDefined();
-    expect(typeof exports.setError).toBe("function");
+    // The component object contains the exported setError function
+    expect(typeof (component as { setError?: (e: Error) => void }).setError).toBe("function");
 
     unmount(component);
   });
