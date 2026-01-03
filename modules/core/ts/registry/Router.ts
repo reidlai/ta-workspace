@@ -17,6 +17,7 @@ export class RouterService {
         const modules = this.registry.getModules();
 
         for (const module of modules) {
+            if (!module.routes) continue;
             for (const route of module.routes) {
                 const params = this.matchPath(route.path, path);
                 if (params) {

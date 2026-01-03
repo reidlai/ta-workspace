@@ -12,16 +12,16 @@
   <Sidebar.Menu>
     {#each items as item (item.title)}
       <Sidebar.MenuItem>
-          <Sidebar.MenuButton tooltip={item.title}>
-            {#snippet child({ props })}
-              <a href={item.url} {...props}>
-                {#if item.icon}
-                  <item.icon />
-                {/if}
-                <span>{item.title}</span>
-              </a>
-            {/snippet}
-          </Sidebar.MenuButton>
+        <Sidebar.MenuButton tooltipContent={item.title}>
+          {#snippet child({ props })}
+            <a href={item.url} {...props}>
+              {#if item.icon}
+                <item.icon />
+              {/if}
+              <span>{item.title}</span>
+            </a>
+          {/snippet}
+        </Sidebar.MenuButton>
       </Sidebar.MenuItem>
     {/each}
   </Sidebar.Menu>

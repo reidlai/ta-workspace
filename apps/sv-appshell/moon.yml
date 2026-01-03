@@ -9,7 +9,10 @@ tasks:
     local: true
 
   build:
-    command: 'npx vite build'
+    command:
+      - 'pnpm'
+      - 'run'
+      - 'build'
     inputs:
       - 'src/**/*'
       - 'static/**/*'
@@ -20,10 +23,10 @@ tasks:
       - '.svelte-kit'
 
   test:
-    command: 'vitest run'
+    command: 'pnpm run test:unit'
     inputs:
       - 'src/**/*'
       - 'tests/**/*'
 
   lint:
-    command: 'svelte-check --tsconfig ./tsconfig.json'
+    command: 'pnpm run lint'

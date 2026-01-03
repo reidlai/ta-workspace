@@ -17,6 +17,7 @@ export interface IWidget {
     id: string;
     title: string;
     description?: string;
+    icon?: string;
     /** The actual Svelte component constructor/class */
     component: any;
     /** Suggested location: 'dashboard', 'sidebar', 'header' */

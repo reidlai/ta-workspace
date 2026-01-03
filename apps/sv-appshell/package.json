@@ -10,10 +10,13 @@
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"test:unit": "vitest run"
+		"test:unit": "vitest run",
+		"lint": "pnpm run check"
 	},
 	"devDependencies": {
 		"@cucumber/cucumber": "^12.5.0",
+		"@internationalized/date": "^3.10.1",
+		"@lucide/svelte": "^0.561.0",
 		"@playwright/test": "^1.57.0",
 		"@sveltejs/adapter-node": "^5.4.0",
 		"@sveltejs/kit": "^2.49.2",
@@ -40,9 +43,9 @@
 		"vitest": "^4.0.16"
 	},
 	"dependencies": {
-		"@core/types": "workspace:*",
 		"@core/di": "workspace:*",
 		"@core/registry": "workspace:*",
+		"@core/types": "workspace:*",
 		"rxjs": "^7.8.1"
 	}
 }
