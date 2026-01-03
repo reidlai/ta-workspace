@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { mount, unmount } from "svelte";
 import GadgetErrorBoundary from "./GadgetErrorBoundary.svelte";
 
 describe("GadgetErrorBoundary", () => {
@@ -8,24 +9,24 @@ describe("GadgetErrorBoundary", () => {
   });
 
   it("should handle error state management", () => {
-    // Test the error handling logic exists
-    // Note: Full component testing with Svelte 5 requires updated testing library
-    // For now, we verify the component structure and exported methods
-    const component = new GadgetErrorBoundary({
+    // Test the error handling logic exists using Svelte 5 mount API
+    const exports: { setError?: (e: Error) => void } = {};
+    const component = mount(GadgetErrorBoundary, {
       target: document.createElement("div"),
       props: {
         gadgetTitle: "Test Gadget",
       },
+      exports,
     });
 
     expect(component).toBeDefined();
-    expect(typeof component.setError).toBe("function");
+    expect(typeof exports.setError).toBe("function");
 
-    component.$destroy();
+    unmount(component);
   });
 
   it("should accept gadgetTitle prop", () => {
-    const component = new GadgetErrorBoundary({
+    const component = mount(GadgetErrorBoundary, {
       target: document.createElement("div"),
       props: {
         gadgetTitle: "Custom Gadget",
@@ -33,6 +34,6 @@ describe("GadgetErrorBoundary", () => {
     });
 
     expect(component).toBeDefined();
-    component.$destroy();
+    unmount(component);
   });
 });
