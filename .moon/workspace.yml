@@ -9,3 +9,10 @@ projects:
 vcs:
   manager: 'git'
   defaultBranch: 'main'
+
+# Unix/Linux/macOS only - Windows not supported
+constraints:
+  enforceCleanWorkingDirectory: false
+
+runner:
+  archivableTargets: []
