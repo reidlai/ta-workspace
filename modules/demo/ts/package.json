@@ -3,6 +3,11 @@
     "version": "0.0.1",
     "type": "module",
     "main": "./src/index.ts",
+    "scripts": {
+        "build": "echo 'No build needed'",
+        "test": "echo 'No tests'",
+        "lint": "echo 'No lint'"
+    },
     "dependencies": {
         "rxjs": "^7.8.1"
     }

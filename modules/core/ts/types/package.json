@@ -4,7 +4,9 @@
     "main": "index.ts",
     "types": "index.ts",
     "scripts": {
-        "build": "node ../../../../node_modules/typescript/bin/tsc --noEmit"
+        "build": "node ../../../../node_modules/typescript/bin/tsc --noEmit",
+        "test": "echo 'No tests'",
+        "lint": "echo 'No lint'"
     },
     "devDependencies": {
         "typescript": "^5.0.0"

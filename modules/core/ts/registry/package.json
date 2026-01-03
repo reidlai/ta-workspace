@@ -3,6 +3,11 @@
     "version": "0.0.1",
     "main": "index.ts",
     "types": "index.ts",
+    "scripts": {
+        "build": "echo 'No build needed'",
+        "test": "echo 'No tests'",
+        "lint": "echo 'No lint'"
+    },
     "dependencies": {
         "@core/types": "workspace:*"
     }

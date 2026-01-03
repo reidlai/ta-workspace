@@ -39,3 +39,7 @@ tasks:
     env:
       TA_SERVER_LOG_LEVEL: 'DEBUG'
       TA_SERVER_LOG_FORMAT: 'text'
+
+  lint:
+    command: 'echo "Linting not configured for Go yet"'
+    platform: 'system'

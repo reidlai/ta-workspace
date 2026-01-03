@@ -9,7 +9,9 @@
         ".": "./src/index.ts"
     },
     "scripts": {
-        "build": "echo 'No build needed - exports source files for Vite compilation'"
+        "build": "echo 'No build needed - exports source files for Vite compilation'",
+        "test": "echo 'No tests'",
+        "lint": "echo 'No lint'"
     },
     "dependencies": {
         "@core/types": "workspace:*",
