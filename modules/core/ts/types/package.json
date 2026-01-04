@@ -4,7 +4,7 @@
   "main": "index.ts",
   "types": "index.ts",
   "scripts": {
-    "build": "node ../../../../node_modules/typescript/bin/tsc --noEmit",
+    "build": "tsc --noEmit",
     "test": "echo 'No tests'",
     "lint": "echo 'No lint'"
   },

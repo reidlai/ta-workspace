@@ -4,6 +4,10 @@ projects:
   - 'apps/*'
   - 'modules/demo/*'
   - 'modules/core/ts/*'
+  - 'modules/portfolio/ts'
+  - 'modules/portfolio/svelte'
+  - 'modules/watchlist/ts'
+  - 'modules/watchlist/svelte'
   - 'scripts/*'
 
 vcs:

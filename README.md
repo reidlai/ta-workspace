@@ -196,6 +196,8 @@ Manage feature modules globally across the monorepo:
 - **Rename Module**: `npx @moonrepo/cli run :rename-module`
   - Renames a module and refactors internal references
 
+> **Note**: If you manually add modules using `git submodule`, you must update `.moon/workspace.yml` and potentially resolve Project ID collisions manually. See [Monorepo Architecture](docs/MONOREPO-ARCHITECTURE.md#manual-module-configuration).
+
 > **Note**: The `:build` command compiles projects but does **not** start a development server.
 
 ## Applications

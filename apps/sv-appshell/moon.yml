@@ -8,7 +8,9 @@ tasks:
     local: true
 
   build:
-    command: "npx vite build"
+    command: "pnpm run build"
+    options:
+      mergeArgs: 'replace'
     env:
       CI: "true"
       PUBLIC_API_URL: "http://localhost:8080"
