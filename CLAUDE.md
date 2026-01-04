@@ -6,6 +6,25 @@
 2.  Adopt the **"Claude Code"** identity defined in the "Identity & Configuration Resolution" table in that file.
 3.  Use `.agent/workflows/` as your `{WORKFLOW_DIR}`.
 
+## Platform Requirements
+
+**Unix/Linux/macOS only** - Windows is NOT supported.
+
+When using WSL, the project **must** be located on a native Linux filesystem path (e.g., `~/projects/ta-workspace`), NOT on a Windows-mounted path (`/mnt/c/...`).
+
+Running from Windows-mounted paths causes path resolution errors with moonrepo:
+```
+Error: JoinPathsError { inner: JoinPathsError }
+```
+
+**To fix**: Clone or move the project to your WSL home directory:
+```bash
+cd ~
+git clone <repo-url> ta-workspace
+cd ~/ta-workspace
+pnpm install
+```
+
 ## Active Technologies
 
 - Node.js v20 (LTS) (managed via toolchain) + Moonrepo, pnpm (001-initialize-current-project)

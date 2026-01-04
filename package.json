@@ -7,10 +7,13 @@
     "modules/core/ts/*",
     "scripts/*"
   ],
+  "os": ["!win32"],
   "scripts": {
+    "preinstall": "./scripts/check-platform.sh",
     "moon": "moon",
-    "setup": "moon setup",
-    "ci": "moon ci"
+    "setup": "./scripts/check-platform.sh && moon setup",
+    "ci": "moon ci",
+    "check-platform": "./scripts/check-platform.sh"
   },
   "pnpm": {
     "overrides": {
