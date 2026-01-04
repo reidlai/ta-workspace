@@ -123,13 +123,29 @@ Each module (e.g., `modules/watchlist`) is composed of several configuration fil
    pnpm install
    ```
 
-2. **Setup Workspace**:
+2. **Configure Environment**:
+
+   Create a `.env` file for the SvelteKit app:
+
+   ```bash
+   cp apps/sv-appshell/.env.example apps/sv-appshell/.env
+   ```
+
+   Then edit `apps/sv-appshell/.env` and set the API URL:
+
+   ```bash
+   PUBLIC_API_URL=http://localhost:8080
+   ```
+
+   > **Note**: The `.env` file is gitignored and contains environment-specific values. Each developer needs to create their own.
+
+3. **Setup Workspace**:
 
    ```bash
    npx @moonrepo/cli setup
    ```
 
-3. **Verify Configuration**:
+4. **Verify Configuration**:
    ```bash
    npx @moonrepo/cli project-graph
    ```
@@ -137,13 +153,23 @@ Each module (e.g., `modules/watchlist`) is composed of several configuration fil
 
 ## Quick Start
 
-For most developers, you'll want to start the development server:
+> **Prerequisites**: Make sure you've completed the [Getting Started](#getting-started) steps, especially the environment configuration.
+
+Start both the frontend and backend development servers:
 
 ```bash
-npx @moonrepo/cli run sv-appshell:dev
+npx @moonrepo/cli run :dev
 ```
 
-Then open **http://localhost:5173** in your browser to see the app.
+This will start:
+- **Frontend (sv-appshell)**: http://localhost:5173
+- **Backend (ta-server)**: http://localhost:8080
+
+Then open the app in your browser:
+- **Native Linux/macOS**: http://localhost:5173
+- **WSL (Windows)**: Use the network IP shown in the Vite output (e.g., `http://172.x.x.x:5173/`)
+  - The Vite dev server will display available network URLs when it starts
+  - Look for the line starting with `➜  Network:`
 
 ## Development
 
@@ -259,9 +285,12 @@ npx @moonrepo/cli project-graph  # Verify configuration
 ### Daily Development
 
 ```bash
-npx @moonrepo/cli run sv-appshell:dev  # Start dev server
-# Open http://localhost:5173 in browser
+npx @moonrepo/cli run :dev  # Start both frontend and backend
 ```
+
+Open in browser:
+- Native: http://localhost:5173
+- WSL: Check terminal output for network IP (e.g., `http://172.x.x.x:5173/`)
 
 ### Before Committing
 
