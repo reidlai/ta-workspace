@@ -8,7 +8,7 @@
   let moduleComponent: any = null;
   let error: string | null = null;
 
-  import { Registry } from "@core/registry";
+  import { Registry } from "virtual-module-core/registry";
 
   onMount(async () => {
     const path = $page.url.pathname;

@@ -3,8 +3,8 @@ import type {
   IContext,
   IModuleBundle,
   ModuleInit,
-} from "@core/types";
-import { Registry } from "@core/registry"; // For typing, though we might not use it directly
+} from "virtual-module-core/types";
+import { Registry } from "virtual-module-core/registry"; // For typing, though we might not use it directly
 
 export class ModuleLoader {
   // Glob pattern to find module entry points across the workspace

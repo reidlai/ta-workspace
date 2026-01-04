@@ -1,4 +1,4 @@
-import type { IModuleBundle } from "@core/types";
+import type { IModuleBundle } from "virtual-module-core/types";
 import MyTickersWidget from "./widgets/MyTickersWidget.svelte";
 
 const bundle: IModuleBundle = {

@@ -1,9 +1,9 @@
 import { PUBLIC_API_URL } from "$env/static/public";
 import { dev } from "$app/environment";
-import { Registry } from "@core/registry";
-import { DIContainer } from "@core/di";
+import { Registry } from "virtual-module-core/registry";
+import { DIContainer } from "virtual-module-core/di";
 import type { LayoutLoad } from "./$types";
-import type { IAppConfig } from "@core/types";
+import type { IAppConfig } from "virtual-module-core/types";
 import { ModuleLoader } from "$lib/loader/ModuleLoader";
 
 export const ssr = false; // Disable SSR for MVP to avoid singleton state issues across requests for now

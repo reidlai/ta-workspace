@@ -114,12 +114,12 @@ Middleware that enforces logic specific to a domain should be defined within tha
 - **Examples**: `ValidateTickerExists`, `CheckWatchlistOwnership`, `FormatInsightOutput`.
 - **Rationale**: Keeps business rules co-located with the logic they protect. This supports the **Common Closure Principle** (what changes together should live together).
 
-### 3. Shared Middleware Utilities → `modules/core/go/middleware` (Future)
+### 3. Shared Middleware Utilities → `virtual-module-core` package
 
-Reusable middleware components that are not domain-specific but are common across multiple applications within the monorepo.
+Reusable middleware components that are not domain-specific but are common across multiple applications within the monorepo are now provided by the `virtual-module-core` package.
 
 - **Examples**: Custom Auth adapters, Standardized error formatters, Rate limiting logic.
-- **Rationale**: Promotes **Reusability** while keeping the applications decoupled from specific implementations.
+- **Rationale**: Promotes **Reusability** while keeping the applications decoupled from specific implementations. The `virtual-module-core` package is maintained separately and can be versioned independently.
 
 ### Implementation Tip
 

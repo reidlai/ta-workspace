@@ -17,18 +17,12 @@ importers:
 
   apps/sv-appshell:
     dependencies:
-      '@core/di':
-        specifier: workspace:*
-        version: link:../../modules/core/ts/di
-      '@core/registry':
-        specifier: workspace:*
-        version: link:../../modules/core/ts/registry
-      '@core/types':
-        specifier: workspace:*
-        version: link:../../modules/core/ts/types
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
+      virtual-module-core:
+        specifier: github:reidlai/virtual-module-core
+        version: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/e60cb8876c09e39dc8363125327645e5853ccb3d
     devDependencies:
       '@cucumber/cucumber':
         specifier: ^12.5.0
@@ -114,35 +108,14 @@ importers:
 
   apps/ta-server: {}
 
-  modules/core/ts/di:
-    dependencies:
-      '@core/types':
-        specifier: workspace:*
-        version: link:../types
-
-  modules/core/ts/registry:
-    dependencies:
-      '@core/types':
-        specifier: workspace:*
-        version: link:../types
-
-  modules/core/ts/types:
-    devDependencies:
-      typescript:
-        specifier: ^5.0.0
-        version: 5.9.3
-
   modules/demo/svelte:
     dependencies:
-      '@core/registry':
-        specifier: workspace:*
-        version: link:../../core/ts/registry
-      '@core/types':
-        specifier: workspace:*
-        version: link:../../core/ts/types
       '@modules/demo-ts':
         specifier: workspace:*
         version: link:../ts
+      virtual-module-core:
+        specifier: github:reidlai/virtual-module-core
+        version: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/e60cb8876c09e39dc8363125327645e5853ccb3d
     devDependencies:
       svelte:
         specifier: ^5.0.0
@@ -162,6 +135,9 @@ importers:
       '@modules/portfolio-ts':
         specifier: workspace:*
         version: link:../ts
+      virtual-module-core:
+        specifier: github:reidlai/virtual-module-core
+        version: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/e60cb8876c09e39dc8363125327645e5853ccb3d
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: ^7.0.0
@@ -224,10 +200,19 @@ importers:
       '@modules/watchlist-ts':
         specifier: workspace:*
         version: link:../ts
+      virtual-module-core:
+        specifier: github:reidlai/virtual-module-core
+        version: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/e60cb8876c09e39dc8363125327645e5853ccb3d
     devDependencies:
       svelte:
         specifier: ^5.0.0
         version: 5.46.1
+      typescript:
+        specifier: ^5.4.5
+        version: 5.9.3
+      vite:
+        specifier: ^5.2.0
+        version: 5.4.21(@types/node@20.19.27)(lightningcss@1.30.2)
 
   modules/watchlist/ts:
     dependencies:
@@ -2797,6 +2782,10 @@ packages:
 
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
+
+  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/e60cb8876c09e39dc8363125327645e5853ccb3d:
+    resolution: {tarball: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/e60cb8876c09e39dc8363125327645e5853ccb3d}
+    version: 0.1.0
 
   vite-node@1.6.1:
     resolution: {integrity: sha512-YAXkfvGtuTzwWbDSACdJSg4A4DZiAqckWe90Zapc/sEX3XvHcw1NdurM/6od8J207tSDqNbSsgdCacBgvJKFuA==}
@@ -5463,6 +5452,8 @@ snapshots:
     dependencies:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
+
+  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/e60cb8876c09e39dc8363125327645e5853ccb3d: {}
 
   vite-node@1.6.1(@types/node@20.19.27)(lightningcss@1.30.2):
     dependencies:

@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import type { IThemeConfig } from "@core/types";
+import type { IThemeConfig } from "virtual-module-core/types";
 
 const initialState: IThemeConfig = {
   mode: "system",

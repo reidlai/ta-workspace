@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { IWidget } from "@core/types";
-  import { gadgetRegistry } from "@core/registry";
+  import type { IWidget } from "virtual-module-core/types";
+  import { gadgetRegistry } from "$lib/registry";
   import * as Card from "$lib/components/ui/card";
   import GadgetErrorBoundary from "./GadgetErrorBoundary.svelte";
   import { cn } from "$lib/utils";

@@ -14,8 +14,7 @@
     "lint": "echo 'No lint'"
   },
   "dependencies": {
-    "@core/types": "workspace:*",
-    "@core/registry": "workspace:*",
+    "virtual-module-core": "github:reidlai/virtual-module-core",
     "@modules/demo-ts": "workspace:*"
   },
   "devDependencies": {

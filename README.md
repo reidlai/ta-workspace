@@ -45,7 +45,7 @@ A **Go**-based API server leveraging the **Goa Framework**.
 
 ## Virtual Module Injection Architecture
 
-The AppShell uses a **Virtual Module Pattern** to dynamically inject features at runtime, enabling a loose coupling between the host application and feature packages.
+The AppShell uses a **Virtual Module Pattern** to dynamically inject features at runtime, enabling a loose coupling between the host application and feature packages. Core interfaces and utilities are provided by the [`virtual-module-core`](https://github.com/reidlai/virtual-module-core) package.
 
 ### How It Works
 
@@ -59,14 +59,16 @@ The AppShell uses a **Virtual Module Pattern** to dynamically inject features at
     }
     ```
 2.  **Discovery**: At build/runtime, the `ModuleLoader` uses `import.meta.glob` to find all available modules in the workspace matching the pattern `modules/*/*/src/index.ts`. It matches these against the `src` property from the configuration.
-3.  **Initialization**: Each found module exports an `init()` function that returns an `IModuleBundle`.
-4.  **Registration**: The returned bundle is registered with the **Registry Singleton**, making its widgets, routes, and services available to the AppShell.
+3.  **Initialization**: Each found module exports an `init()` function that returns an `IModuleBundle` (defined in [`virtual-module-core`](https://github.com/reidlai/virtual-module-core)).
+4.  **Registration**: The returned bundle is registered with the **Registry Singleton** (from `virtual-module-core`), making its widgets, routes, and services available to the AppShell.
 
 ### Code Example
 
 **1. Module Definition (`modules/watchlist/svelte/src/index.ts`):**
 
 ```typescript
+import type { ModuleInit } from "virtual-module-core/types";
+
 export const init: ModuleInit = async (context) => {
   return {
     id: "watchlist",
@@ -86,7 +88,7 @@ export const init: ModuleInit = async (context) => {
 
 ```svelte
 <script>
-  import { Registry } from "@core/registry";
+  import { Registry } from "virtual-module-core/registry";
   const registry = Registry.getInstance();
   const myTickersWidget = registry.getWidget("my-tickers");
 </script>

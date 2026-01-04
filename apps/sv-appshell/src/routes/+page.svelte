@@ -1,7 +1,7 @@
 <script lang="ts">
   import ChartAreaInteractive from "$lib/components/chart-area-interactive.svelte";
   import DataTable from "$lib/components/data-table.svelte";
-  import { Registry } from "@core/registry";
+  import { Registry } from "virtual-module-core/registry";
 
   // Registry.getInstance() is a singleton. It returns the SAME instance initialized
   // in +layout.ts, so we have access to all the widgets loaded there.

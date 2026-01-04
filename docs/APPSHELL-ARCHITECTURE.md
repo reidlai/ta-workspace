@@ -8,7 +8,7 @@ The AppShell pattern provides a **host application** that loads and orchestrates
 
 - **Modularity**: Features are developed independently in `modules/`
 - **Composition**: Apps in `apps/` compose modules as needed
-- **Shared Core**: Common types and utilities live in `modules/core/`
+- **Shared Core**: Common types and utilities provided by `virtual-module-core` package
 
 ```mermaid
 flowchart TD
@@ -18,14 +18,19 @@ flowchart TD
     end
 
     subgraph Modules["modules/"]
-        Core[core/ts<br/>Types, Registry]
         WL[watchlist<br/>go/, ts/, svelte/]
         PF[portfolio<br/>go/, ts/, svelte/]
+    end
+    
+    subgraph External["External Packages"]
+        Core[virtual-module-core<br/>Types, Registry, DI]
     end
 
     SV -->|imports| Core
     SV -->|loads| WL
     SV -->|loads| PF
+    WL --> |imports| Core
+    PF --> |imports| Core
     TA -->|imports| WL
     TA -->|imports| PF
 ```
@@ -61,7 +66,7 @@ static async loadModules(context: IContext, config: IAppConfig[]): Promise<void>
 
 ### Registry Singleton
 
-[Registry.ts](file:///c:/Users/reidl/GitLocal/ta-workspace/modules/core/ts/registry/Registry.ts) stores all registered modules:
+The `Registry` class from `virtual-module-core` stores all registered modules:
 
 ```typescript
 export class Registry {
@@ -90,7 +95,7 @@ export class Registry {
 
 ## Virtual Module Interfaces
 
-All modules implement [IModuleBundle](file:///c:/Users/reidl/GitLocal/ta-workspace/modules/core/ts/types/index.ts):
+All modules implement `IModuleBundle` from `virtual-module-core/types`:
 
 ```typescript
 export interface IModuleBundle {

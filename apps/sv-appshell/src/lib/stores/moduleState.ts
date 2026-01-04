@@ -1,5 +1,5 @@
 import { writable, type Writable } from "svelte/store";
-import type { IModuleState } from "@core/types";
+import type { IModuleState } from "virtual-module-core/types";
 
 class ModuleStateStore {
   private channels: Map<string, Writable<any>> = new Map();

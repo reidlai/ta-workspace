@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { gadgetRegistry } from "@core/registry";
+  import { Registry } from "virtual-module-core/registry";
+  const gadgetRegistry = Registry.getInstance();
   import { onDestroy } from "svelte";
 
   // Access shared state store via Registry (Service Locator pattern)

@@ -4,10 +4,11 @@
   "workspaces": [
     "apps/*",
     "modules/demo/*",
-    "modules/core/ts/*",
     "scripts/*"
   ],
-  "os": ["!win32"],
+  "os": [
+    "!win32"
+  ],
   "scripts": {
     "preinstall": "./scripts/check-platform.sh",
     "moon": "moon",
