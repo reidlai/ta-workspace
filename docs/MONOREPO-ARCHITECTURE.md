@@ -53,3 +53,28 @@ We also provide global automation tasks for managing the module lifecycle:
 - **`rename-module`**: Renames a module, moving the submodule and refactoring internal imports/names.
 
 Usage: `moon run :add-module -- <args>`
+
+## Manual Module Configuration
+
+If you choose to add modules manually (e.g., using `git submodule add` instead of the `:add-module` task), you must perform the following configuration steps to ensure Moonrepo recognizes the new projects:
+
+1.  **Update Workspace Config**: Add the new module paths to `.moon/workspace.yml` under `projects`.
+    ```yaml
+    projects:
+      - 'modules/my-new-module/ts'
+      - 'modules/my-new-module/svelte'
+    ```
+2.  **Resolve Project ID Collisions**: Moonrepo defaults the project ID to the folder name (e.g., `ts`). If multiple modules have a `ts` folder, you must create a `moon.yml` in each folder to define a unique `id`.
+    ```yaml
+    # modules/watchlist/ts/moon.yml
+    $schema: 'https://moonrepo.dev/schemas/project.json'
+    id: 'watchlist-ts'
+    ```
+3.  **Configure Build Outputs**: If a project does not have a build script that produces artifacts (e.g., just type checking), explicitly set empty outputs to avoid "missing output" errors.
+    ```yaml
+    tasks:
+      build:
+        outputs: []
+        options:
+          mergeOutputs: 'replace'
+    ```

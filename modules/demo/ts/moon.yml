@@ -1,5 +1,5 @@
 $schema: 'https://moonrepo.dev/schemas/project.json'
-id: 'svelte-demo'
+id: 'demo-ts'
 
 tasks:
   build:

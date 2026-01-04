@@ -1,6 +1,3 @@
-$schema: 'https://moonrepo.dev/schemas/project.json'
-id: 'svelte-demo'
-
 tasks:
   build:
     outputs: []
