@@ -3,7 +3,6 @@ $schema: 'https://moonrepo.dev/schemas/workspace.json'
 projects:
   - 'apps/*'
   - 'modules/demo/*'
-  - 'modules/core/ts/*'
   - 'modules/portfolio/ts'
   - 'modules/portfolio/svelte'
   - 'modules/watchlist/ts'
