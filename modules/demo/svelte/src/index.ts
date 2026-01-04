@@ -1,10 +1,8 @@
 import DemoPage from "./pages/DemoPage.svelte";
 import DemoWidget from "./widgets/DemoWidget.svelte";
-import { DemoService, demoService } from "@modules/demo/ts";
-import { gadgetRegistry } from "@core/registry";
+import { DemoService, demoService } from "@modules/demo-ts";
 
-// Module Initialization
-import type { IContext, IModuleBundle, ModuleInit, IWidget } from "@core/types";
+import type { IContext, IModuleBundle, ModuleInit, IWidget } from "virtual-module-core/types";
 
 // Register routes (conceptually, though SvelteKit handles file-based routing primarily,
 // this could be for dynamic validation or metadata)

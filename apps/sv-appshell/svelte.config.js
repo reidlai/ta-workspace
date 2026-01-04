@@ -14,9 +14,10 @@ const config = {
     adapter: adapter(),
     alias: {
       "@/*": "./src/*",
-      "@modules/demo/ts": "../../modules/demo/ts/src/index.ts",
+      "@modules/demo-ts": "../../modules/demo/ts/src/index.ts",
+      "@modules/watchlist-ts": "../../modules/watchlist/ts/src/index.ts",
+      "@modules/portfolio-ts": "../../modules/portfolio/ts/src/index.ts",
       "@modules/*": "../../modules/*",
-      "@core/*": "../../modules/core/ts/*",
       "@ui/*": "./src/lib/components/ui/*",
     },
   },

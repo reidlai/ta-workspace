@@ -1,6 +1,7 @@
 import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig } from "vitest/config";
 import tailwindcss from "@tailwindcss/vite";
+import path from "path";
 
 export default defineConfig({
   plugins: [tailwindcss(), sveltekit()],
@@ -26,5 +27,10 @@ export default defineConfig({
   },
   resolve: {
     conditions: ["browser"],
+    alias: {
+      "@modules/demo-ts": path.resolve(__dirname, "../../modules/demo/ts/src/index.ts"),
+      "@modules/watchlist-ts": path.resolve(__dirname, "../../modules/watchlist/ts/src/index.ts"),
+      "@modules/portfolio-ts": path.resolve(__dirname, "../../modules/portfolio/ts/src/index.ts"),
+    },
   },
 });

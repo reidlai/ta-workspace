@@ -3,7 +3,7 @@
   import { themeStore } from "$lib/stores/theme";
   import { Button } from "$lib/components/ui/button";
   import * as Card from "$lib/components/ui/card";
-  import { gadgetRegistry } from "@core/registry";
+  import { gadgetRegistry } from "$lib/registry";
   import ThemeSwitcher from "$lib/components/theme/ThemeSwitcher.svelte";
 
   let serviceMessage = "";
