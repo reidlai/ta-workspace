@@ -135,9 +135,6 @@ importers:
       '@modules/portfolio-ts':
         specifier: workspace:*
         version: link:../ts
-      virtual-module-core:
-        specifier: github:reidlai/virtual-module-core
-        version: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/e60cb8876c09e39dc8363125327645e5853ccb3d
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: ^7.0.0
