@@ -56,8 +56,10 @@ tasks:
       TA_SERVER_LOG_FORMAT: "text"
 
   lint:
-    command: "golangci-lint"
+    command: "go"
     args:
+      - "run"
+      - "github.com/golangci/golangci-lint/cmd/golangci-lint@latest"
       - "run"
     inputs:
       - "**/*.go"
