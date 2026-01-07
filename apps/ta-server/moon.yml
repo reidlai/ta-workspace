@@ -3,10 +3,12 @@ id: "ta-server"
 
 tasks:
   build:
-    command: "npm"
+    command: "go"
     args:
-      - "run"
       - "build"
+      - "-o"
+      - "ta-server.exe"
+      - "."
     platform: "system"
     inputs:
       - "**/*.go"
@@ -14,19 +16,25 @@ tasks:
       - "go.sum"
     outputs:
       - "ta-server.exe"
+    options:
+      mergeArgs: "replace"
+      mergeInputs: "replace"
     local: true
 
   test:
-    command: "npm"
+    command: "go"
     args:
-      - "run"
       - "test"
+      - "./..."
     platform: "system"
     inputs:
       - "**/*.go"
       - "go.mod"
+      - "go.sum"
     options:
       runInCI: true
+      mergeArgs: "replace"
+      mergeInputs: "replace"
 
   gen:
     command: "goa gen github.com/reidlai/ta-workspace/apps/ta-server/design"
@@ -48,5 +56,16 @@ tasks:
       TA_SERVER_LOG_FORMAT: "text"
 
   lint:
-    command: 'echo "Linting not configured for Go yet"'
+    command: "go"
+    args:
+      - "run"
+      - "github.com/golangci/golangci-lint/cmd/golangci-lint@latest"
+      - "run"
+    inputs:
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
+    options:
+      mergeArgs: "replace"
+      mergeInputs: "replace"
     platform: "system"
