@@ -1,3 +1,7 @@
 [submodule "modules/portfolio"]
 	path = modules/portfolio
 	url = git@github.com:reidlai/portfolio-virtmod.git
+[submodule "modules/watchlist"]
+	path = modules/watchlist
+	url = git@github.com:reidlai/watchlist-virtmod
+	branch = main

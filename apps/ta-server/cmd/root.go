@@ -19,7 +19,9 @@ func init() {
 
 	// Global flags
 	RootCmd.PersistentFlags().String("config", "", "config file (default is ta-server.yaml)")
-	viper.BindPFlag("config", RootCmd.PersistentFlags().Lookup("config"))
+	if err := viper.BindPFlag("config", RootCmd.PersistentFlags().Lookup("config")); err != nil {
+		panic(err)
+	}
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -39,5 +41,9 @@ func initConfig() {
 	}
 
 	// Read config file (silently ignore if not found)
-	viper.ReadInConfig()
+	if err := viper.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+			panic(err)
+		}
+	}
 }
