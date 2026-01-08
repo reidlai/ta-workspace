@@ -1,5 +1,5 @@
-import DemoPage from "./pages/DemoPage.svelte";
-import DemoWidget from "./widgets/DemoWidget.svelte";
+import DemoPage from "$lib/pages/DemoPage.svelte";
+import DemoWidget from "$lib/widgets/DemoWidget.svelte";
 import { DemoService, demoService } from "@modules/demo-ts";
 
 import type { IContext, IModuleBundle, ModuleInit, IWidget } from "virtual-module-core/types";

@@ -1,6 +1,7 @@
 language: typescript
-type: application
 id: "module-workflow"
+type: "tool"
+stack: "systems"
 
 tasks:
   add-module:

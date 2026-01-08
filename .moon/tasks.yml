@@ -23,6 +23,13 @@ tasks:
       - '@group(tests)'
       - '@group(sources)'
 
+  format:
+    command: 'npm run format'
+    inputs:
+      - '@group(sources)'
+      - 'prettier.config.js'
+
+
   lint:
     command: 'npm run lint'
     inputs:

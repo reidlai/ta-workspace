@@ -5,9 +5,11 @@ projects:
   - 'modules/demo/*'
   - 'modules/portfolio/ts'
   - 'modules/portfolio/svelte'
+  - 'modules/portfolio/go'
   - 'modules/watchlist/ts'
   - 'modules/watchlist/svelte'
-  - 'scripts/*'
+  - 'modules/watchlist/go'
+  - 'scripts/module-workflow'
 
 vcs:
   manager: 'git'

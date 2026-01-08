@@ -1,9 +1,10 @@
 language: "typescript"
 type: "application"
+stack: "frontend"
 id: "sv-appshell"
 
 tasks:
-  dev:
+  start:
     command: "vite dev --host"
     local: true
 

@@ -4,11 +4,19 @@
   "type": "module",
   "main": "./src/index.ts",
   "scripts": {
-    "build": "echo 'No build needed'",
-    "test": "echo 'No tests'",
-    "lint": "echo 'No lint'"
+    "build": "tsc",
+    "test": "vitest run",
+    "lint": "eslint ."
   },
   "dependencies": {
     "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "eslint": "^9.39.2",
+    "globals": "^17.0.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.52.0",
+    "vitest": "^4.0.16"
   }
 }

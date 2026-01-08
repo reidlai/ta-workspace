@@ -1,8 +1,11 @@
 $schema: 'https://moonrepo.dev/schemas/project.json'
 id: 'demo-ts'
+type: 'library'
+stack: 'frontend'
 
 tasks:
   build:
-    outputs: []
+    outputs:
+      - 'dist'
     options:
       mergeOutputs: 'replace'

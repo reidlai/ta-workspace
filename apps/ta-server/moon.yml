@@ -1,4 +1,5 @@
 type: "application"
+stack: "backend"
 id: "ta-server"
 
 tasks:
@@ -19,13 +20,17 @@ tasks:
     options:
       mergeArgs: "replace"
       mergeInputs: "replace"
+    deps:
+      - "test"
     local: true
 
   test:
     command: "go"
     args:
       - "test"
-      - "./..."
+      - "."
+      - "./cmd/..."
+      - "./internal/..."
     platform: "system"
     inputs:
       - "**/*.go"
@@ -49,11 +54,25 @@ tasks:
       TA_SERVER_LOG_FORMAT: "text"
     local: true
 
-  dev:
+  start:
     extends: "run"
     env:
       TA_SERVER_LOG_LEVEL: "DEBUG"
       TA_SERVER_LOG_FORMAT: "text"
+
+  format:
+    command: "goimports"
+    args:
+      - "-w"
+      - "."
+    inputs:
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
+    platform: "system"
+    options:
+      mergeArgs: "replace"
+      mergeInputs: "replace"
 
   lint:
     command: "go"
@@ -61,6 +80,7 @@ tasks:
       - "run"
       - "github.com/golangci/golangci-lint/cmd/golangci-lint@latest"
       - "run"
+      - "-v"
     inputs:
       - "**/*.go"
       - "go.mod"
