@@ -10,9 +10,9 @@
 
 1. Start the app shell:
    ```bash
-   npx @moonrepo/cli run sv-appshell:dev
+   npx @moonrepo/cli run sveltekit-appshell:dev
    # OR
-   cd apps/sv-appshell && npx vite dev --host
+   cd apps/sveltekit-appshell && npx vite dev --host
    ```
 2. Open browser to `http://localhost:5173`.
 

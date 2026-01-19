@@ -1,0 +1,104 @@
+# https://moonrepo.dev/docs/config/project
+id: 'demo'
+language: "unknown" # Mixed/Polyglot
+
+fileGroups:
+  svelte: ["svelte/**/*"]
+  ts: ["ts/**/*"]
+
+tasks:
+  # Svelte Frontend
+  svelte-dev:
+    command: "pnpm --dir svelte dev"
+    local: true
+    platform: "node"
+
+  svelte-build:
+    command: "pnpm --dir svelte build"
+    inputs: ["svelte/**/*", "ts/**/*"]
+    deps: ["ts-build"] # Depends on shared lib
+    platform: "node"
+
+  svelte-sync:
+    command: "pnpm --dir svelte run sync"
+    inputs: ["svelte/**/*.svelte", "svelte/**/*.ts", "svelte/**/*.js"]
+    platform: "node"
+    local: true
+    options:
+      runInCI: true # Required because 'local: true' defaults this to false
+      persistent: false # It's a one-off command, not a server
+
+  svelte-check:
+    command: "pnpm --dir svelte check"
+    inputs: ["svelte/**/*", "ts/**/*"]
+    deps: ["svelte-sync"]
+    platform: "node"
+
+  svelte-test:
+    command: "pnpm --dir svelte run test"
+    env:
+      CI: "true"
+    inputs: ["svelte/**/*", "ts/**/*"]
+    deps: ["ts-build"]
+    platform: "node"
+
+  svelte-lint:
+    command: "pnpm --dir svelte lint"
+    inputs: ["svelte/**/*"]
+    deps: ["svelte-sync"]
+    platform: "node"
+
+  svelte-format:
+    command: "pnpm --dir svelte run format"
+    inputs: ["svelte/**/*"]
+    platform: "node"
+
+  svelte-storybook:
+    command: "pnpm --dir svelte run story:dev"
+    inputs: ["svelte/**/*"]
+    platform: "node"
+    local: true
+
+  # TypeScript Shared Lib
+  ts-build:
+    command: "pnpm --dir ts build"
+    inputs: ["ts/**/*"]
+    platform: "node"
+
+  ts-lint:
+    command: "pnpm --dir ts lint"
+    inputs: ["ts/**/*"]
+    platform: "node"
+
+  ts-test:
+    command: "pnpm --dir ts run test"
+    env:
+      CI: "true"
+    inputs: ["ts/**/*"]
+    platform: "node"
+
+  ts-format:
+    command: "pnpm --dir ts run format"
+    inputs: ["ts/**/*"]
+    platform: "node"
+
+  # Composite Tasks
+  build:
+    command: 'echo "Building all components"'
+    deps: ["svelte-build", "ts-build"]
+    platform: "system"
+
+  test:
+    command: 'echo "Testing all components"'
+    deps: ["svelte-test", "ts-test", "svelte-check"]
+    platform: "system"
+
+  lint:
+    command: 'echo "Linting all components"'
+    deps: ["ts-lint", "svelte-lint"]
+    platform: "system"
+
+  format:
+    command: 'echo "Formatting all components"'
+    deps: ["ts-format", "svelte-format"]
+    platform: "system"

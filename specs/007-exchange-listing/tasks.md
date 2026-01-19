@@ -29,11 +29,11 @@ _Goal: Implement core data structures and loading logic (blocking prerequisites)
 _Story: As a system, I want to expose the loaded exchange list so the UI can populate the select box._
 _Test: Call `GET /exchanges` and verify sorted JSON output._
 
-- [x] T010 [US1] Define `Exchange` result type in `apps/ta-server/design/types.go` (or `design.go`).
-- [x] T011 [US1] Define `exchange` service and `list` method in `apps/ta-server/design/design.go` with deferred security.
-- [x] T012 [US1] Run `moon run ta-server:gen` to generate Goa scaffolding.
+- [x] T010 [US1] Define `Exchange` result type in `apps/go-server/design/types.go` (or `design.go`).
+- [x] T011 [US1] Define `exchange` service and `list` method in `apps/go-server/design/design.go` with deferred security.
+- [x] T012 [US1] Run `moon run go-server:gen` to generate Goa scaffolding.
 - [x] T013 [US1] Implement `exchange` service interface in `modules/watchlist/go/exchange_service.go` returning the in-memory list.
-- [x] T014 [US1] Wire up `exchange` service in `apps/ta-server/cmd/api-server.go`.
+- [x] T014 [US1] Wire up `exchange` service in `apps/go-server/cmd/api-server.go`.
 - [x] T015 [US1] Build and verify the API endpoint returns the full list.
 
 ## Phase 4: Search and Filter Exchanges (P2)
@@ -41,14 +41,14 @@ _Test: Call `GET /exchanges` and verify sorted JSON output._
 _Story: As a developer, I want to filter the exchange list by name or country._
 _Test: Call `GET /exchanges?q=US` and verify only US exchanges are returned._
 
-- [x] T016 [US2] Update `list` method design in `apps/ta-server/design/design.go` to add optional `query` parameter.
-- [x] T017 [US2] Run `moon run ta-server:gen` to regenerate Goa code.
+- [x] T016 [US2] Update `list` method design in `apps/go-server/design/design.go` to add optional `query` parameter.
+- [x] T017 [US2] Run `moon run go-server:gen` to regenerate Goa code.
 - [x] T018 [US2] Implement case-insensitive partial search logic in `modules/watchlist/go/exchange_service.go`.
 - [x] T019 [US2] [P] Add unit tests for search filtering in `modules/watchlist/go/exchange_service_test.go`.
 
 ## Phase 5: Polish & Cleanup
 
-- [x] T020 [Polish] Run `moon run ta-server:lint` (if it exists) or `go vet ./...`.
+- [x] T020 [Polish] Run `moon run go-server:lint` (if it exists) or `go vet ./...`.
 - [x] T021 [Polish] Verify "Fail Fast" behavior by temporarily renaming the CSV file and running the server (manual step).
 
 ## Dependencies

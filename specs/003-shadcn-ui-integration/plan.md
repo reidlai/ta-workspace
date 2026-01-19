@@ -7,7 +7,7 @@
 
 ## Summary
 
-This feature integrates ShadCN UI as the core UI framework for the SvelteKit application (`apps/sv-appshell`), introducing a dashboard-based architecture where gadgets from feature modules (`packages/ts/svelte/features/*`) are composed using Atomic Design principles. The dashboard serves as the main entry point, displaying module-provided organisms built from ShadCN UI primitives (Card, Button, MenuItem, etc.). Modules can export gadgets, routes, services, and handlers, with centralized theme configuration and shared state management via SvelteKit stores.
+This feature integrates ShadCN UI as the core UI framework for the SvelteKit application (`apps/sveltekit-appshell`), introducing a dashboard-based architecture where gadgets from feature modules (`packages/ts/svelte/features/*`) are composed using Atomic Design principles. The dashboard serves as the main entry point, displaying module-provided organisms built from ShadCN UI primitives (Card, Button, MenuItem, etc.). Modules can export gadgets, routes, services, and handlers, with centralized theme configuration and shared state management via SvelteKit stores.
 
 ## Technical Context
 
@@ -30,13 +30,13 @@ This feature integrates ShadCN UI as the core UI framework for the SvelteKit app
 
 | Constitution Requirement                              | Current Feature                                                                  | Status           |
 | ----------------------------------------------------- | -------------------------------------------------------------------------------- | ---------------- |
-| **Frontend Layer**: Next.js is the mandated framework | Feature targets **SvelteKit** (`apps/sv-appshell`) for modular application shell | ✅ **COMPLIANT** |
+| **Frontend Layer**: Next.js is the mandated framework | Feature targets **SvelteKit** (`apps/sveltekit-appshell`) for modular application shell | ✅ **COMPLIANT** |
 
 **Resolution**: Constitution updated (2025-12-27) to add SvelteKit exception for modular application shells that implement plugin/module architecture.
 
 **Amendment**: See `.specify/memory/amendments/2025-12-27-sveltekit-exception.md`
 
-**Rationale**: SvelteKit is authorized for `apps/sv-appshell` as it serves as a host for dynamically loaded feature modules. New standalone web applications must still use Next.js unless approved via waiver.
+**Rationale**: SvelteKit is authorized for `apps/sveltekit-appshell` as it serves as a host for dynamically loaded feature modules. New standalone web applications must still use Next.js unless approved via waiver.
 
 ---
 
@@ -70,7 +70,7 @@ specs/003-shadcn-ui-integration/
 ### Source Code (repository root)
 
 ```text
-apps/sv-appshell/
+apps/sveltekit-appshell/
 ├── src/
 │   ├── lib/
 │   │   ├── components/
@@ -124,7 +124,7 @@ tests/integration/
     └── dashboard.spec.ts
 ```
 
-**Structure Decision**: This is a **monorepo web application** with the SvelteKit shell in `apps/sv-appshell` and feature modules in `packages/ts/svelte/features/*`. The structure extends the existing architecture with dashboard components, ShadCN UI primitives, and gadget support.
+**Structure Decision**: This is a **monorepo web application** with the SvelteKit shell in `apps/sveltekit-appshell` and feature modules in `packages/ts/svelte/features/*`. The structure extends the existing architecture with dashboard components, ShadCN UI primitives, and gadget support.
 
 ## Complexity Tracking
 

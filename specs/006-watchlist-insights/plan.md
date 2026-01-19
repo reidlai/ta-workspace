@@ -45,8 +45,8 @@ Implement two new core modules: `watchlist` (stock tracking) and `insights` (AI 
 
 ### Changes
 
-- **App Configuration**: Update `apps/sv-appshell/static/modules.json` to include new modules.
-- **Vite Config**: Update `apps/sv-appshell/vite.config.ts` to proxy `/api` to Backend (Port 8000/8080).
+- **App Configuration**: Update `apps/sveltekit-appshell/static/modules.json` to include new modules.
+- **Vite Config**: Update `apps/sveltekit-appshell/vite.config.ts` to proxy `/api` to Backend (Port 8000/8080).
 
 ## Verification Plan
 

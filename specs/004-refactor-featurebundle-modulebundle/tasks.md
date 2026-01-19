@@ -30,8 +30,8 @@
 **Story**: [US2] User Navigates via Handler
 
 - [x] T010 [US2] Update App Shell registry to consume `IModuleBundle` instead of `IFeatureBundle` (location: `modules/core/ts/registry`)
-- [x] T011 [US2] Update App Shell dynamic loader to handle `widgets` and `handlers` in `apps/sv-appshell/src/routes/[...rest]/+page.svelte`
-- [ ] T012 [US2] Verify end-to-end flow by running `moon run sv-appshell:dev` and checking demo page
+- [x] T011 [US2] Update App Shell dynamic loader to handle `widgets` and `handlers` in `apps/sveltekit-appshell/src/routes/[...rest]/+page.svelte`
+- [ ] T012 [US2] Verify end-to-end flow by running `moon run sveltekit-appshell:dev` and checking demo page
 
 ## Dependencies
 

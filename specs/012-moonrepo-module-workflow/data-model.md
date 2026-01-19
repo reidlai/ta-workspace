@@ -28,8 +28,8 @@ The CLI updates the following "tables" (config files):
 
 | Config File                            | Key / Path               | Value / Structure                                                     |
 | -------------------------------------- | ------------------------ | --------------------------------------------------------------------- |
-| `apps/sv-appshell/static/modules.json` | `modules.{feature_name}` | `{ "id": "{feature_name}", "src": "/modules/{feature_name}/svelte" }` |
+| `apps/sveltekit-appshell/static/modules.json` | `modules.{feature_name}` | `{ "id": "{feature_name}", "src": "/modules/{feature_name}/sveltekit" }` |
 | `pnpm-workspace.yaml`                  | `packages` array         | `modules/{feature_name}/ts`, `modules/{feature_name}/svelte`          |
 | `tsconfig.base.json`                   | `compilerOptions.paths`  | `"@modules/{feature_name}-ts/*": ["modules/{feature_name}/ts/src/*"]` |
 | `go.work`                              | `use` array              | `modules/{feature_name}/go`                                           |
-| `apps/ta-server/go.mod`                | `replace` directive      | `replace {module_path} => ../../modules/{feature_name}/go`            |
+| `apps/go-server/go.mod`                | `replace` directive      | `replace {module_path} => ../../modules/{feature_name}/go`            |

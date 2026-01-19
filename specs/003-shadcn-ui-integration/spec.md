@@ -3,7 +3,7 @@
 **Feature Branch**: `003-shadcn-ui-integration`  
 **Created**: 2025-12-27  
 **Status**: Draft  
-**Input**: User description: "Standardize to use ShadCN UI as core UI framework for SvelteKit application ./apps/sv-appshell. Suppose SvelteKit app sv-appshell should initialize ShadCN UI. For example, if I have a dashboard required to show when web app start, each Gadget in Dashboard should be able to assign handler exported from different injected modules (define under packages/ts/svelte). Then these handler should create corresponding user journey or navigation defined in the corresponding module. These modules should also be able to accept SvelteKit states, export changed states, call exported functions, or called exported services"
+**Input**: User description: "Standardize to use ShadCN UI as core UI framework for SvelteKit application ./apps/sveltekit-appshell. Suppose SvelteKit app sveltekit-appshell should initialize ShadCN UI. For example, if I have a dashboard required to show when web app start, each Gadget in Dashboard should be able to assign handler exported from different injected modules (define under packages/ts/svelte). Then these handler should create corresponding user journey or navigation defined in the corresponding module. These modules should also be able to accept SvelteKit states, export changed states, call exported functions, or called exported services"
 
 ## Clarifications
 
@@ -91,7 +91,7 @@ Each module defines its own navigation structure and user journeys, allowing mod
 
 ### Functional Requirements
 
-- **FR-001**: System MUST integrate ShadCN UI component library as the core UI framework for sv-appshell
+- **FR-001**: System MUST integrate ShadCN UI component library as the core UI framework for sveltekit-appshell
 - **FR-002**: System MUST display a dashboard as the default entry view when the application launches
 - **FR-003**: Dashboard MUST support configurable gadgets, where each gadget is provided by a feature module
 - **FR-004**: Feature modules MUST be able to export gadget components that can be rendered on the dashboard
@@ -134,7 +134,7 @@ Each module defines its own navigation structure and user journeys, allowing mod
 - The existing module loading system (`@ts/registry`, dynamic imports) will be extended to support gadget and service registration
 - Shared state will be managed using SvelteKit's built-in stores or runes
 - Feature modules will follow a standard export contract (e.g., exporting a registration function that returns gadgets, routes, and services)
-- **Dashboard implementation is flexible**: The layout strategy (grid, list, custom), positioning logic, and source code location (in sv-appshell, injected as module, or configurable) are implementation details to be decided during planning and development
+- **Dashboard implementation is flexible**: The layout strategy (grid, list, custom), positioning logic, and source code location (in sveltekit-appshell, injected as module, or configurable) are implementation details to be decided during planning and development
 
 ## Dependencies _(optional)_
 

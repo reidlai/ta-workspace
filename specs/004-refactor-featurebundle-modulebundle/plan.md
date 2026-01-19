@@ -16,7 +16,7 @@ Refactor the module system to replace `IFeatureBundle` with `IModuleBundle`. The
 **Target Platform**: Web (Modern Browsers)
 **Project Type**: Monorepo with SvelteKit Apps and TS Modules
 **Performance Goals**: Zero runtime overhead for module loading (static import or optimized dynamic import)
-**Constraints**: Must maintain backward compatibility or strictly refactor all consumers in `apps/sv-appshell`.
+**Constraints**: Must maintain backward compatibility or strictly refactor all consumers in `apps/sveltekit-appshell`.
 **Scale/Scope**: Affects core type definitions and all feature modules (currently `demo/svelte`).
 
 ## Constitution Check

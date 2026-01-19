@@ -81,7 +81,7 @@ export { MyGadget };
 
 ### 4. Import in App Shell
 
-Edit `apps/sv-appshell/src/routes/+layout.svelte`:
+Edit `apps/sveltekit-appshell/src/routes/+layout.svelte`:
 
 ```svelte
 <script>
@@ -100,7 +100,7 @@ Edit `apps/sv-appshell/src/routes/+layout.svelte`:
 
 ```bash
 pnpm install
-pnpm dev -C apps/sv-appshell
+pnpm dev -C apps/sveltekit-appshell
 ```
 
 Visit `http://localhost:5173` to see your gadget on the dashboard!
@@ -247,7 +247,7 @@ describe("MyGadget", () => {
 Run tests:
 
 ```bash
-pnpm test:unit -C apps/sv-appshell
+pnpm test:unit -C apps/sveltekit-appshell
 ```
 
 ### BDD Tests

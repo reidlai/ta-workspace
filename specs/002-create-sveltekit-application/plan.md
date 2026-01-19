@@ -7,7 +7,7 @@
 
 ## Summary
 
-Create a SvelteKit application (`apps/sv-appshell`) managed by Moonrepo. The app acts as a lightweight App Shell using a custom Dependency Injection (DI) system to load "Feature Bundles" (routes, state, services) defined via TypeScript interfaces in `packages/shared/typescripts`. Modules are loaded via configuration (JSON) and injected with environment config. The shell supports dynamic runtime routing and hybrid layouts.
+Create a SvelteKit application (`apps/sveltekit-appshell`) managed by Moonrepo. The app acts as a lightweight App Shell using a custom Dependency Injection (DI) system to load "Feature Bundles" (routes, state, services) defined via TypeScript interfaces in `packages/shared/typescripts`. Modules are loaded via configuration (JSON) and injected with environment config. The shell supports dynamic runtime routing and hybrid layouts.
 
 ## Technical Context
 
@@ -51,7 +51,7 @@ docs/
 
 ```text
 apps/
-└── sv-appshell/              # [NEW] SvelteKit Application
+└── sveltekit-appshell/              # [NEW] SvelteKit Application
     ├── moon.yml
     ├── package.json
     ├── svelte.config.js
@@ -104,11 +104,11 @@ packages/
 
 #### [MODIFY] [.moon/workspace.yml](file:///C:/Users/reidl/GitLocal/appshell-workspace/.moon/workspace.yml)
 
-- Update `projects` to include `apps/sv-appshell`, `packages/shared/*`, and `packages/features/*`.
+- Update `projects` to include `apps/sveltekit-appshell`, `packages/shared/*`, and `packages/features/*`.
 
 ### Application Layer
 
-#### [NEW] [sv-appshell](file:///C:/Users/reidl/GitLocal/appshell-workspace/apps/sv-appshell/package.json)
+#### [NEW] [sveltekit-appshell](file:///C:/Users/reidl/GitLocal/appshell-workspace/apps/sveltekit-appshell/package.json)
 
 - SvelteKit app using `adapter-node`.
 - Dependency on `@shared/core`, `@shared/typescripts`, and `@modules/demo-module` (for demo).
@@ -136,12 +136,12 @@ packages/
 
 ### Automated Tests
 
-- **Build**: `moon run sv-appshell:build` and `moon run shared-core:build`.
+- **Build**: `moon run sveltekit-appshell:build` and `moon run shared-core:build`.
 - **Unit**: `moon run shared-core:test` (Verify DI/Registry in isolation).
-- **Integration**: `moon run sv-appshell:test`.
+- **Integration**: `moon run sveltekit-appshell:test`.
 
 ### Manual Verification
 
-1.  **Start Dev**: `moon run sv-appshell:dev`.
+1.  **Start Dev**: `moon run sveltekit-appshell:dev`.
 2.  **Verify Shell**: Open `http://localhost:5173`.
 3.  **Verify Router**: Ensure core router handles requests.

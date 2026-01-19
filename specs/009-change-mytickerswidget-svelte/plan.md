@@ -9,7 +9,7 @@
 
 ## Summary
 
-Update the `MyTickersWidget` in `apps/sv-appshell` to be a read-only ShadCN Card displaying:
+Update the `MyTickersWidget` in `apps/sveltekit-appshell` to be a read-only ShadCN Card displaying:
 
 1. Total count of watched tickers.
 2. **Count of unique exchanges** (via Frontend Static Mapping to ISO 10383).

@@ -1,4 +1,4 @@
-# Research: sv-appshell
+# Research: sveltekit-appshell
 
 **Feature**: Create SvelteKit App Shell
 **Branch**: `002-create-sveltekit-application`

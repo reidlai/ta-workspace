@@ -12,7 +12,7 @@ This document captures research findings and architectural decisions for impleme
 
 ### 1. ShadCN UI Card Component Integration
 
-**Decision**: Use existing ShadCN Card components from `apps/sv-appshell/src/lib/components/ui/card/`
+**Decision**: Use existing ShadCN Card components from `apps/sveltekit-appshell/src/lib/components/ui/card/`
 
 **Rationale**:
 
@@ -85,29 +85,29 @@ const bundle: IModuleBundle = {
 
 **Alternatives Considered**:
 
-- Centralized `apps/ta-server/design/`: Rejected due to tight coupling and poor module boundaries
+- Centralized `apps/go-server/design/`: Rejected due to tight coupling and poor module boundaries
 - Monolithic service layer: Rejected for same reasons
 
 **Affected Modules**:
 
-- `modules/portfolio/go/design/portfolio.go` (move from `apps/ta-server/design/`)
+- `modules/portfolio/go/design/portfolio.go` (move from `apps/go-server/design/`)
 - `modules/portfolio/go/pkg/portfolio_service.go` (move from `modules/portfolio/go/`)
-- `modules/watchlist/go/design/{watchlist,exchange}.go` (move from `apps/ta-server/design/`)
+- `modules/watchlist/go/design/{watchlist,exchange}.go` (move from `apps/go-server/design/`)
 - `modules/watchlist/go/pkg/{watchlist,exchange}_service.go` (move from `modules/watchlist/go/`)
 
 **Goa Regeneration**:
 After moving design files, run:
 
 ```bash
-cd apps/ta-server
+cd apps/go-server
 goa gen github.com/reidlai/ta-workspace/modules/portfolio/go/design
 goa gen github.com/reidlai/ta-workspace/modules/watchlist/go/design
 ```
 
 **Import Path Updates**:
 
-- `apps/ta-server/cmd/api-server.go`: Update service imports to new `pkg/` locations
-- `apps/ta-server/internal/server/http.go`: Update endpoint imports
+- `apps/go-server/cmd/api-server.go`: Update service imports to new `pkg/` locations
+- `apps/go-server/internal/server/http.go`: Update endpoint imports
 
 ---
 

@@ -7,11 +7,11 @@
 
 ## Summary
 
-This feature standardizes application logging across `ta-server` and its modules by migrating from `log` and `goa.design/clue/log` to Go 1.21+ `log/slog`. It implements structured JSON logging for production (GCP-compliant) and human-readable text logging for development. It also ensures OpenTelemetry trace context is injected into logs for full observability.
+This feature standardizes application logging across `go-server` and its modules by migrating from `log` and `goa.design/clue/log` to Go 1.21+ `log/slog`. It implements structured JSON logging for production (GCP-compliant) and human-readable text logging for development. It also ensures OpenTelemetry trace context is injected into logs for full observability.
 
 ## Technical Context
 
-**Language/Version**: Go 1.24.0 (as per `apps/ta-server/go.mod`)
+**Language/Version**: Go 1.24.0 (as per `apps/go-server/go.mod`)
 **Primary Dependencies**:
 
 - `log/slog` (Standard Library)
@@ -20,7 +20,7 @@ This feature standardizes application logging across `ta-server` and its modules
   **Storage**: N/A
   **Testing**: `go test` (Unit), Manual verification of log output
   **Target Platform**: Linux (Docker/Distroless) via Moonrepo
-  **Project Type**: Backend Service (`apps/ta-server`) + Modules (`modules/watchlist`, `modules/portfolio`)
+  **Project Type**: Backend Service (`apps/go-server`) + Modules (`modules/watchlist`, `modules/portfolio`)
   **Performance Goals**: Minimal allocation overhead for logging (slog is performant by design).
   **Constraints**:
 - 12-Factor App (Stdout/Stderr only)
@@ -61,7 +61,7 @@ specs/010-standardize-use-slog/
 ### Source Code (repository root)
 
 ```text
-apps/ta-server/
+apps/go-server/
 ├── cmd/
 │   └── api-server.go    # Main entrypoint (logger setup)
 ├── internal/
@@ -81,7 +81,7 @@ modules/
 
 ### Configuration & Entrypoint
 
-#### [MODIFY] [apps/ta-server/cmd/api-server.go](file:///c:/Users/reidl/GitLocal/ta-workspace/apps/ta-server/cmd/api-server.go)
+#### [MODIFY] [apps/go-server/cmd/api-server.go](file:///c:/Users/reidl/GitLocal/ta-workspace/apps/go-server/cmd/api-server.go)
 
 - Initialize `slog.Logger` based on `TA_SERVER_LOG_LEVEL` (debug/info/warn/error) and `TA_SERVER_LOG_FORMAT` (text/json).
 - Remove `goa.design/clue/log` setup.
@@ -89,7 +89,7 @@ modules/
 
 ### Core Middleware
 
-#### [MODIFY] [apps/ta-server/internal/server/http.go](file:///c:/Users/reidl/GitLocal/ta-workspace/apps/ta-server/internal/server/http.go)
+#### [MODIFY] [apps/go-server/internal/server/http.go](file:///c:/Users/reidl/GitLocal/ta-workspace/apps/go-server/internal/server/http.go)
 
 - Create new Slog middleware.
 - Extract `trace_id` and `span_id` using `go.opentelemetry.io/otel/trace`.

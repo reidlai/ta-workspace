@@ -106,10 +106,10 @@ A developer wants to rename an existing module (e.g., from `insights` to `portfo
 - **FR-001**: System MUST execute `add-module` as a moonrepo task that accepts a GitHub URL and feature name (support standard git URLs including SSH for private repos)
 - **FR-002**: System MUST clone remote repositories as git submodules into `modules/<feature>/` (use interactive git passthrough for authentication challenges)
 - **FR-003**: System MUST automatically detect which stacks (go/, ts/, svelte/) exist in the added module (silently skip missing stacks without error to support backend-only or frontend-only modules)
-- **FR-004**: System MUST update `apps/sv-appshell/static/modules.json` to register new frontend modules
+- **FR-004**: System MUST update `apps/sveltekit-appshell/static/modules.json` to register new frontend modules
 - **FR-005**: System MUST update `pnpm-workspace.yaml` to include new TypeScript/Svelte packages (automatically detect and add entries for `modules/<name>/ts` and `modules/<name>/svelte` if directories exist)
 - **FR-006**: System MUST update `tsconfig.base.json` to add path aliases for new TypeScript modules
-- **FR-007**: System MUST update `go.work` and `apps/ta-server/go.mod` for new Go modules (read module path directly from new module's `go.mod` without enforcing strict naming conventions)
+- **FR-007**: System MUST update `go.work` and `apps/go-server/go.mod` for new Go modules (read module path directly from new module's `go.mod` without enforcing strict naming conventions)
 - **FR-008**: System MUST validate inputs before making any file changes (fail-fast pattern: check module name doesn't conflict with existing `modules/*` directories)
 - **FR-009**: System MUST roll back partial changes if any step fails after initial validation (full rollback: remove submodule, revert all config file changes)
 - **FR-010**: System MUST support `rename-module` command to rename existing modules with full refactoring
@@ -118,7 +118,7 @@ A developer wants to rename an existing module (e.g., from `insights` to `portfo
 - **FR-013**: System MUST support `delete-module` command to remove modules and clean up references
 - **FR-014**: System MUST remove git submodule entries (`.gitmodules`, `.git/config`) during deletion
 - **FR-015**: System MUST automatically detect and update `moon.yml` files when adding or renaming modules (update project names and paths in detected stack directories)
-- **FR-016**: Developer MUST update `README.md` and `docs/APPSHELL-ARCHITECTURE.md` to document the usage and architectural role of the new moonrepo workflow commands
+- **FR-016**: Developer MUST update `README.md` and `https://github.com/reidlai/virtual-module-core/blob/main/docs/APPSHELL-ARCHITECTURE.md` to document the usage and architectural role of the new moonrepo workflow commands
 
 ### Key Entities
 

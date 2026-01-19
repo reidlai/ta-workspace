@@ -3,13 +3,13 @@
 **Feature Branch**: `002-create-sveltekit-application`
 **Created**: 2025-12-26
 **Status**: Draft
-**Input**: User description: "Create SvelteKit application called sv-appshell under ./apps/ with minimium dependencies based on moonrepo architecture. App Shell concept is to have a single app object which will be injected with different SOLID based modules (with DI capabilities). All these conceptual modules should implmeent as typescript interface found under ./packages/shared/typescripts so I can inject different actual module implmentation through typescript interface"
+**Input**: User description: "Create SvelteKit application called sveltekit-appshell under ./apps/ with minimium dependencies based on moonrepo architecture. App Shell concept is to have a single app object which will be injected with different SOLID based modules (with DI capabilities). All these conceptual modules should implmeent as typescript interface found under ./packages/shared/typescripts so I can inject different actual module implmentation through typescript interface"
 
 ## User Scenarios & Testing
 
 ### User Story 1 - App Shell Initialization (Priority: P1)
 
-As a developer, I want to initialize the `sv-appshell` application so that I have a foundation for building the modular application.
+As a developer, I want to initialize the `sveltekit-appshell` application so that I have a foundation for building the modular application.
 
 **Why this priority**: foundational step for the entire project.
 
@@ -17,8 +17,8 @@ As a developer, I want to initialize the `sv-appshell` application so that I hav
 
 **Acceptance Scenarios**:
 
-1. **Given** the repository is clean, **When** I run the creation task, **Then** a new SvelteKit app exists at `apps/sv-appshell`.
-2. **Given** the app is created, **When** I run `moon run sv-appshell:dev`, **Then** the application starts without errors.
+1. **Given** the repository is clean, **When** I run the creation task, **Then** a new SvelteKit app exists at `apps/sveltekit-appshell`.
+2. **Given** the app is created, **When** I run `moon run sveltekit-appshell:dev`, **Then** the application starts without errors.
 
 ### User Story 2 - Module Injection (Priority: P1)
 
@@ -56,7 +56,7 @@ As a developer, I want to inject a module implementation into the app shell usin
 
 ### Functional Requirements
 
-- **FR-001**: System MUST be a SvelteKit application located at `./apps/sv-appshell`.
+- **FR-001**: System MUST be a SvelteKit application located at `./apps/sveltekit-appshell`.
 - **FR-002**: System MUST use Moonrepo for project management (include `moon.yml` configuration).
 - **FR-003**: System MUST provide a **custom lightweight** Dependency Injection container/mechanism within the App Shell (no external DI libraries).
 - **FR-004**: System MUST support defining module interfaces in `./packages/shared/typescripts`.
@@ -78,6 +78,6 @@ As a developer, I want to inject a module implementation into the app shell usin
 
 ### Measurable Outcomes
 
-- **SC-001**: `moon run sv-appshell:build` completes successfully (exit code 0).
-- **SC-002**: `moon run sv-appshell:dev` starts the server and serves the index page.
+- **SC-001**: `moon run sveltekit-appshell:build` completes successfully (exit code 0).
+- **SC-002**: `moon run sveltekit-appshell:dev` starts the server and serves the index page.
 - **SC-003**: A test or console output demonstrates that a module implementing a shared interface is successfully injected and executed by the App Shell.
