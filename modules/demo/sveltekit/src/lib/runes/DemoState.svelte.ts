@@ -6,8 +6,8 @@ class DemoStateRune implements DemoStateType {
   private static instance: DemoStateRune;
 
   // Initialize runes with the current value logic
-  status = $state<DemoStateType['status']>(null); // Inherit status type defined in zod schema
-  count = $state<DemoStateType['count']>(0); // Inherit count type defined in zod schema
+  status = $state<DemoStateType["status"]>(null); // Inherit status type defined in zod schema
+  count = $state<DemoStateType["count"]>(0); // Inherit count type defined in zod schema
 
   constructor() {
     // -------------------------------------------------------------------------
@@ -38,10 +38,10 @@ class DemoStateRune implements DemoStateType {
   }
 
   public static getInstance(): DemoStateRune {
-      if (!DemoStateRune.instance) {
-          DemoStateRune.instance = new DemoStateRune();
-      }
-      return DemoStateRune.instance;
+    if (!DemoStateRune.instance) {
+      DemoStateRune.instance = new DemoStateRune();
+    }
+    return DemoStateRune.instance;
   }
 
   // -------------------------------------------------------------------------

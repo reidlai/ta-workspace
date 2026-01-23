@@ -11,13 +11,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "src",
-    "src/**/*.svelte"
-  ],
-  "files": [
-    "src/svelte.d.ts",
-    "src/app.d.ts",
-    "vitest-setup.ts"
-  ]
+  "include": ["src", "src/**/*.svelte"],
+  "exclude": ["src/lib/api-client.ts"],
+  "files": ["src/svelte.d.ts", "src/app.d.ts", "vitest-setup.ts"]
 }

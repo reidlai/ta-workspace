@@ -5,6 +5,9 @@
       "@modules/watchlist-ts": [
         "./modules/watchlist/ts/src/index.ts"
       ],
+      "@modules/portfolio/*": [
+        "./modules/portfolio/sveltekit/*"
+      ],
       "@modules/portfolio-ts": [
         "./modules/portfolio/ts/src/index.ts"
       ],
@@ -12,7 +15,7 @@
         "./modules/demo/ts/src/index.ts"
       ],
       "@ui/*": [
-        "./apps/sv-appshell/src/lib/components/ui/*"
+        "./apps/sveltekit-appshell/src/lib/components/ui/*"
       ]
     }
   }

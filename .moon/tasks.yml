@@ -4,6 +4,9 @@ fileGroups:
   sources:
     - 'src/**/*'
     - 'types/**/*'
+    - '!**/sveltekit/dist/**'
+    - '!**/.*/**'
+    - '!**/storybook-static/**'
   tests:
     - 'tests/**/*'
     - '**/__tests__/**/*'
@@ -24,10 +27,12 @@ tasks:
       - '@group(sources)'
 
   format:
-    command: 'npm run format'
+    command: 'prettier --write --ignore-path $workspaceRoot/.prettierignore .'
     inputs:
       - '@group(sources)'
-      - 'prettier.config.js'
+      - '!**/sveltekit/dist/**'
+      - '!**/.*/**'
+      - '!**/storybook-static/**'
 
 
   lint:
@@ -36,3 +41,6 @@ tasks:
       - '@group(sources)'
       - '.eslintrc.*'
       - 'tsconfig.json'
+      - '!**/sveltekit/dist/**'
+      - '!**/.*/**'
+      - '!**/storybook-static/**'

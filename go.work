@@ -1,0 +1,7 @@
+go 1.24.11
+
+use (
+	./apps/go-server
+	./modules/portfolio/go
+	./modules/watchlist/go
+)

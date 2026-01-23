@@ -1,0 +1,61 @@
+language: "typescript"
+type: "application"
+stack: "frontend"
+id: "sveltekit-appshell"
+
+tasks:
+  start:
+    command: "vite dev --host"
+    local: true
+
+  build:
+    command: "pnpm run build"
+    options:
+      mergeArgs: "replace"
+    env:
+      CI: "true"
+      PUBLIC_API_URL: "http://localhost:8080"
+    inputs:
+      - "src/**/*"
+      - "static/**/*"
+      - "svelte.config.js"
+      - "vite.config.ts"
+    outputs:
+      - "build"
+      - ".svelte-kit"
+
+  test:
+    command: "pnpm run test:unit"
+    env:
+      PUBLIC_API_URL: "http://localhost:8080"
+    inputs:
+      - "src/**/*"
+      - "tests/**/*"
+      - "!node_modules/**"
+    options:
+      mergeArgs: "replace"
+      mergeInputs: "replace"
+
+  lint:
+    command: "svelte-check --tsconfig ./tsconfig.json"
+    env:
+      PUBLIC_API_URL: "http://localhost:8080"
+    inputs: ["src/**/*", "!src/lib/api-client.ts", "!build/**", "!.svelte-kit/**", "!storybook-static/**", "**/.*/**", "moon.yml"]
+    options:
+      mergeArgs: "replace"
+      mergeInputs: "replace"
+    deps:
+      - "sync"
+
+  sync:
+    command: "svelte-kit sync"
+    local: true
+    options:
+      runInCI: true
+      persistent: false
+
+  format:
+    command: "prettier --write --ignore-path ../../.prettierignore ."
+    options:
+      mergeArgs: "replace"
+    inputs: ["**/*", "!node_modules/**", "!build/**", "!.svelte-kit/**", "!storybook-static/**", "**/.*/**"]

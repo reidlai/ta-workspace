@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/svelte";
 import DemoWidget from "./DemoWidget.svelte";
 import type { IDemoWidgetStory } from "./DemoWidget.types";
-const meta = {
+const meta: Meta<typeof DemoWidget> = {
   title: "Widgets/DemoWidget",
   component: DemoWidget,
   tags: ["autodocs"],
@@ -20,12 +20,12 @@ const meta = {
     onIncrement: { action: "incremented" },
     onStatusChange: { action: "statusChanged" },
   },
-} satisfies Meta<IDemoWidgetStory>;
+};
 
-import { useArgs } from '@storybook/preview-api';
+import { useArgs } from "@storybook/preview-api";
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof DemoWidget>;
 
 export const Default: Story = {
   args: {

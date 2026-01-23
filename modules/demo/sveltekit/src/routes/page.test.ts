@@ -84,6 +84,8 @@ describe("DemoPage", () => {
     render(DemoPage);
 
     expect(screen.getByText("SvelteKit Routing Examples")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "View Routing Examples" })).toHaveAttribute("href", "/routing");
+    expect(
+      screen.getByRole("link", { name: "View Routing Examples" }),
+    ).toHaveAttribute("href", "/routing");
   });
 });

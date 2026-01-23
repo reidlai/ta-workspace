@@ -1,9 +1,10 @@
 import { defineConfig } from "vitest/config";
 import { sveltekit } from "@sveltejs/kit/vite";
+import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
 export default defineConfig(({ mode }) => ({
-  plugins: [sveltekit()],
+  plugins: [tailwindcss(), sveltekit()],
   test: {
     globals: true,
     environment: "jsdom",
@@ -17,11 +18,11 @@ export default defineConfig(({ mode }) => ({
       $lib: path.resolve(__dirname, "./src/lib"),
       ...(mode === "test"
         ? {
-          "$app/navigation": path.resolve(
-            __dirname,
-            "./src/test/mocks/app-navigation.ts",
-          ),
-        }
+            "$app/navigation": path.resolve(
+              __dirname,
+              "./src/test/mocks/app-navigation.ts",
+            ),
+          }
         : {}),
       "@modules/demo-ts": path.resolve(__dirname, "../ts/src"),
     },

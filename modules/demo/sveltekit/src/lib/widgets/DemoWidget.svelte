@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { Button } from "$lib/components/ui/button/index";
-  import * as Card from "$lib/components/ui/card/index";
-  import { Input } from "$lib/components/ui/input/index";
-  import { Label } from "$lib/components/ui/label/index";
+  import { Button } from "../components/ui/button/index";
+  import * as Card from "../components/ui/card/index";
+  import { Input } from "../components/ui/input/index";
+  import { Label } from "../components/ui/label/index";
 
-  import type { IDemoWidgetStory } from "$lib/widgets/DemoWidget.types";
-  import { demoState } from "$lib/runes/DemoState.svelte";
+  import type { IDemoWidgetStory } from "./DemoWidget.types";
+  import { demoState } from "../runes/DemoState.svelte";
 
   let {
     status: statusProp,

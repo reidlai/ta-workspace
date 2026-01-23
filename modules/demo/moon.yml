@@ -3,102 +3,113 @@ id: 'demo'
 language: "unknown" # Mixed/Polyglot
 
 fileGroups:
-  svelte: ["svelte/**/*"]
-  ts: ["ts/**/*"]
+  sveltekit: ["sveltekit/**/*", "!sveltekit/node_modules/**", "!sveltekit/dist/**", "**/.*/**"]
+  ts: ["ts/**/*", "!ts/node_modules/**", "**/.*/**"]
 
 tasks:
   # Svelte Frontend
   svelte-dev:
-    command: "pnpm --dir svelte dev"
+    deps: ["demo-sveltekit:dev"]
     local: true
     platform: "node"
 
   svelte-build:
-    command: "pnpm --dir svelte build"
-    inputs: ["svelte/**/*", "ts/**/*"]
-    deps: ["ts-build"] # Depends on shared lib
+    deps: ["demo-sveltekit:build"]
     platform: "node"
 
   svelte-sync:
-    command: "pnpm --dir svelte run sync"
-    inputs: ["svelte/**/*.svelte", "svelte/**/*.ts", "svelte/**/*.js"]
+    deps: ["demo-sveltekit:sync"]
     platform: "node"
     local: true
     options:
-      runInCI: true # Required because 'local: true' defaults this to false
-      persistent: false # It's a one-off command, not a server
+      runInCI: true
+      persistent: false
 
   svelte-check:
-    command: "pnpm --dir svelte check"
-    inputs: ["svelte/**/*", "ts/**/*"]
-    deps: ["svelte-sync"]
+    deps: ["demo-sveltekit:check"]
     platform: "node"
 
   svelte-test:
-    command: "pnpm --dir svelte run test"
-    env:
-      CI: "true"
-    inputs: ["svelte/**/*", "ts/**/*"]
-    deps: ["ts-build"]
+    deps: ["demo-sveltekit:test"]
     platform: "node"
 
   svelte-lint:
-    command: "pnpm --dir svelte lint"
-    inputs: ["svelte/**/*"]
-    deps: ["svelte-sync"]
-    platform: "node"
+    deps: ["demo-sveltekit:lint"]
+    platform: "system"
+    options:
+      mergeInputs: 'replace'
 
   svelte-format:
-    command: "pnpm --dir svelte run format"
-    inputs: ["svelte/**/*"]
-    platform: "node"
+    deps: ["demo-sveltekit:format"]
+    platform: "system"
+    inputs: ["moon.yml"]
+    options:
+      mergeInputs: 'replace'
 
   svelte-storybook:
-    command: "pnpm --dir svelte run story:dev"
-    inputs: ["svelte/**/*"]
+    deps: ["demo-sveltekit:storybook"]
     platform: "node"
     local: true
 
   # TypeScript Shared Lib
   ts-build:
-    command: "pnpm --dir ts build"
-    inputs: ["ts/**/*"]
+    deps: ["demo-ts:build"]
     platform: "node"
 
   ts-lint:
-    command: "pnpm --dir ts lint"
-    inputs: ["ts/**/*"]
-    platform: "node"
+    deps: ["demo-ts:lint"]
+    platform: "system"
+    options:
+      mergeInputs: 'replace'
 
   ts-test:
-    command: "pnpm --dir ts run test"
-    env:
-      CI: "true"
-    inputs: ["ts/**/*"]
+    deps: ["demo-ts:test"]
     platform: "node"
 
   ts-format:
-    command: "pnpm --dir ts run format"
-    inputs: ["ts/**/*"]
-    platform: "node"
+    deps: ["demo-ts:format"]
+    platform: "system"
+    inputs: ["moon.yml"]
+    options:
+      mergeInputs: 'replace'
 
   # Composite Tasks
   build:
     command: 'echo "Building all components"'
     deps: ["svelte-build", "ts-build"]
+    outputs: []
     platform: "system"
+    options:
+      mergeArgs: 'replace'
+      mergeInputs: 'replace'
+      mergeOutputs: 'replace'
 
   test:
     command: 'echo "Testing all components"'
     deps: ["svelte-test", "ts-test", "svelte-check"]
     platform: "system"
+    options:
+      mergeArgs: 'replace'
 
   lint:
     command: 'echo "Linting all components"'
     deps: ["ts-lint", "svelte-lint"]
     platform: "system"
+    inputs: ["moon.yml"]
+    options:
+      mergeArgs: 'replace'
+      mergeInputs: 'replace'
 
   format:
     command: 'echo "Formatting all components"'
     deps: ["ts-format", "svelte-format"]
+    platform: "system"
+    inputs: ["moon.yml"]
+    options:
+      mergeArgs: 'replace'
+      mergeInputs: 'replace'
+
+  storybook:
+    deps: ["svelte-storybook"]
+    local: true
     platform: "system"

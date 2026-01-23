@@ -6,9 +6,9 @@ stack: "frontend"
 
 tasks:
   build:
-    outputs: []
-    options:
-      mergeOutputs: "replace"
+    command: "svelte-package"
+    outputs:
+      - "dist/**"
 
   dev:
     command: "vite dev"
@@ -27,12 +27,42 @@ tasks:
       - "sync"
 
   lint:
-    command: "pnpm run lint"
+    command: "svelte-check --tsconfig ./tsconfig.json --output human"
+    inputs:
+      [
+        "src/**/*",
+        "!src/lib/api-client.ts",
+        "!dist/**",
+        "!storybook-static/**",
+        "**/.*/**",
+        "moon.yml",
+      ]
+    platform: node
+    options:
+      mergeArgs: "replace"
+      mergeInputs: "replace"
+    deps:
+      - "sync"
 
   test:
     command: "vitest run"
+    platform: node
     env:
       CACHE_BUST: "1"
+    options:
+      mergeArgs: "replace"
 
   format:
-    command: "prettier --plugin-search-dir . --write ."
+    command: "prettier --write --ignore-path ../../../.prettierignore ."
+    inputs:
+      [
+        "src/**/*",
+        "!src/lib/api-client.ts",
+        "!dist/**",
+        "!storybook-static/**",
+        "**/.*/**",
+        "moon.yml",
+      ]
+    platform: node
+    options:
+      mergeArgs: "replace"

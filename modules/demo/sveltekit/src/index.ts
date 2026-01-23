@@ -10,7 +10,9 @@ const adapter = new SvelteKitAdapter();
 
 export const init: ModuleInit = async (_context) => {
   // 1. Discover SvelteKit routes
-  const routes = import.meta.glob('./routes/**/+*.{svelte,ts}', { eager: true });
+  const routes = import.meta.glob("./routes/**/+*.{svelte,ts}", {
+    eager: true,
+  });
   const bundle = await adapter.parse(routes);
 
   // 2. Decorate bundle with module-specific metadata, widgets, and services

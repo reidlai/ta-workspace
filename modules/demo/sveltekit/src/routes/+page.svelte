@@ -1,7 +1,8 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import * as Card from "$lib/components/ui/card";
-  import { Button, buttonVariants } from "$lib/components/ui/button";
+  import DemoWidget from "../lib/widgets/DemoWidget.svelte";
+  import * as Card from "../lib/components/ui/card";
+  import { Button, buttonVariants } from "../lib/components/ui/button";
 
   // Demo state
   let currentStep = 0;

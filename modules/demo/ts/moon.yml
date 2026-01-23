@@ -1,19 +1,30 @@
-$schema: 'https://moonrepo.dev/schemas/project.json'
-id: 'demo-ts'
-type: 'library'
-stack: 'frontend'
+$schema: "https://moonrepo.dev/schemas/project.json"
+id: "demo-ts"
+type: "library"
+stack: "frontend"
 
 tasks:
   build:
     outputs:
-      - 'dist'
+      - "dist"
   lint:
-    command: 'eslint .'
+    command: "eslint ."
+    inputs: ["**/*", "!node_modules/**", "**/.*/**"]
+    platform: node
     options:
-      mergeArgs: 'replace'
+      mergeArgs: "replace"
+      mergeInputs: "replace"
 
   test:
-    command: 'vitest run'
+    command: "vitest run"
+    platform: node
+    options:
+      mergeArgs: "replace"
 
   format:
-    command: 'prettier --write .'
+    command: "prettier --write --ignore-path ../../../.prettierignore ."
+    inputs: ["**/*", "!node_modules/**", "**/.*/**"]
+    platform: node
+    options:
+      mergeArgs: "replace"
+      mergeInputs: "replace"

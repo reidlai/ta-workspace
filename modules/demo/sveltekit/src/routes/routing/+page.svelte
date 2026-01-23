@@ -1,5 +1,6 @@
 <script lang="ts">
-    import * as Card from "$lib/components/ui/card";
+    import DemoWidget from "../../lib/widgets/DemoWidget.svelte";
+    import * as Card from "../../lib/components/ui/card";
 </script>
 
 <div class="container mx-auto p-8 space-y-8">

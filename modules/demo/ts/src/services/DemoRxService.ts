@@ -10,10 +10,10 @@ export class DemoRxService {
   /**
    * Initialize RxJS BehaviorSubject based on zod schema
    */
-  
+
   private _state$ = new BehaviorSubject<DemoStateType>({
     status: "Demo service is running",
-    count: 0
+    count: 0,
   });
 
   private _usingMockData$ = new BehaviorSubject<boolean>(false);
@@ -30,20 +30,20 @@ export class DemoRxService {
 
   public readonly status$ = this._state$.pipe(
     // 1. Selector: Extract only the 'status' property from the full state object
-    map(state => state.status),
+    map((state) => state.status),
     // 2. Optimization: Only emit if the new status is different from the previous one
     //    (Prevents unnecessary re-renders in consumers if other parts of state change)
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
   public readonly count$ = this._state$.pipe(
     // 1. Selector: Extract only the 'count' property
-    map(state => state.count),
+    map((state) => state.count),
     // 2. Optimization: Only emit if the count actually changes
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 
-  private constructor() { }
+  private constructor() {}
 
   public static getInstance(): DemoRxService {
     if (!DemoRxService.instance) {
@@ -71,7 +71,7 @@ export class DemoRxService {
     return this._state$.getValue();
   }
 
-  public getStatus(): DemoStateType['status'] {
+  public getStatus(): DemoStateType["status"] {
     return this._state$.getValue().status;
   }
 
@@ -92,12 +92,12 @@ export class DemoRxService {
   }
 
   // Convenience methods that leverage the strict updateState
-  public setStatus(status: DemoStateType['status']): void {
+  public setStatus(status: DemoStateType["status"]): void {
     const current = this.currentState;
     this.updateState({ ...current, status });
   }
 
-  public getCount(): DemoStateType['count'] {
+  public getCount(): DemoStateType["count"] {
     return this._state$.getValue().count;
   }
 
