@@ -44,3 +44,9 @@ tasks:
       - '!**/sveltekit/dist/**'
       - '!**/.*/**'
       - '!**/storybook-static/**'
+ 
+  all-start:
+    deps:
+      - 'go-server:start'
+      - 'sveltekit-appshell:start'
+    local: true

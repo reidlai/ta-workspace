@@ -15,6 +15,7 @@
     "preinstall": "./scripts/check-platform.sh",
     "moon": "moon",
     "setup": "./scripts/check-platform.sh && moon setup",
+    "start": "moon run :all-start",
     "ci": "moon ci",
     "check-platform": "./scripts/check-platform.sh"
   },
