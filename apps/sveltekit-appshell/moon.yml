@@ -49,7 +49,6 @@ tasks:
 
   sync:
     command: "svelte-kit sync"
-    local: true
     options:
       runInCI: true
       persistent: false
