@@ -21,7 +21,7 @@ description: "Implementation tasks for SvelteKit App Shell with custom DI"
 
 **Purpose**: Update workspace configuration to recognize the new application.
 
-- [x] T001 Update `moon.yml` or `workspace.yml` to include `apps/sv-appshell` in projects list
+- [x] T001 Update `moon.yml` or `workspace.yml` to include `apps/sveltekit-appshell` in projects list
 
 ## Phase 2: Foundational (Shared Interfaces & Core Structure)
 
@@ -46,16 +46,16 @@ description: "Implementation tasks for SvelteKit App Shell with custom DI"
 
 **Goal**: Initialize the SvelteKit app and ensure it runs via Moonrepo.
 
-**Independent Test**: `moon run sv-appshell:dev` works.
+**Independent Test**: `moon run sveltekit-appshell:dev` works.
 
 ### Implementation for User Story 1
 
-- [x] T012 [US1] Initialize SvelteKit app in `apps/sv-appshell` using `create-svelte` (skeleton project)
-- [x] T013 [US1] Install `adapter-node` and configure `apps/sv-appshell/svelte.config.js`
-- [x] T014 [US1] Create `apps/sv-appshell/Dockerfile` per Constitution
-- [x] T015 [US1] Create `apps/sv-appshell/moon.yml` with tasks for dev, build, test, lint
-- [x] T016 [US1] Add dependencies on `@shared/typescripts` and `@shared/core` in `apps/sv-appshell/package.json`
-- [x] T017 [US1] Verify build with `moon run sv-appshell:build`
+- [x] T012 [US1] Initialize SvelteKit app in `apps/sveltekit-appshell` using `create-svelte` (skeleton project)
+- [x] T013 [US1] Install `adapter-node` and configure `apps/sveltekit-appshell/svelte.config.js`
+- [x] T014 [US1] Create `apps/sveltekit-appshell/Dockerfile` per Constitution
+- [x] T015 [US1] Create `apps/sveltekit-appshell/moon.yml` with tasks for dev, build, test, lint
+- [x] T016 [US1] Add dependencies on `@shared/typescripts` and `@shared/core` in `apps/sveltekit-appshell/package.json`
+- [x] T017 [US1] Verify build with `moon run sveltekit-appshell:build`
 
 **Checkpoint**: Basic SvelteKit app is running and managed by Moonrepo.
 
@@ -67,9 +67,9 @@ description: "Implementation tasks for SvelteKit App Shell with custom DI"
 
 ### Implementation for User Story 2
 
-- [x] T018 [US2] Implement Dynamic Router catch-all in `apps/sv-appshell/src/routes/[...rest]/+page.svelte` (delegating to `@shared/core`)
-- [x] T019 [US2] Create example `modules.json` in `apps/sv-appshell/static/modules.json`
-- [x] T020 [US2] Implement App Initialization logic in `apps/sv-appshell/src/routes/+layout.ts` to boot Registry
+- [x] T018 [US2] Implement Dynamic Router catch-all in `apps/sveltekit-appshell/src/routes/[...rest]/+page.svelte` (delegating to `@shared/core`)
+- [x] T019 [US2] Create example `modules.json` in `apps/sveltekit-appshell/static/modules.json`
+- [x] T020 [US2] Implement App Initialization logic in `apps/sveltekit-appshell/src/routes/+layout.ts` to boot Registry
 - [x] T021 [US2] Create demo feature package in `packages/features/demo-module/package.json`
 - [x] T022 [US2] Implement `IFeatureBundle` in `packages/features/demo-module/src/index.ts`
 - [x] T023 [US2] Build demo feature `moon run feature-demo:build`
@@ -81,7 +81,7 @@ description: "Implementation tasks for SvelteKit App Shell with custom DI"
 
 **Purpose**: Cleanup and final verification.
 
-- [x] T025 [P] Run `moon run sv-appshell:lint` and fix violations
+- [x] T025 [P] Run `moon run sveltekit-appshell:lint` and fix violations
 - [x] T026 Create `docs/appshell-architecture.md` detailing DI, Registry, and Module concepts
 - [x] T027 Update `README.md` and `quickstart.md` with links to architecture docs and run instructions
 - [x] T028 Verify Docker image build `docker build .`

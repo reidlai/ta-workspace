@@ -4,6 +4,9 @@ fileGroups:
   sources:
     - 'src/**/*'
     - 'types/**/*'
+    - '!**/sveltekit/dist/**'
+    - '!**/.*/**'
+    - '!**/storybook-static/**'
   tests:
     - 'tests/**/*'
     - '**/__tests__/**/*'
@@ -23,9 +26,27 @@ tasks:
       - '@group(tests)'
       - '@group(sources)'
 
+  format:
+    command: 'prettier --write --ignore-path $workspaceRoot/.prettierignore .'
+    inputs:
+      - '@group(sources)'
+      - '!**/sveltekit/dist/**'
+      - '!**/.*/**'
+      - '!**/storybook-static/**'
+
+
   lint:
     command: 'npm run lint'
     inputs:
       - '@group(sources)'
       - '.eslintrc.*'
       - 'tsconfig.json'
+      - '!**/sveltekit/dist/**'
+      - '!**/.*/**'
+      - '!**/storybook-static/**'
+ 
+  all-start:
+    deps:
+      - 'go-server:start'
+      - 'sveltekit-appshell:start'
+    local: true

@@ -2,12 +2,18 @@ $schema: 'https://moonrepo.dev/schemas/workspace.json'
 
 projects:
   - 'apps/*'
-  - 'modules/demo/*'
+  - 'modules/demo'
+  - 'modules/demo/ts'
+  - 'modules/demo/sveltekit'
+  - 'modules/portfolio'
+  - 'modules/portfolio/go'
   - 'modules/portfolio/ts'
-  - 'modules/portfolio/svelte'
+  - 'modules/portfolio/sveltekit'
+  - 'modules/watchlist'
+  - 'modules/watchlist/go'
   - 'modules/watchlist/ts'
-  - 'modules/watchlist/svelte'
-  - 'scripts/*'
+  - 'modules/watchlist/sveltekit'
+  - 'scripts/module-workflow'
 
 vcs:
   manager: 'git'

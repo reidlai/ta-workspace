@@ -39,11 +39,17 @@ jobs:
         run: |
           pnpm install
           pip install pytm semgrep
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.64.8
+          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+
+      - name: Setup SvelteKit Environment
+        run: |
+          echo "PUBLIC_API_URL=http://localhost:8080" > apps/sveltekit-appshell/.env
 
       # Stage 1: SCA
       - name: SCA - Go Vulnerability Check
         run: |
-          for dir in apps/ta-server modules/portfolio/go modules/watchlist/go; do
+          for dir in apps/go-server modules/portfolio/go modules/watchlist/go; do
             echo "Checking $dir..."
             (cd "$dir" && go run golang.org/x/vuln/cmd/govulncheck@latest ./...)
           done
@@ -59,7 +65,7 @@ jobs:
 
       - name: Lint - Go Format & Tidy
         run: |
-          for dir in apps/ta-server modules/portfolio/go modules/watchlist/go; do
+          for dir in apps/go-server modules/portfolio/go modules/watchlist/go; do
             echo "Linting $dir..."
             (cd "$dir" && go fmt ./... && go mod tidy)
           done
@@ -67,7 +73,7 @@ jobs:
       # Stage 3: Code Quality
       - name: Quality - Go Vet
         run: |
-          for dir in apps/ta-server modules/portfolio/go modules/watchlist/go; do
+          for dir in apps/go-server modules/portfolio/go modules/watchlist/go; do
             echo "Vetting $dir..."
             (cd "$dir" && go vet ./...)
           done
@@ -82,7 +88,7 @@ jobs:
       # Stage 5: SAST
       - name: SAST - Gosec (Go)
         run: |
-          for dir in apps/ta-server modules/portfolio/go modules/watchlist/go; do
+          for dir in apps/go-server modules/portfolio/go modules/watchlist/go; do
             echo "Scanning $dir..."
             (cd "$dir" && go run github.com/securego/gosec/v2/cmd/gosec@latest -no-fail ./...)
           done

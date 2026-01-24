@@ -9,7 +9,7 @@
 
 _Goal: Prepare the environment and verify dependencies._
 
-- [x] T001 Verify ShadCN `Card` components are available in `apps/sv-appshell/src/lib/components/ui/card`.
+- [x] T001 Verify ShadCN `Card` components are available in `apps/sveltekit-appshell/src/lib/components/ui/card`.
 - [x] T002 Verify `MyTickersWidget.svelte` exists in `modules/watchlist/svelte/src/widgets/`.
 
 ## Phase 2: Foundational

@@ -1,0 +1,115 @@
+# https://moonrepo.dev/docs/config/project
+id: 'demo'
+language: "unknown" # Mixed/Polyglot
+
+fileGroups:
+  sveltekit: ["sveltekit/**/*", "!sveltekit/node_modules/**", "!sveltekit/dist/**", "**/.*/**"]
+  ts: ["ts/**/*", "!ts/node_modules/**", "**/.*/**"]
+
+tasks:
+  # Svelte Frontend
+  svelte-dev:
+    deps: ["demo-sveltekit:dev"]
+    local: true
+    platform: "node"
+
+  svelte-build:
+    deps: ["demo-sveltekit:build"]
+    platform: "node"
+
+  svelte-sync:
+    deps: ["demo-sveltekit:sync"]
+    platform: "node"
+    local: true
+    options:
+      runInCI: true
+      persistent: false
+
+  svelte-check:
+    deps: ["demo-sveltekit:check"]
+    platform: "node"
+
+  svelte-test:
+    deps: ["demo-sveltekit:test"]
+    platform: "node"
+
+  svelte-lint:
+    deps: ["demo-sveltekit:lint"]
+    platform: "system"
+    options:
+      mergeInputs: 'replace'
+
+  svelte-format:
+    deps: ["demo-sveltekit:format"]
+    platform: "system"
+    inputs: ["moon.yml"]
+    options:
+      mergeInputs: 'replace'
+
+  svelte-storybook:
+    deps: ["demo-sveltekit:storybook"]
+    platform: "node"
+    local: true
+
+  # TypeScript Shared Lib
+  ts-build:
+    deps: ["demo-ts:build"]
+    platform: "node"
+
+  ts-lint:
+    deps: ["demo-ts:lint"]
+    platform: "system"
+    options:
+      mergeInputs: 'replace'
+
+  ts-test:
+    deps: ["demo-ts:test"]
+    platform: "node"
+
+  ts-format:
+    deps: ["demo-ts:format"]
+    platform: "system"
+    inputs: ["moon.yml"]
+    options:
+      mergeInputs: 'replace'
+
+  # Composite Tasks
+  build:
+    command: 'echo "Building all components"'
+    deps: ["svelte-build", "ts-build"]
+    outputs: []
+    platform: "system"
+    options:
+      mergeArgs: 'replace'
+      mergeInputs: 'replace'
+      mergeOutputs: 'replace'
+
+  test:
+    command: 'echo "Testing all components"'
+    deps: ["svelte-test", "ts-test", "svelte-check"]
+    platform: "system"
+    options:
+      mergeArgs: 'replace'
+
+  lint:
+    command: 'echo "Linting all components"'
+    deps: ["ts-lint", "svelte-lint"]
+    platform: "system"
+    inputs: ["moon.yml"]
+    options:
+      mergeArgs: 'replace'
+      mergeInputs: 'replace'
+
+  format:
+    command: 'echo "Formatting all components"'
+    deps: ["ts-format", "svelte-format"]
+    platform: "system"
+    inputs: ["moon.yml"]
+    options:
+      mergeArgs: 'replace'
+      mergeInputs: 'replace'
+
+  storybook:
+    deps: ["svelte-storybook"]
+    local: true
+    platform: "system"

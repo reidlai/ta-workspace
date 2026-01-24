@@ -17,13 +17,13 @@ The system is built on a high-performance monorepo foundation, supporting a modu
 
 Managed by **Moonrepo**, the workspace separates end-user applications from reusable logic:
 
-- **`apps/`**: Hosts for the AppShells (e.g., `sv-appshell`, `ta-server`).
+- **`apps/`**: Hosts for the AppShells (e.g., `sveltekit-appshell`, `go-server`).
 - **`modules/`**: Feature-specific logic (e.g., `watchlist`, `portfolio`) shared across apps.
 - **Toolchain**: Deterministic Node.js and pnpm versions ensured by Moonrepo.
 
-[📄 Read Monorepo Architecture](docs/MONOREPO-ARCHITECTURE.md)
+[📄 Read Monorepo Reference](https://github.com/reidlai/virtual-module-core/blob/main/docs/MONOREPO-REFERENCE.md)
 
-### 2. Frontend AppShell (`sv-appshell`)
+### 2. Frontend AppShell (`sveltekit-appshell`)
 
 A **SvelteKit**-based host that implements the **Virtual Module Pattern**.
 
@@ -31,9 +31,9 @@ A **SvelteKit**-based host that implements the **Virtual Module Pattern**.
 - **Registry**: A singleton managing widgets, routes, and services from injected modules.
 - **Framework Agnostic**: Designed to maximize code reuse across frameworks via ReactiveX.
 
-[📄 Read AppShell Architecture](docs/APPSHELL-ARCHITECTURE.md)
+[📄 Read AppShell Architecture](https://github.com/reidlai/virtual-module-core/blob/main/docs/APPSHELL-ARCHITECTURE.md)
 
-### 3. Backend AppShell (`ta-server`)
+### 3. Backend AppShell (`go-server`)
 
 A **Go**-based API server leveraging the **Goa Framework**.
 
@@ -41,7 +41,9 @@ A **Go**-based API server leveraging the **Goa Framework**.
 - **Modular Wiring**: Services like `watchlist` and `portfolio` are injected into the server core.
 - **Clean Architecture**: Separation of HTTP transport (Chi router) from business logic.
 
-[📄 Read API Server Architecture](docs/API-SERVER.md)
+[📄 Read AppShell Architecture](https://github.com/reidlai/virtual-module-core/blob/main/docs/APPSHELL-ARCHITECTURE.md)
+
+[📄 Read API Server Architecture](https://github.com/reidlai/virtual-module-core/blob/main/docs/API-SERVER.md)
 
 ## Virtual Module Injection Architecture
 
@@ -49,7 +51,7 @@ The AppShell uses a **Virtual Module Pattern** to dynamically inject features at
 
 ### How It Works
 
-1.  **Configuration**: The enabled modules are defined in [`apps/sv-appshell/static/modules.json`](apps/sv-appshell/static/modules.json). The AppShell reads this file at runtime to filter which available modules should be loaded.
+1.  **Configuration**: The enabled modules are defined in [`apps/sveltekit-appshell/static/modules.json`](apps/sveltekit-appshell/static/modules.json). The AppShell reads this file at runtime to filter which available modules should be loaded.
     ```json
     {
       "modules": [
@@ -64,27 +66,45 @@ The AppShell uses a **Virtual Module Pattern** to dynamically inject features at
 
 ### Code Example
 
-**1. Module Definition (`modules/watchlist/svelte/src/index.ts`):**
+**1. Module Definition (`modules/watchlist/sveltekit/src/index.ts`):**
 
 ```typescript
 import type { ModuleInit } from "virtual-module-core/types";
+import { SvelteKitAdapter } from "virtual-module-core";
+
+const adapter = new SvelteKitAdapter();
 
 export const init: ModuleInit = async (context) => {
+  const routes = Object.entries(routeFiles).map(
+    ([path, mod]: [string, any]) => {
+      // Determine type (page, layout, error) from filename
+      const type = path.split("/").pop()?.split(".")[0].replace("+", "");
+
+      return {
+        // Strip local path and filename to get the route key
+        // Example: "./routes/settings/profile/+page.svelte" -> "/settings/profile"
+        path: path.replace("./routes", "").replace(/\/\+.*\.(svelte)$/, ""),
+        component: mod.default,
+        type,
+      };
+    },
+  );
   return {
     id: "watchlist",
     widgets: [
-      {
-        id: "my-tickers",
-        title: "My Tickers",
-        component: MyTickersWidget, // Svelte Component
-        location: "dashboard",
-      },
+    {
+      id: "my-tickers",
+      title: "My Tickers",
+      component: MyTickersWidget, // Svelte Component
+      location: "dashboard",
+    },
     ],
+    routes,
   };
 };
 ```
 
-**2. AppShell Consumption (`apps/sv-appshell/src/routes/+page.svelte`):**
+**2. AppShell Consumption (`apps/sveltekit-appshell/src/routes/+page.svelte`):**
 
 ```svelte
 <script>
@@ -98,7 +118,7 @@ export const init: ModuleInit = async (context) => {
 {/if}
 ```
 
-[📄 read more details in APPSHELL-ARCHITECTURE.md](docs/APPSHELL-ARCHITECTURE.md)
+[📄 read more details in APPSHELL-ARCHITECTURE.md](https://github.com/reidlai/virtual-module-core/blob/main/docs/APPSHELL-ARCHITECTURE.md)
 
 ### Anatomy of a Virtual Module
 
@@ -106,7 +126,7 @@ Each module (e.g., `modules/watchlist`) is composed of several configuration fil
 
 | File                     | Location                     | Purpose                                                                                                                             |
 | :----------------------- | :--------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
-| **`modules.json`**       | `apps/sv-appshell/static/`   | **Runtime Config**. Tells the AppShell which modules to load and enable. Maps logical IDs to source paths.                          |
+| **`modules.json`**       | `apps/sveltekit-appshell/static/`   | **Runtime Config**. Tells the AppShell which modules to load and enable. Maps logical IDs to source paths.                          |
 | **`tsconfig.base.json`** | `root`                       | **Global Path Aliases**. Defines paths like `@modules/watchlist-ts` so you can import across the monorepo without relative paths.   |
 | **`moon.yml`**           | `modules/<feature>/<stack>/` | **Build Orchestration**. Defines the folder as a Moonrepo project. Specifies tasks (`build`, `test`, `lint`) and dependencies.      |
 | **`tsconfig.json`**      | `modules/<feature>/<stack>/` | **Type Config**. Extends `tsconfig.base.json` to inherit aliases but adds framework-specific types (e.g., `svelte`, `vite/client`). |
@@ -130,10 +150,10 @@ Each module (e.g., `modules/watchlist`) is composed of several configuration fil
    Create a `.env` file for the SvelteKit app:
 
    ```bash
-   cp apps/sv-appshell/.env.example apps/sv-appshell/.env
+   cp apps/sveltekit-appshell/.env.example apps/sveltekit-appshell/.env
    ```
 
-   Then edit `apps/sv-appshell/.env` and set the API URL:
+   Then edit `apps/sveltekit-appshell/.env` and set the API URL:
 
    ```bash
    PUBLIC_API_URL=http://localhost:8080
@@ -164,8 +184,8 @@ npx @moonrepo/cli run :dev
 ```
 
 This will start:
-- **Frontend (sv-appshell)**: http://localhost:5173
-- **Backend (ta-server)**: http://localhost:8080
+- **Frontend (sveltekit-appshell)**: http://localhost:5173
+- **Backend (go-server)**: http://localhost:8080
 
 Then open the app in your browser:
 - **Native Linux/macOS**: http://localhost:5173
@@ -198,31 +218,31 @@ Manage feature modules globally across the monorepo:
 - **Rename Module**: `npx @moonrepo/cli run :rename-module`
   - Renames a module and refactors internal references
 
-> **Note**: If you manually add modules using `git submodule`, you must update `.moon/workspace.yml` and potentially resolve Project ID collisions manually. See [Monorepo Architecture](docs/MONOREPO-ARCHITECTURE.md#manual-module-configuration).
+> **Note**: If you manually add modules using `git submodule`, you must update `.moon/workspace.yml` and potentially resolve Project ID collisions manually. See [Monorepo Architecture](https://github.com/reidlai/virtual-module-core/blob/main/docs/MONOREPO-REFERENCE.md#manual-module-configuration).
 
 > **Note**: The `:build` command compiles projects but does **not** start a development server.
 
 ## Applications
 
-### sv-appshell
+### sveltekit-appshell
 
 The main SvelteKit application shell.
 
 #### Development (Most Common)
 
-- **Start Dev Server**: `npx @moonrepo/cli run sv-appshell:dev`
+- **Start Dev Server**: `npx @moonrepo/cli run sveltekit-appshell:dev`
   - Opens dev server at **http://localhost:5173**
   - Supports hot module reloading
   - **This is what you use for day-to-day development**
 
 #### Other Commands
 
-- **Build Production**: `npx @moonrepo/cli run sv-appshell:build`
+- **Build Production**: `npx @moonrepo/cli run sveltekit-appshell:build`
   - Creates optimized production build
-- **Preview Production Build**: `npx @moonrepo/cli run sv-appshell:preview`
+- **Preview Production Build**: `npx @moonrepo/cli run sveltekit-appshell:preview`
   - Previews the production build locally
 
-### ta-server
+### go-server
 
 A Go-based server built with [Goa framework](https://goa.design/) and [Cobra](https://github.com/spf13/cobra) CLI.
 
@@ -234,7 +254,7 @@ Supports multiple server types:
 #### Running the API
 
 ```bash
-cd apps/ta-server
+cd apps/go-server
 
 # Start the REST API server (default: localhost:8080)
 go run . api-server
@@ -253,10 +273,10 @@ To run via Moonrepo (ensures correct environment), use `--` to pass arguments:
 
 ```bash
 # Start API server
-npx @moonrepo/cli run ta-server:run -- api-server
+npx @moonrepo/cli run go-server:run -- api-server
 
 # With flags
-npx @moonrepo/cli run ta-server:run -- api-server --port 9000
+npx @moonrepo/cli run go-server:run -- api-server --port 9000
 ```
 
 #### Configuration

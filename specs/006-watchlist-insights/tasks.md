@@ -21,7 +21,7 @@
 ## Phase 2: Foundational
 
 - [x] T005 Define Goa Design in apps/taassistant-api/design/design.go and Generate Code
-- [x] T006 Configure Vite Proxy in apps/sv-appshell/vite.config.ts
+- [x] T006 Configure Vite Proxy in apps/sveltekit-appshell/vite.config.ts
 
 ## Phase 3: Watchlist Module (P1)
 

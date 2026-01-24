@@ -19,14 +19,14 @@ description: "Task list for Standardize Slog Logging feature"
 
 ## Path Conventions
 
-- **Server**: `apps/ta-server/`
+- **Server**: `apps/go-server/`
 - **Modules**: `modules/`
 
 ## Phase 1: Setup (Shared Infrastructure)
 
 **Purpose**: Project initialization and basic structure
 
-- [x] T001 Verify `goa.design/clue` version and `slog` compatibility in `apps/ta-server/go.mod`
+- [x] T001 Verify `goa.design/clue` version and `slog` compatibility in `apps/go-server/go.mod`
 
 ---
 
@@ -36,8 +36,8 @@ description: "Task list for Standardize Slog Logging feature"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [x] T002 Implement `Middleware` in `apps/ta-server/internal/server/http.go` to extract OTel trace IDs and inject `slog` logger into context
-- [x] T003 [P] Define `TA_SERVER_LOG_LEVEL` and `TA_SERVER_LOG_FORMAT` constants/variables in `apps/ta-server/cmd/api-server.go`
+- [x] T002 Implement `Middleware` in `apps/go-server/internal/server/http.go` to extract OTel trace IDs and inject `slog` logger into context
+- [x] T003 [P] Define `TA_SERVER_LOG_LEVEL` and `TA_SERVER_LOG_FORMAT` constants/variables in `apps/go-server/cmd/api-server.go`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -51,7 +51,7 @@ description: "Task list for Standardize Slog Logging feature"
 
 ### Implementation for User Story 1
 
-- [x] T004 [US1] Implement JSON Handler with `ReplaceAttr` for GCP key mapping (`severity`, `trace`) in `apps/ta-server/cmd/api-server.go`
+- [x] T004 [US1] Implement JSON Handler with `ReplaceAttr` for GCP key mapping (`severity`, `trace`) in `apps/go-server/cmd/api-server.go`
 - [x] T005 [US1] Configure `api-server.go` to use JSON handler when `TA_SERVER_LOG_FORMAT=json`
 - [x] T006 [US1] Validate OTel trace injection in JSON output using manual request
 
@@ -67,9 +67,9 @@ description: "Task list for Standardize Slog Logging feature"
 
 ### Implementation for User Story 2
 
-- [x] T007 [US2] Implement Text Handler configuration in `apps/ta-server/cmd/api-server.go`
+- [x] T007 [US2] Implement Text Handler configuration in `apps/go-server/cmd/api-server.go`
 - [x] T008 [US2] Configure `api-server.go` to use Text handler when `TA_SERVER_LOG_FORMAT=text` (or default local env)
-- [x] T009 [US2] Update `apps/ta-server/moon.yml` to set default dev environment variables
+- [x] T009 [US2] Update `apps/go-server/moon.yml` to set default dev environment variables
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -85,7 +85,7 @@ description: "Task list for Standardize Slog Logging feature"
 
 - [x] T010 [P] [US3] Refactor `modules/watchlist/go/pkg/watchlist_service.go` to accept `*slog.Logger` and use `slog`
 - [x] T011 [P] [US3] Refactor `modules/portfolio/go/pkg/portfolio_service.go` to accept `*slog.Logger` and use `slog`
-- [x] T012 [US3] Update service initialization in `apps/ta-server/cmd/api-server.go` to pass the global `slog.Logger`
+- [x] T012 [US3] Update service initialization in `apps/go-server/cmd/api-server.go` to pass the global `slog.Logger`
 - [x] T013 [US3] Remove `goa.design/clue/log` imports and usage from all modified files
 
 **Checkpoint**: All user stories should now be independently functional
@@ -96,7 +96,7 @@ description: "Task list for Standardize Slog Logging feature"
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [x] T014 Run `go test ./...` in `apps/ta-server` to ensure no regressions
+- [x] T014 Run `go test ./...` in `apps/go-server` to ensure no regressions
 - [x] T015 Verify `quickstart.md` examples against implementation
 
 ---

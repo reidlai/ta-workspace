@@ -1,12 +1,8 @@
 packages:
   - "apps/*"
-  - "modules/demo/*"
-
-  - "modules/watchlist/ts"
-  - "modules/watchlist/svelte"
-  - "modules/portfolio/ts"
-  - "modules/portfolio/svelte"
-  - "modules/demo/ts"
+  - "modules/demo/**"
+  - "modules/watchlist/**"
+  - "modules/portfolio/**"
   - "scripts/module-workflow"
 
 onlyBuiltDependencies:

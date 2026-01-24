@@ -4,6 +4,8 @@
   "workspaces": [
     "apps/*",
     "modules/demo/*",
+    "modules/watchlist/*",
+    "modules/portfolio/*",
     "scripts/*"
   ],
   "os": [
@@ -13,12 +15,21 @@
     "preinstall": "./scripts/check-platform.sh",
     "moon": "moon",
     "setup": "./scripts/check-platform.sh && moon setup",
+    "start": "moon run :all-start",
     "ci": "moon ci",
     "check-platform": "./scripts/check-platform.sh"
   },
   "pnpm": {
     "overrides": {
-      "cookie": "^0.7.0"
+      "cookie": "^0.7.0",
+      "svelte@<3.49.0": ">=3.49.0",
+      "svelte@<4.2.19": ">=4.2.19"
+    },
+    "auditConfig": {
+      "ignoreCves": [
+        "GHSA-wv8q-r932-8hc7",
+        "GHSA-8266-84wp-wv5c"
+      ]
     },
     "ignoredBuiltDependencies": [
       "esbuild"
@@ -28,7 +39,9 @@
     "node": "~20"
   },
   "devDependencies": {
-    "@moonrepo/cli": "^1.41.7"
+    "@moonrepo/cli": "^1.41.7",
+    "prettier": "^3.8.1",
+    "prettier-plugin-svelte": "^3.4.1"
   },
   "packageManager": "pnpm@10.26.2"
 }

@@ -1,4 +1,4 @@
-# Quickstart: sv-appshell
+# Quickstart: sveltekit-appshell
 
 **Feature**: Create SvelteKit App Shell
 **Branch**: `002-create-sveltekit-application`
@@ -17,7 +17,7 @@
     ```
 
 2.  **Infrastructure (SvelteKit App)**:
-    The app is located at `apps/sv-appshell`.
+    The app is located at `apps/sveltekit-appshell`.
 
     _Note: The app is created via the `002` feature implementation._
 
@@ -28,7 +28,7 @@
 Run the SvelteKit app in dev mode (with Hot Module Replacement).
 
 ```bash
-moon run sv-appshell:dev
+moon run sveltekit-appshell:dev
 ```
 
 Access the app at `http://localhost:5173`.
@@ -38,22 +38,22 @@ Access the app at `http://localhost:5173`.
 Build the Docker-ready Node.js adapter output.
 
 ```bash
-moon run sv-appshell:build
+moon run sveltekit-appshell:build
 ```
 
-The output will be in `apps/sv-appshell/build`.
+The output will be in `apps/sveltekit-appshell/build`.
 
 ### Preview Production Build
 
 ```bash
-moon run sv-appshell:preview
+moon run sveltekit-appshell:preview
 ```
 
 ## Adding a Module
 
-1.  Define your module in `apps/sv-appshell/src/lib/modules/` (or strictly, inject it via the shared interface if external).
+1.  Define your module in `apps/sveltekit-appshell/src/lib/modules/` (or strictly, inject it via the shared interface if external).
 2.  Implement `init(context): IFeatureBundle`.
-3.  Register the module in `apps/sv-appshell/static/modules.json` (or equivalent config).
+3.  Register the module in `apps/sveltekit-appshell/static/modules.json` (or equivalent config).
 4.  Restart the dev server (if config is not hot-reloaded).
 
 ## Architecture

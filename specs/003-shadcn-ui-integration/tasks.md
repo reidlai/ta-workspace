@@ -15,11 +15,11 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [x] T001 Install and configure ShadCN UI for Svelte in `apps/sv-appshell`
-- [x] T002 Setup ShadCN UI theme configuration in `apps/sv-appshell/src/lib/config/shadcn.config.ts`
-- [x] T003 [P] Update `tsconfig.json` in `apps/sv-appshell` to support `@/*` alias for `src/`
-- [x] T004 Setup Cucumber (BDD) environment in `apps/sv-appshell` (dependencies, feature path config)
-- [x] T005 [P] Setup Vitest for unit testing in `apps/sv-appshell` and `packages/ts/*`
+- [x] T001 Install and configure ShadCN UI for Svelte in `apps/sveltekit-appshell`
+- [x] T002 Setup ShadCN UI theme configuration in `apps/sveltekit-appshell/src/lib/config/shadcn.config.ts`
+- [x] T003 [P] Update `tsconfig.json` in `apps/sveltekit-appshell` to support `@/*` alias for `src/`
+- [x] T004 Setup Cucumber (BDD) environment in `apps/sveltekit-appshell` (dependencies, feature path config)
+- [x] T005 [P] Setup Vitest for unit testing in `apps/sveltekit-appshell` and `packages/ts/*`
 
 ## Phase 2: Foundational (Blocking Prerequisites)
 
@@ -29,10 +29,10 @@
 
 - [x] T006 Define `IGadget`, `IGadgetRegistry`, and `IModuleConfig` interfaces in `packages/ts/types/src/gadget.ts`
 - [x] T007 Define `IThemeConfig` and `IModuleState` interfaces in `packages/ts/types/src/theme.ts`
-- [x] T008 [P] Implement `ThemeStore` using Svelte stores in `apps/sv-appshell/src/lib/stores/theme.ts`
-- [x] T009 [P] Implement `ModuleStateStore` with update atomicity (reactive queue) in `apps/sv-appshell/src/lib/stores/moduleState.ts`
-- [x] T010 [P] Implement `GadgetErrorBoundary.svelte` with local error recovery logic in `apps/sv-appshell/src/lib/components/dashboard/GadgetErrorBoundary.svelte`
-- [x] T011 [P] Create unit tests for `ModuleStateStore` in `apps/sv-appshell/src/lib/stores/moduleState.spec.ts`
+- [x] T008 [P] Implement `ThemeStore` using Svelte stores in `apps/sveltekit-appshell/src/lib/stores/theme.ts`
+- [x] T009 [P] Implement `ModuleStateStore` with update atomicity (reactive queue) in `apps/sveltekit-appshell/src/lib/stores/moduleState.ts`
+- [x] T010 [P] Implement `GadgetErrorBoundary.svelte` with local error recovery logic in `apps/sveltekit-appshell/src/lib/components/dashboard/GadgetErrorBoundary.svelte`
+- [x] T011 [P] Create unit tests for `ModuleStateStore` in `apps/sveltekit-appshell/src/lib/stores/moduleState.spec.ts`
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -52,12 +52,12 @@
 ### Implementation for User Story 1
 
 - [x] T014 [P] [US1] Implement `GadgetRegistry` class with dependency-ordered initialization in `packages/ts/registry/src/GadgetRegistry.ts`
-- [x] T015 [P] [US1] Create `GadgetGrid.svelte` using ShadCN UI layout primitives in `apps/sv-appshell/src/lib/components/dashboard/GadgetGrid.svelte`
-- [x] T016 [US1] Implement `Dashboard.svelte` main container in `apps/sv-appshell/src/lib/components/dashboard/Dashboard.svelte`
-- [x] T017 [US1] Update `apps/sv-appshell/src/routes/+page.svelte` to render the `Dashboard` component
+- [x] T015 [P] [US1] Create `GadgetGrid.svelte` using ShadCN UI layout primitives in `apps/sveltekit-appshell/src/lib/components/dashboard/GadgetGrid.svelte`
+- [x] T016 [US1] Implement `Dashboard.svelte` main container in `apps/sveltekit-appshell/src/lib/components/dashboard/Dashboard.svelte`
+- [x] T017 [US1] Update `apps/sveltekit-appshell/src/routes/+page.svelte` to render the `Dashboard` component
 - [x] T018 [P] [US1] Create `DemoWidget.svelte` organism in `packages/ts/svelte/features/demo/src/DemoWidget.svelte`
 - [x] T019 [US1] Update `packages/ts/svelte/features/demo/src/index.ts` to register and export the `DemoWidget`
-- [x] T020 [US1] Update `apps/sv-appshell/src/routes/+layout.ts` to initialize Gadget registration during module loading
+- [x] T020 [US1] Update `apps/sveltekit-appshell/src/routes/+layout.ts` to initialize Gadget registration during module loading
 - [x] T021 [P] [US1] Create unit tests for `GadgetRegistry` in `packages/ts/registry/src/GadgetRegistry.spec.ts`
 
 **Checkpoint**: User Story 1 functional - Dashboard displays gadgets and enables navigation
@@ -100,7 +100,7 @@
 
 - [x] T029 [US3] Implement service discovery method with dependency check in `GadgetRegistry.ts`
 - [x] T030 [US3] Update `packages/ts/svelte/features/demo/src/index.ts` to export its `DemoService` via the registry
-- [x] T031 [US3] Implement a test service consumer in `apps/sv-appshell/src/lib/components/dashboard/Dashboard.svelte` to invoke `DemoService`
+- [x] T031 [US3] Implement a test service consumer in `apps/sveltekit-appshell/src/lib/components/dashboard/Dashboard.svelte` to invoke `DemoService`
 
 **Checkpoint**: User Story 3 functional - Service discovery and invocation working across module boundaries
 
@@ -112,7 +112,7 @@
 
 **Independent Test**: Navigate through a multi-step flow and verify handler error recovery
 
-- [x] T032 [US4] Update `apps/sv-appshell/src/routes/[...rest]/+page.svelte` to support nested module routing
+- [x] T032 [US4] Update `apps/sveltekit-appshell/src/routes/[...rest]/+page.svelte` to support nested module routing
 - [x] T033 [US4] Implement a multi-step "User Journey" mock in `packages/ts/svelte/features/demo/src/DemoPage.svelte`
 - [x] T034 [P] [US4] Ensure browser history works correctly for internal module navigation
 - [x] T035 [US4] Implement "last-writer-wins" reactive queue test case in `ModuleStateStore`

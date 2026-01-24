@@ -1,6 +1,6 @@
 # Data Model & Interfaces
 
-**Feature**: sv-appshell
+**Feature**: sveltekit-appshell
 **Branch**: `002-create-sveltekit-application`
 
 ## Shared Interfaces (`packages/shared/typescripts`)

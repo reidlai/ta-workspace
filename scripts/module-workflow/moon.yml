@@ -1,6 +1,7 @@
 language: typescript
-type: application
 id: "module-workflow"
+type: "tool"
+stack: "systems"
 
 tasks:
   add-module:
@@ -17,3 +18,29 @@ tasks:
     command: "tsx src/bin/module-workflow.ts delete-module"
     description: "Delete a module and clean up references"
     platform: node
+
+  build:
+    command: "pnpm run build"
+    platform: node
+    options:
+      mergeArgs: "replace"
+
+  test:
+    command: "pnpm run test"
+    platform: node
+    options:
+      mergeArgs: "replace"
+
+  lint:
+    command: "pnpm run lint"
+    platform: node
+    inputs: ["**/*", "!node_modules/**", "**/.*/**"]
+    options:
+      mergeArgs: "replace"
+
+  format:
+    command: "prettier --write --ignore-path ../../.prettierignore ."
+    platform: node
+    inputs: ["**/*", "!node_modules/**", "**/.*/**"]
+    options:
+      mergeArgs: "replace"

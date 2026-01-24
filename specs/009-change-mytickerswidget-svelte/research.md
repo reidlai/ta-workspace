@@ -12,7 +12,7 @@
   - `Card.Root` as container
   - `Card.Header` -> `Card.Title` ("My Tickers"), `Card.Description` (Count + Exchanges)
   - `Card.Content` -> Scrollable list of tickers
-- **Rationale**: Follows standard library patterns found in `apps/sv-appshell/src/lib/components/ui/card`.
+- **Rationale**: Follows standard library patterns found in `apps/sveltekit-appshell/src/lib/components/ui/card`.
 - **Alternatives**: Custom div implementation (Rejected: Violates requirement to use ShadCN).
 
 ### 2. Read-Only State Management

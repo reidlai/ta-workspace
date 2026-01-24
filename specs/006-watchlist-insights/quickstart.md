@@ -18,7 +18,7 @@ go run ./apps/taassistant-api/cmd/taassistant-api
 
 ```bash
 # Terminal 2
-moon run sv-appshell:dev
+moon run sveltekit-appshell:dev
 # Listens on :5173
 # Proxies /api/* -> localhost:8000
 ```

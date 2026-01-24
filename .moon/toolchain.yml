@@ -5,4 +5,5 @@ node:
   packageManager: 'pnpm'
   pnpm:
     version: '10.26.2'
-  syncProjectWorkspaceDependencies: true
+  syncProjectWorkspaceDependencies: false
+  rootPackageOnly: true

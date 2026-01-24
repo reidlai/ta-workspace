@@ -70,7 +70,7 @@ specs/008-update-dashboard-strategy-widget/
 # Monorepo structure (existing + new files)
 
 apps/
-├── sv-appshell/
+├── sveltekit-appshell/
 │   ├── src/
 │   │   ├── routes/
 │   │   │   ├── +page.svelte          # [MODIFY] Update second gadget reference
@@ -78,7 +78,7 @@ apps/
 │   │   └── lib/
 │   │       └── components/ui/card/   # [EXISTING] ShadCN Card components
 │   └── moon.yml
-└── ta-server/
+└── go-server/
     ├── cmd/
     │   └── api-server.go             # [EXISTING] Server entry point
     ├── design/                       # [DELETE] Move to modules
@@ -100,7 +100,7 @@ modules/
 │   │           └── PortfolioService.ts  # [MODIFY] Ensure RxJS patterns (already compliant)
 │   └── go/
 │       ├── design/                   # [NEW] Move Goa design here
-│       │   └── portfolio.go           # [MOVE] From apps/ta-server/design
+│       │   └── portfolio.go           # [MOVE] From apps/go-server/design
 │       └── pkg/                      # [NEW] Move service implementation
 │           └── portfolio_service.go   # [MOVE] From modules/portfolio/go/
 ├── watchlist/
@@ -114,8 +114,8 @@ modules/
 │   │           └── WatchlistService.ts  # [VERIFY] RxJS compliance
 │   └── go/
 │       ├── design/                   # [NEW] Move Goa design here
-│       │   ├── watchlist.go          # [MOVE] From apps/ta-server/design
-│       │   └── exchange.go           # [MOVE] From apps/ta-server/design
+│       │   ├── watchlist.go          # [MOVE] From apps/go-server/design
+│       │   └── exchange.go           # [MOVE] From apps/go-server/design
 │       └── pkg/                      # [NEW] Move service implementation
 │           ├── watchlist_service.go  # [MOVE] From modules/watchlist/go/
 │           └── exchange_service.go   # [MOVE] From modules/watchlist/go/

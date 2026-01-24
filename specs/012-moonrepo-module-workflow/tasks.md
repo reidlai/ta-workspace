@@ -67,7 +67,7 @@ Goal: Finalize CLI experience and required documentation.
 
 - [ ] T025 Implement global error handling and colorized output in `modules/tooling/ts/src/bin/module-workflow.ts`
 - [ ] T026 Update `README.md` with command usage docs (FR-016)
-- [ ] T027 Update `docs/APPSHELL-ARCHITECTURE.md` with new workflow details (FR-016)
+- [ ] T027 Update `https://github.com/reidlai/virtual-module-core/blob/main/docs/APPSHELL-ARCHITECTURE.md` with new workflow details (FR-016)
 
 ## Dependencies
 

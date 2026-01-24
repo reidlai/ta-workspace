@@ -27,28 +27,28 @@ description: "Task list for Dashboard Strategy Widget update and Architectural R
 
 ### Refactor Demo Module (Frontend)
 
-- [x] T005 [P] Move `apps/sv-appshell/src/routes/demo/+page.svelte` logic or `modules/demo/svelte/src/DemoPage.svelte` (if exists) into `modules/demo/svelte/src/pages/DemoPage.svelte`
+- [x] T005 [P] Move `apps/sveltekit-appshell/src/routes/demo/+page.svelte` logic or `modules/demo/svelte/src/DemoPage.svelte` (if exists) into `modules/demo/svelte/src/pages/DemoPage.svelte`
 - [x] T006 [P] Update `modules/demo/svelte/src/index.ts` to export/register the new page location
 
 ### Refactor Watchlist Module (Backend & Frontend)
 
-- [x] T007 [P] Move `apps/ta-server/design/watchlist.go` and `exchange.go` to `modules/watchlist/go/design/`
+- [x] T007 [P] Move `apps/go-server/design/watchlist.go` and `exchange.go` to `modules/watchlist/go/design/`
 - [x] T008 [P] Move `modules/watchlist/go/*_service.go` to `modules/watchlist/go/pkg/`
 - [x] T009 [P] Verify/Update `modules/watchlist/ts/src/services/WatchlistService.ts` to use RxJS `BehaviorSubject` pattern
 
 ### Refactor Portfolio Module (Backend Base & Rename)
 
 - [x] T000 [P] Rename `modules/portfolio-ts` directory to `modules/portfolio` (Skipped: Handled via rename of insights to portfolio)
-- [x] T010 [P] Move `apps/ta-server/design/portfolio.go` to `modules/portfolio/go/design/portfolio.go`
+- [x] T010 [P] Move `apps/go-server/design/portfolio.go` to `modules/portfolio/go/design/portfolio.go`
 - [x] T011 [P] Move `modules/portfolio/go/portfolio_service.go` to `modules/portfolio/go/pkg/portfolio_service.go`
 
 ### Server Integration (Goa & Main)
 
 - [x] T012 Run `goa gen` for `modules/portfolio/go/design` and `modules/watchlist/go/design`
-- [x] T013 Update `apps/ta-server/cmd/api-server.go` imports to point to new `pkg` locations
-- [x] T014 Update `apps/ta-server/internal/server/http.go` imports if necessary
+- [x] T013 Update `apps/go-server/cmd/api-server.go` imports to point to new `pkg` locations
+- [x] T014 Update `apps/go-server/internal/server/http.go` imports if necessary
 
-**Checkpoint**: Build `ta-server` and `sv-appshell` to ensure no broken imports.
+**Checkpoint**: Build `go-server` and `sveltekit-appshell` to ensure no broken imports.
 
 ---
 
@@ -63,7 +63,7 @@ description: "Task list for Dashboard Strategy Widget update and Architectural R
 - [x] T015 [US1] Create mock valuation data structure in `modules/portfolio/svelte/src/widgets/PortfolioSummaryWidget.svelte`
 - [x] T016 [US1] Refactor `PortfolioSummaryWidget.svelte` to use ShadCN `Card` components (Card.Root, Card.Header, etc.)
 - [x] T017 [US1] Apply Tailwind container queries (`@container`) for responsiveness
-- [x] T018 [US1] Verify widget integration in `apps/sv-appshell/src/routes/+page.svelte` (Dashboard)
+- [x] T018 [US1] Verify widget integration in `apps/sveltekit-appshell/src/routes/+page.svelte` (Dashboard)
 
 **Checkpoint**: Widget visible and styled correctly on dashboard.
 
@@ -91,7 +91,7 @@ description: "Task list for Dashboard Strategy Widget update and Architectural R
 
 - [x] T022 [P] Verify strict compliance with "No Console Errors" (SC-001)
 - [x] T023 [P] Verify navigation performance < 200ms (SC-002)
-- [x] T024 [P] Remove any legacy files in `apps/ta-server/design/` if satisfied
+- [x] T024 [P] Remove any legacy files in `apps/go-server/design/` if satisfied
 
 ## Dependencies & Execution Order
 

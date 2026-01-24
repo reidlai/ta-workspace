@@ -1,3 +1,9 @@
+<!--
+Sync Impact Report:
+- Version change: 1.0.0 (inferred) -> 1.1.0
+- Added sections: "11. Reference Architecture & Standards"
+- Templates requiring updates: None
+-->
 # Constitution
 
 ## Purpose
@@ -139,6 +145,14 @@ AI coding agents MUST:
 
 - Adopt Twelve-Factor and SOLID principles as defaults for maintainability and
   scalability. Deviation requires an approved waiver.
+
+### 11. Reference Architecture & Standards
+
+- **Authority**: The following external documents defined in the `virtual-module-core` repository are the authoritative references for architecture and development standards. All designs and implementations MUST align with them.
+- **AppShell Architecture**: [`APPSHELL-ARCHITECTURE.md`](https://github.com/reidlai/virtual-module-core/blob/main/docs/APPSHELL-ARCHITECTURE.md)
+- **Virtual Module Architecture**: [`VIRTUAL-MODULE-ARCHITECTURE.md`](https://github.com/reidlai/virtual-module-core/blob/main/docs/VIRTUAL-MODULE-ARCHITECTURE.md)
+- **Monorepo Reference**: [`MONOREPO-REFERENCE.md`](https://github.com/reidlai/virtual-module-core/blob/main/docs/MONOREPO-REFERENCE.md)
+- **Developer Guide**: [`DEVELOPER-GUIDE.md`](https://github.com/reidlai/virtual-module-core/blob/main/docs/DEVELOPER-GUIDE.md)
 
 ## Definitions of Done (DoD) by Gate
 

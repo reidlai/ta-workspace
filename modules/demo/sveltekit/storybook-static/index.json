@@ -1,0 +1,59 @@
+{
+  "v": 5,
+  "entries": {
+    "pages-demopage--docs": {
+      "id": "pages-demopage--docs",
+      "title": "Pages/DemoPage",
+      "name": "Docs",
+      "importPath": "./src/lib/pages/DemoPage.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "pages-demopage--default": {
+      "type": "story",
+      "id": "pages-demopage--default",
+      "name": "Default",
+      "title": "Pages/DemoPage",
+      "importPath": "./src/lib/pages/DemoPage.stories.ts",
+      "componentPath": "./src/lib/pages/DemoPage.svelte",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "widgets-demowidget--docs": {
+      "id": "widgets-demowidget--docs",
+      "title": "Widgets/DemoWidget",
+      "name": "Docs",
+      "importPath": "./src/lib/widgets/DemoWidget.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "widgets-demowidget--default": {
+      "type": "story",
+      "id": "widgets-demowidget--default",
+      "name": "Default",
+      "title": "Widgets/DemoWidget",
+      "importPath": "./src/lib/widgets/DemoWidget.stories.ts",
+      "componentPath": "./src/lib/widgets/DemoWidget.svelte",
+      "tags": ["dev", "test", "autodocs"]
+    },
+    "widgets-simplewidget--docs": {
+      "id": "widgets-simplewidget--docs",
+      "title": "Widgets/SimpleWidget",
+      "name": "Docs",
+      "importPath": "./src/lib/widgets/SimpleWidget.stories.ts",
+      "type": "docs",
+      "tags": ["dev", "test", "autodocs"],
+      "storiesImports": []
+    },
+    "widgets-simplewidget--default": {
+      "type": "story",
+      "id": "widgets-simplewidget--default",
+      "name": "Default",
+      "title": "Widgets/SimpleWidget",
+      "importPath": "./src/lib/widgets/SimpleWidget.stories.ts",
+      "componentPath": "./src/lib/widgets/SimpleWidget.svelte",
+      "tags": ["dev", "test", "autodocs"]
+    }
+  }
+}

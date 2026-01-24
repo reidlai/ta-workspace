@@ -11,7 +11,7 @@ export class ConfigUpdater {
   async addModuleToRegistry(moduleName: string): Promise<void> {
     const registryPath = path.join(
       this.workspaceRoot,
-      "apps/sv-appshell/static/modules.json",
+      "apps/sveltekit-appshell/static/modules.json",
     );
     if (!(await fs.pathExists(registryPath))) {
       throw new Error(`Registry file not found at ${registryPath}`);
@@ -22,7 +22,7 @@ export class ConfigUpdater {
     content.modules = content.modules || {};
     content.modules[moduleName] = {
       id: moduleName,
-      src: `/modules/${moduleName}/svelte`,
+      src: `/modules/${moduleName}/sveltekit`,
     };
 
     await fs.writeJson(registryPath, content, { spaces: 2 });
@@ -34,7 +34,7 @@ export class ConfigUpdater {
   async removeModuleFromRegistry(moduleName: string): Promise<void> {
     const registryPath = path.join(
       this.workspaceRoot,
-      "apps/sv-appshell/static/modules.json",
+      "apps/sveltekit-appshell/static/modules.json",
     );
     if (!(await fs.pathExists(registryPath))) {
       return;
@@ -56,7 +56,7 @@ export class ConfigUpdater {
   ): Promise<void> {
     const registryPath = path.join(
       this.workspaceRoot,
-      "apps/sv-appshell/static/modules.json",
+      "apps/sveltekit-appshell/static/modules.json",
     );
     if (!(await fs.pathExists(registryPath))) return;
 
@@ -71,7 +71,7 @@ export class ConfigUpdater {
     // Add new
     content.modules[newName] = {
       id: newName,
-      src: `/modules/${newName}/svelte`,
+      src: `/modules/${newName}/sveltekit`,
     };
 
     await fs.writeJson(registryPath, content, { spaces: 2 });

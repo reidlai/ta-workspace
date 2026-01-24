@@ -30,7 +30,7 @@
 1. **Start the SvelteKit dev server**:
 
    ```bash
-   npx @moonrepo/cli run sv-appshell:dev
+   npx @moonrepo/cli run sveltekit-appshell:dev
    ```
 
    Access at: `http://localhost:5173` (or network IP if using WSL)
@@ -44,14 +44,14 @@
 1. **Start the API server**:
 
    ```bash
-   npx @moonrepo/cli run ta-server:run
+   npx @moonrepo/cli run go-server:run
    ```
 
    API available at: `http://localhost:8080`
 
 2. **Regenerate Goa code** (after design changes):
    ```bash
-   cd apps/ta-server
+   cd apps/go-server
    goa gen github.com/reidlai/ta-workspace/modules/portfolio/go/design
    goa gen github.com/reidlai/ta-workspace/modules/watchlist/go/design
    ```
@@ -60,8 +60,8 @@
 
 Open two terminal windows:
 
-- **Terminal 1**: `npx @moonrepo/cli run ta-server:run`
-- **Terminal 2**: `npx @moonrepo/cli run sv-appshell:dev`
+- **Terminal 1**: `npx @moonrepo/cli run go-server:run`
+- **Terminal 2**: `npx @moonrepo/cli run sveltekit-appshell:dev`
 
 ## Testing Scenarios
 
@@ -101,7 +101,7 @@ pkill -f vite
 
 ```bash
 # Kill existing Go process
-pkill -f ta-server
+pkill -f go-server
 ```
 
 ### WSL Localhost Access Issues
@@ -113,5 +113,5 @@ pkill -f ta-server
 
 - **Widget**: `modules/portfolio/svelte/src/widgets/PortfolioWidget.svelte`
 - **Page**: `modules/portfolio/svelte/src/pages/PortfolioPage.svelte`
-- **Dashboard**: `apps/sv-appshell/src/routes/+page.svelte`
-- **ShadCN Cards**: `apps/sv-appshell/src/lib/components/ui/card/`
+- **Dashboard**: `apps/sveltekit-appshell/src/routes/+page.svelte`
+- **ShadCN Cards**: `apps/sveltekit-appshell/src/lib/components/ui/card/`

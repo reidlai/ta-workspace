@@ -1,0 +1,83 @@
+type: "application"
+stack: "backend"
+id: "go-server"
+
+tasks:
+  build:
+    command: "go"
+    args:
+      - "build"
+      - "-o"
+      - "go-server.exe"
+      - "."
+    platform: "system"
+    inputs:
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
+    outputs:
+      - "go-server.exe"
+    options:
+      mergeArgs: "replace"
+      mergeInputs: "replace"
+    deps:
+      - "test"
+    local: true
+
+  test:
+    command: "go"
+    args:
+      - "test"
+      - "."
+      - "./cmd/..."
+      - "./internal/..."
+    platform: "system"
+    inputs:
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
+    options:
+      runInCI: true
+      mergeArgs: "replace"
+      mergeInputs: "replace"
+
+
+  start:
+    command: "go run . api-server"
+    env:
+      TA_SERVER_LOG_LEVEL: "DEBUG"
+      TA_SERVER_LOG_FORMAT: "text"
+    local: true
+
+  format:
+    command: "goimports"
+    args:
+      - "-w"
+      - "."
+    inputs:
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
+      - "!**/.*/**"
+    platform: "system"
+    options:
+      mergeArgs: "replace"
+      mergeInputs: "replace"
+
+  lint:
+    command: "go"
+    args:
+      - "run"
+      - "github.com/golangci/golangci-lint/cmd/golangci-lint@latest"
+      - "run"
+      - "-v"
+      - "--allow-parallel-runners"
+    inputs:
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
+      - "!**/.*/**"
+    options:
+      mergeArgs: "replace"
+      mergeInputs: "replace"
+    platform: "system"
