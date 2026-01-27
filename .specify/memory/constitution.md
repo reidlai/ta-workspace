@@ -1,8 +1,18 @@
 <!--
 Sync Impact Report:
-- Version change: 1.0.0 (inferred) -> 1.1.0
-- Added sections: "11. Reference Architecture & Standards"
-- Templates requiring updates: None
+- Version change: 1.1.0 -> 2.0.0 (Major architecture and workflow standardization)
+- Modified Principles: 
+    - "Branching, Protection, and Promotions" -> Refined to align with Release-Please and Monorepo flow.
+    - "Environments & Configuration" -> Updated to reflect AppShell architecture.
+    - "DevSecOps Gates" -> Aligned strict 6-stage pipeline from DEVSECOPS.md.
+    - "Architecture & Standards" -> Explicitly mapped to virtual-module-core docs.
+- Added Sections:
+    - "UI-First Development Workflow" (Mandatory 9-step process).
+    - "Virtual Module Architecture" (Polyglot structure, Registry, RxJS/Runes).
+    - "Monorepo & Toolchain" (Moonrepo, pnpm, Go 1.24+).
+- Removed Sections:
+    - Deprecated generic "Engineering Principles" in favor of specific architectural constraints.
+- Templates requiring updates: ✅ None (Templates logic remains valid, just stricter enforcement).
 -->
 # Constitution
 
@@ -14,11 +24,13 @@ process below. This constitution is intentionally concise and enforceable.
 
 ## Scope
 
-**Tech stack and images**: Service packaged as Docker using distroless base images.
-Multi-stage Docker builds are mandatory.
+**Tech stack**: 
+- **Frontend**: SvelteKit 2 + Svelte 5 (Runes) + TailwindCSS v4 + ShadCN.
+- **Backend**: Go 1.24+ (Goa DSL) + Zodios (TypeScript Client).
+- **Core**: RxJS 7+ for state management and transport decoupling.
+- **Build System**: Moonrepo + pnpm v10.
 
-**Environments and branches**: local, main, dev-test, sit, uat, staging, prod. Main is
-PR-only and has no runtime. Other env branches represent deployable environments.
+**Architecture**: Polyglot Virtual Module Architecture orchestrated by an AppShell.
 
 ## Decision Rights & Change Control
 
@@ -33,198 +45,80 @@ protection gates are satisfied.
 
 ## Immutable Rules
 
-### 1. Branching, Protection, and Promotions
+### 1. Authority & Reference Architecture
 
-- No direct pushes to protected env branches (main, dev-test, sit, uat, staging, prod).
-  All changes flow through PRs from issue branches named
-  `{issueNumber}-{issue_title_snake_case}`.
-- Git commits MUST be pushed only to issue-generated branch `#####-XXXXX`, where #####
-  is the GitHub issue number found in GitHub without zero padding and XXXXX is the issue
-  title in snake_case with variable length not limited to 5 characters.
-- If the issue number is found in branch name, spec-kit MUST use this issue number with
-  `gh-` prefix in `/specify` step as feature number.
-- Required flow:
-  1. local work → push → issue branch
-  2. PR issue → main (CI must pass)
-  3. PR main → dev-test (CD to dev-test; run unit, mocked integration, smoke)
-  4. On dev-test pass: create a release tag
-  5. PR dev-test (release tag) → sit (CD to sit; run integration tests)
-  6. On sit pass: tag sit at head
-  7. With approval: PR sit → uat (CD; run UAT)
-  8. On uat pass: tag uat at head
-  9. With approval: PR uat → staging (CD; pre-prod checks)
-  10. On staging pass: tag staging at head
-  11. With approval: PR staging → prod (CD; prod deploy)
-- main is PR-only aggregation; never deployed.
+The following documents in `virtual-module-core` are the **Single Source of Truth (SSOT)**. All designs and code MUST align with them:
 
-### 2. Environments & Configuration
+-   **AppShell Architecture**: implementation of Registry pattern, Module Loading, and RxJS/Rune state adapters ([`APPSHELL-ARCHITECTURE.md`](https://github.com/reidlai/virtual-module-core/blob/main/docs/APPSHELL-ARCHITECTURE.md)).
+-   **Virtual Module Pattern**: polyglot structure (go/ts/sveltekit), dependency injection, and Git submodule integration ([`VIRTUAL-MODULE-ARCHITECTURE.md`](https://github.com/reidlai/virtual-module-core/blob/main/docs/VIRTUAL-MODULE-ARCHITECTURE.md)).
+-   **Monorepo Strategy**: Moonrepo for task orchestration and toolchain management ([`MONOREPO-REFERENCE.md`](https://github.com/reidlai/virtual-module-core/blob/main/docs/MONOREPO-REFERENCE.md)).
+-   **Developer Guide**: The mandatory 9-step UI-First workflow ([`DEVELOPER-GUIDE.md`](https://github.com/reidlai/virtual-module-core/blob/main/docs/DEVELOPER-GUIDE.md)).
 
-- Environments: local (default), dev-test, sit, uat, staging, prod.
-- Config is via environment variables (12-Factor); no secrets in repo. Use dotenv or
-  platform env management for local only.
-- Dev/prod parity: keep envs as similar as possible (12-Factor).
+### 2. UI-First Development Workflow
 
-### 3. Containers & Base Images
+Feature development **MUST** follow the strictly phased 9-step sequence:
 
-- MUST use distroless base docker image with multi-stage builds.
-- Image MUST run as non-root, with minimal capabilities, and explicit HEALTHCHECK.
+1.  **UI Prototyping**: Create Svelte components with ShadCN and local `$state`.
+2.  **Local Types**: Define props interfaces for Storybook.
+3.  **Storybook**: Validate UX with stakeholders via `.stories.ts` (Loading, Error, Success).
+4.  **State Adapter**: Create Svelte Runes (`.svelte.ts`) implementing the state interface.
+5.  **API Contract**: Define Goa DSL (`design.go`) matching UI data needs.
+6.  **Code Gen**: Run `goa gen`.
+7.  **Backend Impl**: Implement Go service logic satisfying the generated interface.
+8.  **Client Gen**: Generate Zodios/TypeScript client from OpenAPI.
+9.  **Integration**: Wire RxJS Service (`.ts`) to Client and connect to Svelte Rune.
 
-### 4. Secrets & Sensitive Data
+**Constraint**: Backend implementation starts ONLY after UI contracts are validated (Step 3).
 
-- Never commit secrets, keys, tokens, or certificates. All secrets come from the runtime
-  secret store or env variables.
-- CI MUST run secret detection; any finding blocks merge until remediated.
+### 3. Virtual Module Architecture
 
-### 5. Dependencies & Licensing
+-   **Structure**: Modules MUST exist as independent Git submodules with `go/`, `ts/`, and `sveltekit/` layers.
+-   **Dependency Flow**: `UI (Svelte)` → `Shared (RxJS/Zod)` → `Backend (Go)`. Circular dependencies are FORBIDDEN.
+-   **Transport Independence**: UI components MUST NOT fetch data directly. They MUST subscribe to RxJS Observables exposed by the Shared layer.
+-   **Registry Pattern**: Widgets, Routes, and Services MUST be registered with the AppShell Registry at runtime via `init()`.
 
-- Only permissive licenses (MIT, Apache-2.0, BSD). Critical CVEs (and container
-  HIGH/CRITICAL, see rule 7) are zero-tolerance: remove, patch, or provide an approved,
-  time-bound waiver before merge.
+### 4. DevSecOps & Security Gates
 
-### 6. Testing (BDD-First)
+The 6-stage pipeline defined in `DEVSECOPS.md` and `.github/workflows/ci.yml` is **MANDATORY**:
 
-- Use Cucumber with Gherkin. Feature files live in `./features` and are tagged (e.g.,
-  @smoke, @integration, @api).
-- Steps are atomic/reusable; no business logic in steps.
-- All relevant BDD scenarios MUST pass in the target env before promotion.
-- Unit tests are isolated (no server runtime or external services; use mocks/stubs).
+1.  **SCA**: `govulncheck` and `pnpm audit` (High/Critical blocks).
+2.  **Linting**: `prettier`, `go fmt`, `trailing-whitespace`.
+3.  **Quality**: `moon lint` (ESLint), `go vet`.
+4.  **Testing**: `moon test` (Vitest Unit, Go Unit).
+5.  **SAST**: `gosec` (Go), `semgrep` (Polyglot) with strict error intervals.
+6.  **Threat Model**: `pytm` automated diagram generation.
 
-### 7. DevSecOps Gates (Blocking)
+**Constraint**: No code reaches `main` if any gate fails. Security waivers require specific `security-waiver` labels and PO approval.
 
-**CI (on PR to main)**:
+### 5. Monorepo & Toolchain
 
-- SCA passes (no CRITICAL; HIGH requires approved waiver).
-- Formatting/linting passes.
-- Secrets scanning passes.
-- Unit tests pass.
-- SAST/Threat Modeling: produce JSON at `./threat_modelling/reports/pr-threats.json`
-  and Markdown summary; auto-create GitHub issues for findings with severity labels.
+-   **Moonrepo**: The exclusive task runner. All tasks (build, test, lint) MUST be defined in `moon.yml`.
+-   **Consistency**: CI and Local environments MUST use Moonrepo's toolchain management to pin Node.js (v20+) and Go (v1.24+).
+-   **Workspace**: `pnpm-workspace.yaml`, `.moon/workspace.yml`, and `go.work` MUST be kept in sync for all modules.
 
-**Container build (pre-merge to env branch)**:
+### 6. Testing Strategy
 
-- Build with distroless base.
-- Container scan with Trivy; CRITICAL/HIGH findings block unless approved waiver is
-  attached to the PR and time-boxed.
+-   **Unit**: Isolated tests for Go (`go test`), Shared TS (`vitest`), and UI Components (`vitest`).
+-   **Mockability**: All external dependencies (DBs, APIs) MUST be mockable. RxJS services MUST support `usingMockData` toggle.
+-   **Storybook**: All UI widgets MUST have associated Storybook stories covering all states.
 
-**CD per env**:
+### 7. Branching & Release
 
-- dev-test: DAST (e.g., ZAP) MUST run and attach a report; post-deploy integration tests with mock/stub, post-deploy smoke tests (via Cucumber) with mock/stub pass
-  CRITICAL runtime vulns must page and trigger rollback policy (see runbook).
-- SIT: DAST (e.g., ZAP) MUST run and attach a report; post-deploy integration tests, post-deploy smoke tests (via Cucumber) pass.
-- UAT: DAST (e.g., ZAP) MUST run and attach a report; post-deploy Integration tests, post-deploy smoke tests (via Cucumber) pass.
-- STAGING: DAST (e.g., ZAP) MUST run and attach a report; post-deploy integration tests, post-deploy smoke tests (via Cucumber) pass.
-- PROD: DAST (e.g., ZAP) MUST run and attach a report
+-   **Flow**: Feature Branch (`issue-name`) → PR → Main.
+-   **Releases**: Semantic Versioning automated via `release-please`.
+-   **Protection**: Direct pushes to `main` are blocked.
 
 ### 8. AI Agent Guardrails
 
 AI coding agents MUST:
-
-- Work only against local or issue branches; never push to protected env branches.
-- Generate or update BDD feature files for new behaviors; ensure CI passes locally
-  before PR.
-- Never introduce secrets or disable scans; must honor branch naming and PR
-  requirements.
-- Include rationale of significant changes in PR description (auto-generated is
-  acceptable).
-- All agent prompts that impact code MUST be retained in PR comments or artifacts for
-  traceability (redact sensitive info).
-
-### 9. Directory & Files That Must Exist
-
-- `.github/workflows/ci.yaml` (see Enforcement)
-- `pre-commit-config.yaml`
-- `features/` (Cucumber specs)
-- `tests/integration/`, `tests/contract/` (integration and contract tests)
-- `apps/**/src/` (Source code for applications)
-- `modules/**/<lang>/src/` (Polyglot source code for modules, where <lang> means different languages like ts, go, rust, etc.)
-- `threat_modelling/` (incl. `reports/`)
-- `deploy/docker/` (Dockerfile, entrypoint.sh, etc.)
-- `local-devsecops.sh` (local pipeline script)
-
-### 10. Engineering Principles
-
-- Adopt Twelve-Factor and SOLID principles as defaults for maintainability and
-  scalability. Deviation requires an approved waiver.
-
-### 11. Reference Architecture & Standards
-
-- **Authority**: The following external documents defined in the `virtual-module-core` repository are the authoritative references for architecture and development standards. All designs and implementations MUST align with them.
-- **AppShell Architecture**: [`APPSHELL-ARCHITECTURE.md`](https://github.com/reidlai/virtual-module-core/blob/main/docs/APPSHELL-ARCHITECTURE.md)
-- **Virtual Module Architecture**: [`VIRTUAL-MODULE-ARCHITECTURE.md`](https://github.com/reidlai/virtual-module-core/blob/main/docs/VIRTUAL-MODULE-ARCHITECTURE.md)
-- **Monorepo Reference**: [`MONOREPO-REFERENCE.md`](https://github.com/reidlai/virtual-module-core/blob/main/docs/MONOREPO-REFERENCE.md)
-- **Developer Guide**: [`DEVELOPER-GUIDE.md`](https://github.com/reidlai/virtual-module-core/blob/main/docs/DEVELOPER-GUIDE.md)
-
-## Definitions of Done (DoD) by Gate
-
-**Main (PR)**: SCA, Lint/format, unit tests, SAST/threat modeling, secrets scan all
-green; artifacts uploaded.
-
-**Dev-test**: Binary was built; Docker container was built; Container security scanned; Docker image pushed; service deployed; post-deploy DAST, post-deploy integratoin tests (against composed services), post-deploy smoke tests (via Cucumber) pass; tagged `build-YYYYMMDDHHmm` with deployed container image.
-
-**SIT**: Latest image tagged with `build-YYYYMMDDHHmm` deployed as service; post-deploy DAST, post-deploy integration tests (against composed services), post-deploy smoke tests (via Cucumber) pass; tagged `sit-YYYYMMDDHHmm` with deployed container image; all agreed non-functional acceptance criteria pass; stakeholder sign-off recorded in PR.
-
-**UAT**: Latest image tagged with `sit-YYYYMMDDHHmm` deployed as service; post-deploy DAST, post-deploy integration tests (against composed services), post-deploy smoke tests (via Cucumber) pass; tagged `uat-YYYYMMDDHHmm` with deployed container image; all agreed functional acceptance criteria pass; stakeholder sign-off recorded in PR.
-
-**Staging**: Latest image tagged with `uat-YYYYMMDDHHmm` deployed as service; post-deploy DAST, post-deploy integration tests (against composed services), post-deploy smoke tests (via Cucumber) pass; tagged `staging-YYYYMMDDHHmm` with deployed container image; all agreed functional acceptance criteria pass; stakeholder sign-off recorded in PR.
-
-**Prod**: Remove existing `blue` tag from docker registry; Tagged `prod-YYYYMMDDHHmm` docker container in docker registry with `blue` and `stagging-YYYYMMDDHHmm` docker container in docker registry with `green`; Latest image tagged with `green` deployed as production service; post-deploy DAST pass
-
-## Enforcement Mapping (Reference Job Names)
-
-- `ci-sca`: blocks on CRITICAL; HIGH requires waiver.
-- `ci-format-lint`: enforces formatting/lint rules.
-- `ci-secrets-scan`: blocks on any secrets.
-- `ci-sast-threatmodel`: Run SAST and threat modelling detection and generates `./threat_modelling/reports/pr-threats.json` and MD
-  summary; auto-create issues.
-- `build-and-scan-image`: builds multi-stage, scans with Trivy; blocks on HIGH/CRITICAL
-  unless waived.
-- `cd-dast`: Run post-deploy DAST with environment-specific test suites (OWASP ZAP) depends on environment variable ENV.
-- `cd-integration-tests`: Run post-deploy integration tests with environment-specific test suites depends on environment variable ENV. E.g. if ENV is `dev-test`, integration tests should run with mock/stub.
-- `cd-smoke-tests`: Run post-deploy smoke tests with environment-specific test suites depends on environment variable ENV. E.g. if ENV is `dev-test`, smoke tests should run with mock/stub.
-
-## Waiver/Override Process
-
-**When allowed**: Only for time-bound risk acceptance where no feasible remediation
-exists before a deadline.
-
-**Scope**: Specific finding(s), version(s), environment(s), and duration (max 30 days).
-Not allowed for secrets in repo.
-
-**Approval**: Both Security Lead and Product Owner MUST approve in the PR (label
-`security-waiver` + link to issue with justification and expiry date).
-
-**Recording**: Create a GitHub Issue with details, link to PR, and set an auto-reminder
-before expiry. Re-review required at expiry.
-
-**CI behavior**: Jobs MUST read waiver metadata to continue; otherwise block.
-
-## Monorepo Architecture & Stack Strategy
-
-### Workspace Authority (Moonrepo)
-
-- **Governance**: The project MUST use **moonrepo** (`moon`) as the exclusive build system and task runner.
-- **Dependency Management**: Moonrepo is the source of truth for the project graph; strict boundaries between projects must be enforced via `moon.yml` configurations.
-- **Toolchain Consistency**: All environments (Local Dev & CI) must use Moonrepo's toolchain management to pin specific versions of Node.js and Golang, ensuring zero "works on my machine" issues.
-
-### Authorized Tech Stack
-
-- **Frontend Layer**: **Next.js** or **SvelteKit** are two options for all web interfaces and client-side applications.
-- **Backend Layer**: **Golang**, **Python**, or **Rust** are the authorized languages for core API services, focusing on performance and concurrency.
-- **Unified CI/CD**: CI pipelines must utilize Moonrepo's caching (`moon ci`) to only build/test affected projects, preventing redundant computation across the Frontend and Backend.
-
-## Out of Scope
-
-See `docs/policies/` for:
-
-- Tool catalogs or language-specific lint/SAST menus.
-- Long-form threat modeling methodology.
-- Detailed runbooks (rollback, paging, DAST tuning).
+-   Verify changes locally using `moon run :test` and `moon run :lint` before requesting review.
+-   Follow the **UI-First** workflow for new features (Start with UI, then Contract, then Backend).
+-   Never bypass Security Gates or modify `ci.yml` to weaken checks.
 
 ## Governance
 
 This constitution supersedes all other practices. All PRs and reviews MUST verify
-compliance. Complexity must be justified. Use CLAUDE.md for runtime development
-guidance.
+compliance.
 
 Amendments require: documentation, approval from Security Lead + PO + Maintainer,
 `constitution-change` label, and passing CI policy jobs before merge.
