@@ -40,7 +40,16 @@ tasks:
     command: "svelte-check --tsconfig ./tsconfig.json"
     env:
       PUBLIC_API_URL: "http://localhost:8080"
-    inputs: ["src/**/*", "!src/lib/api-client.ts", "!build/**", "!.svelte-kit/**", "!storybook-static/**", "**/.*/**", "moon.yml"]
+    inputs:
+      [
+        "src/**/*",
+        "!src/lib/api-client.ts",
+        "!build/**",
+        "!.svelte-kit/**",
+        "!storybook-static/**",
+        "**/.*/**",
+        "moon.yml",
+      ]
     options:
       mergeArgs: "replace"
       mergeInputs: "replace"
@@ -57,4 +66,12 @@ tasks:
     command: "prettier --write --ignore-path ../../.prettierignore ."
     options:
       mergeArgs: "replace"
-    inputs: ["**/*", "!node_modules/**", "!build/**", "!.svelte-kit/**", "!storybook-static/**", "**/.*/**"]
+    inputs:
+      [
+        "**/*",
+        "!node_modules/**",
+        "!build/**",
+        "!.svelte-kit/**",
+        "!storybook-static/**",
+        "**/.*/**",
+      ]
