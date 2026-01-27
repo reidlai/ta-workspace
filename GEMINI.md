@@ -7,6 +7,8 @@
 3.  Use `.agent/workflows/` as your `{WORKFLOW_DIR}`.
 
 ## Active Technologies
+- Bash (scripting), Docker, Moonrepo (YAML) (013-additional-moon-global)
+- N/A (Docker registry push is out of scope) (013-additional-moon-global)
 
 - Node.js v20 (LTS) (managed via toolchain) + Moonrepo, pnpm (001-initialize-current-project)
 - Svelte 5 (managed via toolchain) + Vite (001-initialize-current-project)
@@ -19,3 +21,6 @@
 - Flutter v3.22+ (managed via toolchain) (001-initialize-current-project)
 - Dart v2.22+ (managed via toolchain) (001-initialize-current-project)
 - Firebase v10+ (managed via toolchain) (001-initialize-current-project)
+
+## Recent Changes
+- 013-additional-moon-global: Added Bash (scripting), Docker, Moonrepo (YAML)

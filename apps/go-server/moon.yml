@@ -8,7 +8,7 @@ tasks:
     args:
       - "build"
       - "-o"
-      - "go-server.exe"
+      - "bin/go-server"
       - "."
     platform: "system"
     inputs:
@@ -16,13 +16,13 @@ tasks:
       - "go.mod"
       - "go.sum"
     outputs:
-      - "go-server.exe"
+      - "bin/go-server"
     options:
       mergeArgs: "replace"
       mergeInputs: "replace"
+      mergeOutputs: "replace"
     deps:
       - "test"
-    local: true
 
   test:
     command: "go"
@@ -81,3 +81,17 @@ tasks:
       mergeArgs: "replace"
       mergeInputs: "replace"
     platform: "system"
+
+  docker-build:
+    command: "../../scripts/docker-build-verify.sh ta-apiserver Dockerfile ../.."
+    inputs:
+      - "Dockerfile"
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
+      - "/scripts/docker-build-verify.sh"
+    deps:
+      - "test"
+      - "lint"
+    options:
+      cache: false

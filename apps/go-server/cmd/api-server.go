@@ -10,37 +10,46 @@ import (
 
 var apiServerCmd = &cobra.Command{
 	Use:   "api-server",
+	Short: "Manage the REST API server",
+	Long:  "Commands to manage the Technical Analysis Assistant REST API server",
+}
+
+var startCmd = &cobra.Command{
+	Use:   "start",
 	Short: "Start the REST API server",
 	Long:  "Start the Technical Analysis Assistant REST API server (Goa)",
 	RunE:  runAPIServer,
 }
 
 func init() {
-	// Server flags
-	apiServerCmd.Flags().String("host", "localhost", "Server host")
-	apiServerCmd.Flags().Int("port", 8080, "HTTP port")
-	apiServerCmd.Flags().Bool("debug", false, "Enable debug logging (DEPRECATED: use --log-level=DEBUG)")
-	apiServerCmd.Flags().String("log-level", "INFO", "Log level: DEBUG, INFO, WARN, ERROR")
-	apiServerCmd.Flags().String("log-format", "json", "Log format: json, text")
-	apiServerCmd.Flags().Bool("secure", false, "Use HTTPS scheme")
+	// Add start subcommand
+	apiServerCmd.AddCommand(startCmd)
 
-	// Bind flags to Viper
-	if err := viper.BindPFlag("api-server.host", apiServerCmd.Flags().Lookup("host")); err != nil {
+	// Server flags (moved to start subcommand)
+	startCmd.Flags().String("host", "localhost", "Server host")
+	startCmd.Flags().Int("port", 8080, "HTTP port")
+	startCmd.Flags().Bool("debug", false, "Enable debug logging (DEPRECATED: use --log-level=DEBUG)")
+	startCmd.Flags().String("log-level", "INFO", "Log level: DEBUG, INFO, WARN, ERROR")
+	startCmd.Flags().String("log-format", "json", "Log format: json, text")
+	startCmd.Flags().Bool("secure", false, "Use HTTPS scheme")
+
+	// Bind flags to Viper (using api-server prefix)
+	if err := viper.BindPFlag("api-server.host", startCmd.Flags().Lookup("host")); err != nil {
 		panic(err)
 	}
-	if err := viper.BindPFlag("api-server.port", apiServerCmd.Flags().Lookup("port")); err != nil {
+	if err := viper.BindPFlag("api-server.port", startCmd.Flags().Lookup("port")); err != nil {
 		panic(err)
 	}
-	if err := viper.BindPFlag("api-server.debug", apiServerCmd.Flags().Lookup("debug")); err != nil {
+	if err := viper.BindPFlag("api-server.debug", startCmd.Flags().Lookup("debug")); err != nil {
 		panic(err)
 	}
-	if err := viper.BindPFlag("api-server.log-level", apiServerCmd.Flags().Lookup("log-level")); err != nil {
+	if err := viper.BindPFlag("api-server.log-level", startCmd.Flags().Lookup("log-level")); err != nil {
 		panic(err)
 	}
-	if err := viper.BindPFlag("api-server.log-format", apiServerCmd.Flags().Lookup("log-format")); err != nil {
+	if err := viper.BindPFlag("api-server.log-format", startCmd.Flags().Lookup("log-format")); err != nil {
 		panic(err)
 	}
-	if err := viper.BindPFlag("api-server.secure", apiServerCmd.Flags().Lookup("secure")); err != nil {
+	if err := viper.BindPFlag("api-server.secure", startCmd.Flags().Lookup("secure")); err != nil {
 		panic(err)
 	}
 
