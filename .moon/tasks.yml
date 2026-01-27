@@ -50,3 +50,4 @@ tasks:
       - 'go-server:start'
       - 'sveltekit-appshell:start'
     local: true
+

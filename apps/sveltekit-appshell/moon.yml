@@ -75,3 +75,15 @@ tasks:
         "!storybook-static/**",
         "**/.*/**",
       ]
+
+  docker-build:
+    command: "../../scripts/docker-build-verify.sh ta-webserver Dockerfile ../.."
+    inputs:
+      - "Dockerfile"
+      - "build/**/*"
+      - "/scripts/docker-build-verify.sh"
+    deps:
+      - "test"
+      - "lint"
+    options:
+      cache: false
