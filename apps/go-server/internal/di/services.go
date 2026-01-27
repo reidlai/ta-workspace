@@ -27,7 +27,7 @@ func NewServices(logger *slog.Logger) *Services {
 		portfolioSvc portfolioGen.Service
 	)
 	{
-		watchlistSvc = watchlist.NewWatchlist(logger)
+		watchlistSvc = watchlist.NewWatchlist(logger, false)
 		portfolioSvc = portfolio.NewPortfolio(logger)
 	}
 
