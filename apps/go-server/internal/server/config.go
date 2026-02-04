@@ -10,6 +10,7 @@ type Config struct {
 	LogLevel  string
 	LogFormat string
 	Secure    bool
+	NatsURL   string
 }
 
 // Validate checks if the configuration is valid.

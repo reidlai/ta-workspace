@@ -17,7 +17,7 @@ The system is built on a high-performance monorepo foundation, supporting a modu
 
 Managed by **Moonrepo**, the workspace separates end-user applications from reusable logic:
 
-- **`apps/`**: Hosts for the AppShells (e.g., `sveltekit-appshell`, `go-server`).
+- **`apps/`**: Hosts for the AppShells (e.g., `sveltekit-appshell`, `rest-server`).
 - **`modules/`**: Feature-specific logic (e.g., `watchlist`, `portfolio`) shared across apps.
 - **Toolchain**: Deterministic Node.js and pnpm versions ensured by Moonrepo.
 
@@ -33,7 +33,7 @@ A **SvelteKit**-based host that implements the **Virtual Module Pattern**.
 
 [📄 Read AppShell Architecture](https://github.com/reidlai/virtual-module-core/blob/main/docs/APPSHELL-ARCHITECTURE.md)
 
-### 3. Backend AppShell (`go-server`)
+### 3. Backend AppShell (`rest-server`)
 
 A **Go**-based API server leveraging the **Goa Framework**.
 
@@ -124,13 +124,13 @@ export const init: ModuleInit = async (context) => {
 
 Each module (e.g., `modules/watchlist`) is composed of several configuration files that work together:
 
-| File                     | Location                     | Purpose                                                                                                                             |
-| :----------------------- | :--------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
-| **`modules.json`**       | `apps/sveltekit-appshell/static/`   | **Runtime Config**. Tells the AppShell which modules to load and enable. Maps logical IDs to source paths.                          |
-| **`tsconfig.base.json`** | `root`                       | **Global Path Aliases**. Defines paths like `@modules/watchlist-ts` so you can import across the monorepo without relative paths.   |
-| **`moon.yml`**           | `modules/<feature>/<stack>/` | **Build Orchestration**. Defines the folder as a Moonrepo project. Specifies tasks (`build`, `test`, `lint`) and dependencies.      |
-| **`tsconfig.json`**      | `modules/<feature>/<stack>/` | **Type Config**. Extends `tsconfig.base.json` to inherit aliases but adds framework-specific types (e.g., `svelte`, `vite/client`). |
-| **`go.mod`**             | `modules/<feature>/go/`      | **Backend Dependency**. Defines the Go module scope and dependencies (e.g., Goa framework) for the server-side component.           |
+| File                     | Location                          | Purpose                                                                                                                             |
+| :----------------------- | :-------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| **`modules.json`**       | `apps/sveltekit-appshell/static/` | **Runtime Config**. Tells the AppShell which modules to load and enable. Maps logical IDs to source paths.                          |
+| **`tsconfig.base.json`** | `root`                            | **Global Path Aliases**. Defines paths like `@modules/watchlist-ts` so you can import across the monorepo without relative paths.   |
+| **`moon.yml`**           | `modules/<feature>/<stack>/`      | **Build Orchestration**. Defines the folder as a Moonrepo project. Specifies tasks (`build`, `test`, `lint`) and dependencies.      |
+| **`tsconfig.json`**      | `modules/<feature>/<stack>/`      | **Type Config**. Extends `tsconfig.base.json` to inherit aliases but adds framework-specific types (e.g., `svelte`, `vite/client`). |
+| **`go.mod`**             | `modules/<feature>/go/`           | **Backend Dependency**. Defines the Go module scope and dependencies (e.g., Goa framework) for the server-side component.           |
 
 ## Prerequisites
 
@@ -185,7 +185,7 @@ npx @moonrepo/cli run :dev
 
 This will start:
 - **Frontend (sveltekit-appshell)**: http://localhost:5173
-- **Backend (go-server)**: http://localhost:8080
+- **Backend (rest-server)**: http://localhost:8080
 
 Then open the app in your browser:
 - **Native Linux/macOS**: http://localhost:5173
@@ -242,7 +242,7 @@ The main SvelteKit application shell.
 - **Preview Production Build**: `npx @moonrepo/cli run sveltekit-appshell:preview`
   - Previews the production build locally
 
-### go-server
+### rest-server
 
 A Go-based server built with [Goa framework](https://goa.design/) and [Cobra](https://github.com/spf13/cobra) CLI.
 
@@ -254,7 +254,7 @@ Supports multiple server types:
 #### Running the API
 
 ```bash
-cd apps/go-server
+cd apps/rest-server
 
 # Start the REST API server (default: localhost:8080)
 go run . api-server
@@ -273,10 +273,10 @@ To run via Moonrepo (ensures correct environment), use `--` to pass arguments:
 
 ```bash
 # Start API server
-npx @moonrepo/cli run go-server:run -- api-server
+npx @moonrepo/cli run rest-server:run -- api-server
 
 # With flags
-npx @moonrepo/cli run go-server:run -- api-server --port 9000
+npx @moonrepo/cli run rest-server:run -- api-server --port 9000
 ```
 
 #### Configuration

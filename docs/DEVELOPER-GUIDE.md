@@ -218,7 +218,7 @@ packages:
 go 1.22
 
 use (
-    ./apps/go-server
+    ./apps/rest-server
     ./modules/demo/go
     ./modules/portfolio/go
     ./modules/watchlist/go
@@ -467,25 +467,25 @@ Run any task using: `moon run <project>:<task>`
 #### `sveltekit-appshell` (Typescript Frontend)
 Main application shell.
 
-| Task | Command | Description |
-|------|---------|-------------|
-| `start` | `vite dev --host` | Start the development server |
-| `build` | `pnpm run build` | Build for production |
-| `test` | `pnpm run test:unit` | Run unit tests |
-| `lint` | `pnpm run lint` | Lint code |
-| `format` | `pnpm run format` | Format code |
+| Task     | Command              | Description                  |
+| -------- | -------------------- | ---------------------------- |
+| `start`  | `vite dev --host`    | Start the development server |
+| `build`  | `pnpm run build`     | Build for production         |
+| `test`   | `pnpm run test:unit` | Run unit tests               |
+| `lint`   | `pnpm run lint`      | Lint code                    |
+| `format` | `pnpm run format`    | Format code                  |
 
-#### `go-server` (Go Backend)
+#### `rest-server` (Go Backend)
 Main API server.
 
-| Task | Command | Description |
-|------|---------|-------------|
-| `start` | `go run . api-server` | Run the server |
-| `build` | `go build -o go-server.exe .` | Build binary |
-| `test` | `go test . ./cmd/... ./internal/...` | Run tests |
-| `lint` | `go run github.com/golangci/golangci-lint/cmd/golangci-lint@latest run -v` | Lint code |
-| `format` | `goimports -w .` | Format code |
-| `gen` | `goa gen github.com/reidlai/ta-workspace/apps/go-server/design` | Generate code from design |
+| Task     | Command                                                                    | Description               |
+| -------- | -------------------------------------------------------------------------- | ------------------------- |
+| `start`  | `go run . api-server`                                                      | Run the server            |
+| `build`  | `go build -o rest-server.exe .`                                            | Build binary              |
+| `test`   | `go test . ./cmd/... ./internal/...`                                       | Run tests                 |
+| `lint`   | `go run github.com/golangci/golangci-lint/cmd/golangci-lint@latest run -v` | Lint code                 |
+| `format` | `goimports -w .`                                                           | Format code               |
+| `gen`    | `goa gen github.com/reidlai/ta-workspace/apps/rest-server/design`          | Generate code from design |
 
 ### Modules
 
@@ -494,65 +494,65 @@ All modules (e.g., `portfolio`, `watchlist`, `demo`) follow a standard structure
 #### Root Project: `<module>`
 Aggregates tasks across sub-projects.
 
-| Task | Command | Description |
-|------|---------|-------------|
-| `build` | (Aggregated) | Builds all valid sub-projects |
-| `test` | (Aggregated) | Tests all valid sub-projects |
-| `lint` | (Aggregated) | Lints all valid sub-projects |
-| `format` | (Aggregated) | Formats all valid sub-projects |
-| `go-build` | `go build -v ./go/...` | Build Go backend (if exists) |
-| `go-test` | `go test -v ./go/...` | Test Go backend (if exists) |
-| `go-lint` | `golangci-lint run -v ./go/...` | Lint Go backend (if exists) |
-| `go-format` | `goimports -w ./go` | Format Go backend (if exists) |
-| `go-run` | `cd go && go run .` | Run Go server locally (if exists) |
-| `goa-gen` | `goa gen ... --output gen/goa` | Generate Goa code to gen/goa/ |
-| `ts-build` | `pnpm --dir ts build` | Build Shared TS logic (if exists) |
-| `ts-lint` | `pnpm --dir ts lint` | Lint Shared TS logic (if exists) |
-| `ts-test` | `pnpm --dir ts run test` | Test Shared TS logic (if exists) |
-| `ts-format` | `pnpm --dir ts run format` | Format Shared TS logic (if exists) |
-| `svelte-dev` | `pnpm --dir svelte dev` | Start Svelte dev server (if exists) |
-| `svelte-build` | `pnpm --dir svelte build` | Build Svelte package (if exists) |
-| `svelte-lint` | `pnpm --dir svelte lint` | Lint Svelte components (if exists) |
-| `svelte-format` | `pnpm --dir svelte run format` | Format Svelte components (if exists) |
-| `svelte-check` | `pnpm --dir svelte check` | Type-check Svelte (if exists) |
-| `svelte-test` | `pnpm --dir svelte run test` | Test Svelte components (if exists) |
-| `svelte-storybook` | `pnpm --dir svelte run story:dev` | Start Storybook (if exists) |
+| Task               | Command                           | Description                          |
+| ------------------ | --------------------------------- | ------------------------------------ |
+| `build`            | (Aggregated)                      | Builds all valid sub-projects        |
+| `test`             | (Aggregated)                      | Tests all valid sub-projects         |
+| `lint`             | (Aggregated)                      | Lints all valid sub-projects         |
+| `format`           | (Aggregated)                      | Formats all valid sub-projects       |
+| `go-build`         | `go build -v ./go/...`            | Build Go backend (if exists)         |
+| `go-test`          | `go test -v ./go/...`             | Test Go backend (if exists)          |
+| `go-lint`          | `golangci-lint run -v ./go/...`   | Lint Go backend (if exists)          |
+| `go-format`        | `goimports -w ./go`               | Format Go backend (if exists)        |
+| `go-run`           | `cd go && go run .`               | Run Go server locally (if exists)    |
+| `goa-gen`          | `goa gen ... --output gen/goa`    | Generate Goa code to gen/goa/        |
+| `ts-build`         | `pnpm --dir ts build`             | Build Shared TS logic (if exists)    |
+| `ts-lint`          | `pnpm --dir ts lint`              | Lint Shared TS logic (if exists)     |
+| `ts-test`          | `pnpm --dir ts run test`          | Test Shared TS logic (if exists)     |
+| `ts-format`        | `pnpm --dir ts run format`        | Format Shared TS logic (if exists)   |
+| `svelte-dev`       | `pnpm --dir svelte dev`           | Start Svelte dev server (if exists)  |
+| `svelte-build`     | `pnpm --dir svelte build`         | Build Svelte package (if exists)     |
+| `svelte-lint`      | `pnpm --dir svelte lint`          | Lint Svelte components (if exists)   |
+| `svelte-format`    | `pnpm --dir svelte run format`    | Format Svelte components (if exists) |
+| `svelte-check`     | `pnpm --dir svelte check`         | Type-check Svelte (if exists)        |
+| `svelte-test`      | `pnpm --dir svelte run test`      | Test Svelte components (if exists)   |
+| `svelte-storybook` | `pnpm --dir svelte run story:dev` | Start Storybook (if exists)          |
 
 #### Frontend: `<module>-svelte`
 Svelte 5 + Vite + Storybook.
 
-| Task | Command | Description |
-|------|---------|-------------|
-| `dev` | `vite dev` | Start development server |
-| `build` | `svelte-package` | Build component library |
-| `check` | `svelte-check` | Type-check Svelte files |
-| `lint` | `pnpm run lint` | Run ESLint |
-| `test` | `vitest run` | Run component tests |
-| `format` | `prettier --write .` | Format code |
-| `storybook` | `pnpm run story:dev` | Start Storybook |
+| Task        | Command              | Description              |
+| ----------- | -------------------- | ------------------------ |
+| `dev`       | `vite dev`           | Start development server |
+| `build`     | `svelte-package`     | Build component library  |
+| `check`     | `svelte-check`       | Type-check Svelte files  |
+| `lint`      | `pnpm run lint`      | Run ESLint               |
+| `test`      | `vitest run`         | Run component tests      |
+| `format`    | `prettier --write .` | Format code              |
+| `storybook` | `pnpm run story:dev` | Start Storybook          |
 
 #### Shared: `<module>-ts`
 TypeScript RxJS Logic.
 
-| Task | Command | Description |
-|------|---------|-------------|
-| `build` | `tsc` / `pnpm build` | Transpile to JS |
-| `lint` | `pnpm run lint` | Run ESLint |
-| `test` | `vitest run` | Run unit tests |
-| `format` | `prettier --write .` | Format code |
+| Task     | Command              | Description     |
+| -------- | -------------------- | --------------- |
+| `build`  | `tsc` / `pnpm build` | Transpile to JS |
+| `lint`   | `pnpm run lint`      | Run ESLint      |
+| `test`   | `vitest run`         | Run unit tests  |
+| `format` | `prettier --write .` | Format code     |
 
 #### Backend: `<module>-go`
 Goa v3 + Cobra + Viper.
 
-| Task | Command | Description |
-|------|---------|-------------|
-| `build` | `go build ./...` | Verify compilation |
-| `build-server` | `go build -o bin/server .` | Build executable |
-| `start` | `./bin/server` or `go run` | Run server locally |
-| `test` | `go test ./...` | Run unit tests |
-| `lint` | `golangci-lint run` | Lint code |
-| `format` | `goimports -w .` | Format code |
-| `gen` | `goa gen ... --output gen/goa` | Generate code to gen/goa/ |
+| Task           | Command                        | Description               |
+| -------------- | ------------------------------ | ------------------------- |
+| `build`        | `go build ./...`               | Verify compilation        |
+| `build-server` | `go build -o bin/server .`     | Build executable          |
+| `start`        | `./bin/server` or `go run`     | Run server locally        |
+| `test`         | `go test ./...`                | Run unit tests            |
+| `lint`         | `golangci-lint run`            | Lint code                 |
+| `format`       | `goimports -w .`               | Format code               |
+| `gen`          | `goa gen ... --output gen/goa` | Generate code to gen/goa/ |
 
 ---
 

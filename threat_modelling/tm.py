@@ -4,7 +4,7 @@ Threat Model for TA-Workspace Application
 
 This threat model covers the trading analytics workspace application which includes:
 - SvelteKit frontend (sveltekit-appshell)
-- Go backend API server (go-server)
+- Go backend API server (rest-server)
 - Firebase services for authentication and data storage
 - Exchange and watchlist services
 """

@@ -1,17 +1,25 @@
 services:
-  ta-apiserver:
-    image: ghcr.io/reidlai/ta-apiserver:latest
+  nats:
+    image: nats:latest
+    command: "-js"
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+
+  ta-go-server:
+    image: ghcr.io/reidlai/ta-go-server:latest
     ports:
       - "8080:8080"
     environment:
       - TA_SERVER_LOG_LEVEL=DEBUG
       - TA_SERVER_LOG_FORMAT=text
+      - NATS_URL=nats://nats:4222
 
   ta-webserver:
     image: ghcr.io/reidlai/ta-webserver:latest
     ports:
       - "3000:3000"
     environment:
-      - PUBLIC_API_URL=http://ta-apiserver:8080
+      - PUBLIC_API_URL=http://ta-go-server:8080
     depends_on:
-      - ta-apiserver
+      - ta-go-server
