@@ -83,7 +83,7 @@ tasks:
     platform: "system"
 
   docker-build:
-    command: "../../scripts/docker-build-verify.sh ta-apiserver Dockerfile ../.."
+    command: "../../scripts/docker-build-verify.sh ta-go-server Dockerfile ../.."
     inputs:
       - "Dockerfile"
       - "**/*.go"

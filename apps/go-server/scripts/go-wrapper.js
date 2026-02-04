@@ -10,7 +10,7 @@ let args = [];
 if (mode === 'test') {
     args = ['test', './...'];
 } else if (mode === 'build') {
-    args = ['build', '-o', 'go-server.exe', '.'];
+    args = ['build', '-o', 'rest-server.exe', '.'];
 } else {
     console.error('Usage: node go-wrapper.js <build|test>');
     process.exit(1);

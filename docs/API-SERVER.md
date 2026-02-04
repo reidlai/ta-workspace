@@ -1,13 +1,13 @@
 # API Server Architecture
 
-This document explains the architecture of the `go-server` application, specifically focusing on how it handles modularity and dependency injection using the Chi router and Goa framework.
+This document explains the architecture of the `rest-server` application, specifically focusing on how it handles modularity and dependency injection using the Chi router and Goa framework.
 
 ## Overview
 
 The server follows a layered architecture that separates **Dependency Injection (Wiring)** from **HTTP Transport Logic**.
 
-- **Entry Point**: [`cmd/api-server.go`](../apps/go-server/cmd/api-server.go)
-- **HTTP/Router**: [`internal/server/http.go`](../apps/go-server/internal/server/http.go)
+- **Entry Point**: [`cmd/api-server.go`](../apps/rest-server/cmd/api-server.go)
+- **HTTP/Router**: [`internal/server/http.go`](../apps/rest-server/internal/server/http.go)
 - **Modules**: Located in `modules/*/go`
 
 ## Architecture Visualization
@@ -100,7 +100,7 @@ The `internal/server/http.go` file handles the HTTP transport layer. It uses the
 
 When deciding where to store middleware, follow these guidelines based on the scope and purpose of the middleware:
 
-### 1. Global / Infrastructure Middleware → `apps/go-server/`
+### 1. Global / Infrastructure Middleware → `apps/rest-server/`
 
 Middleware that affects the entire application or relates to infrastructure should live in the app's transport layer (`internal/server/middleware` or applied in `http.go`).
 
@@ -142,7 +142,7 @@ The server supports configuration via CLI flags, environment variables, and a co
 
 Global flags:
 
-- `--config`: Path to config file (default is `go-server.yaml` in current working directory or `$HOME/.go-server`).
+- `--config`: Path to config file (default is `rest-server.yaml` in current working directory or `$HOME/.rest-server`).
 
 ### Environment Variables
 
@@ -156,11 +156,11 @@ Environment variables are prefixed with `TA_SERVER_`. Variables mapping to `api-
 | `TA_SERVER_API_SERVER_LOG_FORMAT` | `--log-format`      | `text`    |
 | `TA_SERVER_API_SERVER_SECURE`     | `--secure`          | `true`    |
 
-### Configuration File (`go-server.yaml`)
+### Configuration File (`rest-server.yaml`)
 
-The server looks for a `go-server.yaml` file in the current directory or `$HOME/.go-server/`.
+The server looks for a `rest-server.yaml` file in the current directory or `$HOME/.rest-server/`.
 
-**Example `go-server.yaml`:**
+**Example `rest-server.yaml`:**
 
 ```yaml
 api-server:

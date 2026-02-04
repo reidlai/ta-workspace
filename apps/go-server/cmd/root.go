@@ -16,9 +16,10 @@ func init() {
 
 	// Add subcommands
 	RootCmd.AddCommand(apiServerCmd)
+	RootCmd.AddCommand(resServerCmd)
 
 	// Global flags
-	RootCmd.PersistentFlags().String("config", "", "config file (default is go-server.yaml)")
+	RootCmd.PersistentFlags().String("config", "", "config file (default is rest-server.yaml)")
 	if err := viper.BindPFlag("config", RootCmd.PersistentFlags().Lookup("config")); err != nil {
 		panic(err)
 	}
@@ -27,17 +28,17 @@ func init() {
 // initConfig reads in config file and ENV variables if set.
 // Configuration precedence: Flag > Env > Config File > Default.
 //
-// It searches for "go-server.yaml" in:
+// It searches for "rest-server.yaml" in:
 // 1. Current directory (".")
-// 2. Home directory ("$HOME/.go-server")
+// 2. Home directory ("$HOME/.rest-server")
 func initConfig() {
 	if cfgFile := viper.GetString("config"); cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
 	} else {
-		viper.SetConfigName("go-server")
+		viper.SetConfigName("rest-server")
 		viper.SetConfigType("yaml")
 		viper.AddConfigPath(".")
-		viper.AddConfigPath("$HOME/.go-server")
+		viper.AddConfigPath("$HOME/.rest-server")
 	}
 
 	// Read config file (silently ignore if not found)

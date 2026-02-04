@@ -1,14 +1,14 @@
 package di
 
 import (
+	"io"
 	"log/slog"
-	"os"
 	"testing"
 )
 
 func TestNewServices(t *testing.T) {
-	// Create a simple logger for testing
-	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+	// Create a simple logger for testing (no I/O)
+	logger := slog.New(slog.NewTextHandler(io.Discard, nil))
 
 	services := NewServices(logger)
 
