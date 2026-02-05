@@ -3,6 +3,7 @@ package cmd
 import (
 	// Internal Server
 	"github.com/reidlai/ta-workspace/apps/go-server/internal/server"
+	"github.com/reidlai/ta-workspace/apps/go-server/internal/server/rest"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -68,5 +69,5 @@ func runAPIServer(cmd *cobra.Command, args []string) error {
 		Secure:    viper.GetBool("api-server.secure"),
 	}
 
-	return server.Run(cmd.Context(), cfg)
+	return rest.Run(cmd.Context(), cfg)
 }

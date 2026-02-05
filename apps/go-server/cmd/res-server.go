@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/reidlai/ta-workspace/apps/go-server/internal/server"
+	"github.com/reidlai/ta-workspace/apps/go-server/internal/server/res"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -52,5 +53,5 @@ func runResServer(cmd *cobra.Command, args []string) error {
 		Debug:     viper.GetBool("res-server.debug"),
 	}
 
-	return server.RunRes(cmd.Context(), cfg)
+	return res.RunRes(cmd.Context(), cfg)
 }
