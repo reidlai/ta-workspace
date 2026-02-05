@@ -2,6 +2,8 @@ package server
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestInitLogger(t *testing.T) {
@@ -51,9 +53,7 @@ func TestInitLogger(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			logger := InitLogger(tt.cfg)
-			if logger == nil {
-				t.Fatal("InitLogger returned nil")
-			}
+			require.NotNil(t, logger, "InitLogger returned nil")
 			// Logger is created successfully - we can't easily test internal state
 			// but we verify it doesn't panic
 		})

@@ -4,6 +4,9 @@ import (
 	"io"
 	"log/slog"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestNewServices(t *testing.T) {
@@ -12,15 +15,15 @@ func TestNewServices(t *testing.T) {
 
 	services := NewServices(logger)
 
-	if services == nil {
-		t.Fatal("NewServices returned nil")
+	require.NotNil(t, services, "NewServices should not return nil")
+	assert.NotEmpty(t, services.Modules, "No modules registered")
+
+	// Verify we have the expected modules
+	moduleNames := make([]string, len(services.Modules))
+	for i, mod := range services.Modules {
+		moduleNames[i] = mod.Name()
 	}
 
-	if services.WatchlistEndpoints == nil {
-		t.Error("WatchlistEndpoints is nil")
-	}
-
-	if services.PortfolioEndpoints == nil {
-		t.Error("PortfolioEndpoints is nil")
-	}
+	assert.Contains(t, moduleNames, "watchlist")
+	assert.Contains(t, moduleNames, "portfolio")
 }

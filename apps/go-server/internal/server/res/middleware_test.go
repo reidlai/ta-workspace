@@ -1,8 +1,12 @@
-package server
+package res
 
 import (
 	"context"
 	"testing"
+
+	"github.com/reidlai/ta-workspace/apps/go-server/internal/server"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 // MockRequest implements the minimal interface needed for GetContext testing
@@ -49,17 +53,14 @@ func TestGetContext(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			ctx := GetContext(tt.request)
-			if ctx == nil {
-				t.Fatal("GetContext returned nil context")
-			}
+			require.NotNil(t, ctx, "GetContext returned nil context")
 
 			// Verify context contains token if expected
 			token := ctx.Value(SessionKey)
-			if tt.wantToken && token == nil {
-				t.Error("Expected token in context, got nil")
-			}
-			if !tt.wantToken && token != nil {
-				t.Error("Expected no token in context, got one")
+			if tt.wantToken {
+				assert.NotNil(t, token, "Expected token in context, got nil")
+			} else {
+				assert.Nil(t, token, "Expected no token in context, got one")
 			}
 		})
 	}
@@ -67,23 +68,15 @@ func TestGetContext(t *testing.T) {
 
 func TestContextWithLogger(t *testing.T) {
 	ctx := context.Background()
-	logger := InitLogger(Config{LogLevel: "INFO", LogFormat: "text"})
+	logger := server.InitLogger(server.Config{LogLevel: "INFO", LogFormat: "text"})
 
 	newCtx := ContextWithLogger(ctx, logger)
-	if newCtx == nil {
-		t.Fatal("ContextWithLogger returned nil")
-	}
-	// Currently a no-op, but test it doesn't panic
+	assert.NotNil(t, newCtx, "ContextWithLogger returned nil")
 }
 
 func TestSessionMiddleware(t *testing.T) {
-	logger := InitLogger(Config{LogLevel: "INFO", LogFormat: "text"})
+	logger := server.InitLogger(server.Config{LogLevel: "INFO", LogFormat: "text"})
 
 	middleware := SessionMiddleware(logger)
-	if middleware == nil {
-		t.Fatal("SessionMiddleware returned nil")
-	}
-
-	// The middleware is currently a no-op, so we just verify it exists
-	// and doesn't panic when created
+	assert.NotNil(t, middleware, "SessionMiddleware returned nil")
 }
