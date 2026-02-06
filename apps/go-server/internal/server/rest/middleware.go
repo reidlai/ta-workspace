@@ -34,22 +34,22 @@ func SecurityHeadersMiddleware() func(http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// Prevent clickjacking
 			w.Header().Set("X-Frame-Options", "DENY")
-			
+
 			// Prevent MIME sniffing
 			w.Header().Set("X-Content-Type-Options", "nosniff")
-			
+
 			// Enable XSS protection
 			w.Header().Set("X-XSS-Protection", "1; mode=block")
-			
+
 			// Enforce HTTPS (uncomment in production with HTTPS)
 			// w.Header().Set("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
-			
+
 			// Content Security Policy (customize for your app)
 			// w.Header().Set("Content-Security-Policy", "default-src 'self'")
-			
+
 			// Referrer policy
 			w.Header().Set("Referrer-Policy", "strict-origin-when-cross-origin")
-			
+
 			// Permissions policy
 			w.Header().Set("Permissions-Policy", "geolocation=(), microphone=(), camera=()")
 
@@ -79,7 +79,7 @@ func AuthenticationMiddleware() func(http.Handler) http.Handler {
 			}
 
 			token := parts[1]
-			
+
 			// TODO: Validate token with your auth provider
 			// Example with Firebase:
 			// firebaseToken, err := firebaseAuth.VerifyIDToken(r.Context(), token)
@@ -87,11 +87,11 @@ func AuthenticationMiddleware() func(http.Handler) http.Handler {
 			//     http.Error(w, "Invalid token", http.StatusUnauthorized)
 			//     return
 			// }
-			
+
 			// TODO: Add user info to context
 			// ctx := context.WithValue(r.Context(), "user_id", firebaseToken.UID)
 			// r = r.WithContext(ctx)
-			
+
 			_ = token // Placeholder to avoid unused variable error
 
 			next.ServeHTTP(w, r)

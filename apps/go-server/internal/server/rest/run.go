@@ -54,19 +54,24 @@ func Run(ctx context.Context, cfg server.Config) error {
 	}
 
 	// Start HTTP server (blocks until shutdown)
-	go HandleHTTPServer(ctx, u, services.Modules, errc, logger, cfg.Debug)
+	go HandleHTTPServer(ctx, cfg, u, services.Modules, errc, logger)
 
 	// Wait for signal or context cancellation
 	select {
 	case <-ctx.Done():
 		logger.InfoContext(ctx, "context cancelled")
 	case err := <-errc:
-		logger.InfoContext(ctx, "exiting", "signal", err)
+		errMsg := err.Error()
+		if errMsg == "interrupt" || errMsg == "terminated" {
+			logger.InfoContext(ctx, "exiting", "signal", errMsg)
+		} else {
+			logger.ErrorContext(ctx, "exiting due to error", "error", err)
+		}
 	}
 
 	// Send cancellation signal and wait for HandleHTTPServer to return
 	cancel()
-	
+
 	logger.InfoContext(ctx, "exited")
 	return nil
 }

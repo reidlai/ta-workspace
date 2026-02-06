@@ -10,6 +10,8 @@ type Config struct {
 	LogLevel  string
 	LogFormat string
 	Secure    bool
+	TLSCert   string
+	TLSKey    string
 	NatsURL   string
 }
 

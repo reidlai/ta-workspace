@@ -20,16 +20,16 @@ func (h *stubHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func TestCORSMiddleware(t *testing.T) {
 	middleware := CORSMiddleware()
-	
+
 	t.Run("Adds CORS headers to normal request", func(t *testing.T) {
 		stub := &stubHandler{}
 		handler := middleware(stub)
-		
+
 		req := httptest.NewRequest("GET", "http://example.com/foo", nil)
 		w := httptest.NewRecorder()
-		
+
 		handler.ServeHTTP(w, req)
-		
+
 		assert.Equal(t, "*", w.Header().Get("Access-Control-Allow-Origin"))
 		assert.True(t, stub.called, "Expected next handler to be called")
 	})
@@ -37,12 +37,12 @@ func TestCORSMiddleware(t *testing.T) {
 	t.Run("Handles OPTIONS preflight request", func(t *testing.T) {
 		stub := &stubHandler{}
 		handler := middleware(stub)
-		
+
 		req := httptest.NewRequest("OPTIONS", "http://example.com/foo", nil)
 		w := httptest.NewRecorder()
-		
+
 		handler.ServeHTTP(w, req)
-		
+
 		assert.Equal(t, http.StatusOK, w.Code)
 		assert.NotEmpty(t, w.Header().Get("Access-Control-Allow-Methods"))
 		assert.False(t, stub.called, "Expected next handler NOT to be called for OPTIONS")
@@ -82,12 +82,12 @@ func TestAuthenticationMiddleware(t *testing.T) {
 	t.Run("Fails with missing header", func(t *testing.T) {
 		stub := &stubHandler{}
 		handler := middleware(stub)
-		
+
 		req := httptest.NewRequest("GET", "/", nil)
 		w := httptest.NewRecorder()
-		
+
 		handler.ServeHTTP(w, req)
-		
+
 		assert.Equal(t, http.StatusUnauthorized, w.Code)
 		assert.False(t, stub.called, "Expected next handler NOT to be called")
 	})
@@ -95,13 +95,13 @@ func TestAuthenticationMiddleware(t *testing.T) {
 	t.Run("Fails with invalid format", func(t *testing.T) {
 		stub := &stubHandler{}
 		handler := middleware(stub)
-		
+
 		req := httptest.NewRequest("GET", "/", nil)
 		req.Header.Set("Authorization", "InvalidToken123")
 		w := httptest.NewRecorder()
-		
+
 		handler.ServeHTTP(w, req)
-		
+
 		assert.Equal(t, http.StatusUnauthorized, w.Code)
 		assert.False(t, stub.called, "Expected next handler NOT to be called")
 	})
@@ -109,13 +109,13 @@ func TestAuthenticationMiddleware(t *testing.T) {
 	t.Run("Succeeds with Bearer token", func(t *testing.T) {
 		stub := &stubHandler{}
 		handler := middleware(stub)
-		
+
 		req := httptest.NewRequest("GET", "/", nil)
 		req.Header.Set("Authorization", "Bearer my-stub-token")
 		w := httptest.NewRecorder()
-		
+
 		handler.ServeHTTP(w, req)
-		
+
 		assert.Equal(t, http.StatusOK, w.Code)
 		assert.True(t, stub.called, "Expected next handler to be called")
 	})

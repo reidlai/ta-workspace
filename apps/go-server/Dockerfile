@@ -26,4 +26,11 @@ COPY --from=build /go/bin/server /server
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD ["/server", "health-check"] || exit 1
 
-CMD ["/server", "api-server", "start"]
+# Set entrypoint to the binary
+ENTRYPOINT ["/server"]
+
+# Set default subcommand and arguments
+# To override this in docker-compose.yml, use:
+#   command: api-server start
+# To override this on the command line, append arguments to the docker run command:
+#   docker run <image> api-server start
