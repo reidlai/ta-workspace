@@ -28,7 +28,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.24.12"
+          go-version: "1.24.13"
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -51,7 +51,7 @@ jobs:
         run: |
           for dir in apps/go-server modules/portfolio/go modules/watchlist/go; do
             echo "Checking $dir..."
-            (cd "$dir" && GOTOOLCHAIN=go1.24.12 go run golang.org/x/vuln/cmd/govulncheck@latest ./...)
+            (cd "$dir" && GOTOOLCHAIN=go1.24.13 go run golang.org/x/vuln/cmd/govulncheck@latest ./...)
           done
 
       - name: SCA - PNPM Audit
@@ -67,7 +67,7 @@ jobs:
         run: |
           for dir in apps/go-server modules/portfolio/go modules/watchlist/go; do
             echo "Linting $dir..."
-            (cd "$dir" && GOTOOLCHAIN=go1.24.12 go fmt ./... && GOTOOLCHAIN=go1.24.12 go mod tidy)
+            (cd "$dir" && GOTOOLCHAIN=go1.24.13 go fmt ./... && GOTOOLCHAIN=go1.24.13 go mod tidy)
           done
 
       # Stage 3: Code Quality
@@ -75,7 +75,7 @@ jobs:
         run: |
           for dir in apps/go-server modules/portfolio/go modules/watchlist/go; do
             echo "Vetting $dir..."
-            (cd "$dir" && GOTOOLCHAIN=go1.24.12 go vet ./...)
+            (cd "$dir" && GOTOOLCHAIN=go1.24.13 go vet ./...)
           done
 
       - name: Quality - Moon Lint (TS/JS)
@@ -90,7 +90,7 @@ jobs:
         run: |
           for dir in apps/go-server modules/portfolio/go modules/watchlist/go; do
             echo "Scanning $dir..."
-            (cd "$dir" && GOTOOLCHAIN=go1.24.12 go run github.com/securego/gosec/v2/cmd/gosec@latest -no-fail ./...)
+            (cd "$dir" && GOTOOLCHAIN=go1.24.13 go run github.com/securego/gosec/v2/cmd/gosec@latest -no-fail ./...)
           done
 
       - name: SAST - Semgrep (Polyglot)

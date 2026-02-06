@@ -18,7 +18,7 @@ func TestRunRes_MissingNatsURL(t *testing.T) {
 
 	ctx := context.Background()
 	err := RunRes(ctx, cfg)
-	
+
 	assert.Error(t, err, "Expected error when NatsURL is empty")
 	assert.Equal(t, "nats-url is required", err.Error())
 }

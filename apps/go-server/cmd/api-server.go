@@ -27,46 +27,36 @@ func init() {
 	apiServerCmd.AddCommand(startCmd)
 
 	// Server flags (moved to start subcommand)
-	startCmd.Flags().String("host", "localhost", "Server host")
-	startCmd.Flags().Int("port", 8080, "HTTP port")
-	startCmd.Flags().Bool("debug", false, "Enable debug logging (DEPRECATED: use --log-level=DEBUG)")
-	startCmd.Flags().String("log-level", "INFO", "Log level: DEBUG, INFO, WARN, ERROR")
-	startCmd.Flags().String("log-format", "json", "Log format: json, text")
-	startCmd.Flags().Bool("secure", false, "Use HTTPS scheme")
+	startCmd.Flags().String("host", "", "Server host")
+	startCmd.Flags().Int("port", 0, "HTTP port")
 
 	// Bind flags to Viper (using api-server prefix)
-	if err := viper.BindPFlag("api-server.host", startCmd.Flags().Lookup("host")); err != nil {
+	if err := viper.BindPFlag("rest.host", startCmd.Flags().Lookup("host")); err != nil {
 		panic(err)
 	}
-	if err := viper.BindPFlag("api-server.port", startCmd.Flags().Lookup("port")); err != nil {
-		panic(err)
-	}
-	if err := viper.BindPFlag("api-server.debug", startCmd.Flags().Lookup("debug")); err != nil {
-		panic(err)
-	}
-	if err := viper.BindPFlag("api-server.log-level", startCmd.Flags().Lookup("log-level")); err != nil {
-		panic(err)
-	}
-	if err := viper.BindPFlag("api-server.log-format", startCmd.Flags().Lookup("log-format")); err != nil {
-		panic(err)
-	}
-	if err := viper.BindPFlag("api-server.secure", startCmd.Flags().Lookup("secure")); err != nil {
+	if err := viper.BindPFlag("rest.port", startCmd.Flags().Lookup("port")); err != nil {
 		panic(err)
 	}
 
-	// Environment variable binding
-	viper.SetEnvPrefix("TA_SERVER")
-	viper.AutomaticEnv()
+	// Set Default values in Viper (instead of Cobra) to allow ENV overrides
+	viper.SetDefault("rest.host", "localhost")
+	viper.SetDefault("rest.port", 8080)
+
+	// Explicit BindEnv for api-server prefix
+	_ = viper.BindEnv("rest.host")
+	_ = viper.BindEnv("rest.port")
 }
 
 func runAPIServer(cmd *cobra.Command, args []string) error {
 	cfg := server.Config{
-		Host:      viper.GetString("api-server.host"),
-		Port:      viper.GetInt("api-server.port"),
-		Debug:     viper.GetBool("api-server.debug"),
-		LogLevel:  viper.GetString("api-server.log-level"),
-		LogFormat: viper.GetString("api-server.log-format"),
-		Secure:    viper.GetBool("api-server.secure"),
+		Host:      viper.GetString("rest.host"),
+		Port:      viper.GetInt("rest.port"),
+		Debug:     viper.GetBool("server.debug"),
+		LogLevel:  viper.GetString("server.log-level"),
+		LogFormat: viper.GetString("server.log-format"),
+		Secure:    viper.GetBool("server.secure"),
+		TLSCert:   viper.GetString("server.tls-cert"),
+		TLSKey:    viper.GetString("server.tls-key"),
 	}
 
 	return rest.Run(cmd.Context(), cfg)

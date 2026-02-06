@@ -7,22 +7,35 @@ import (
 
 	"github.com/jirenius/go-res"
 	"github.com/nats-io/nats.go"
-	modpkg "github.com/reidlai/virtual-module-core/go/pkg/module"
 	"github.com/reidlai/ta-workspace/apps/go-server/internal/server"
+	modpkg "github.com/reidlai/virtual-module-core/go/pkg/module"
 )
 
-// HandleResServer starts, configures and starts a RES server on the given NATS URL.
+// HandleResServer starts, configures and starts a RES server on the given configuration.
 // It blocks until the server shuts down or an error occurs.
-func HandleResServer(ctx context.Context, natsURL string, modules []modpkg.Registrar, errc chan error, logger *slog.Logger) {
+func HandleResServer(ctx context.Context, cfg server.Config, modules []modpkg.Registrar, errc chan error, logger *slog.Logger) {
+	// Setup NATS options
+	var opts []nats.Option
+	if cfg.Secure {
+		opts = append(opts, nats.Secure())
+		if cfg.TLSCert != "" && cfg.TLSKey != "" {
+			opts = append(opts, nats.ClientCert(cfg.TLSCert, cfg.TLSKey))
+		}
+	}
+
 	// Connect to NATS
-	conn, err := nats.Connect(natsURL)
+	conn, err := nats.Connect(cfg.NatsURL, opts...)
 	if err != nil {
 		errc <- fmt.Errorf("failed to connect to nats: %w", err)
 		return
 	}
 	defer conn.Close()
 
-	logger.InfoContext(ctx, "Connected to NATS", "url", natsURL)
+	logger.InfoContext(ctx, "Connected to NATS",
+		"url", cfg.NatsURL,
+		"secure", cfg.Secure,
+		"has_cert", cfg.TLSCert != "",
+	)
 
 	// Create RES Service
 	resSvc := res.NewService("technical-analysis")
@@ -42,7 +55,7 @@ func HandleResServer(ctx context.Context, natsURL string, modules []modpkg.Regis
 	// Start serving
 	go func() {
 		logger.InfoContext(ctx, "RES server listening", "service", "technical-analysis")
-		
+
 		if err := resSvc.Serve(conn); err != nil {
 			logger.ErrorContext(ctx, "RES server error", "error", err)
 			serveDone <- err

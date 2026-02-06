@@ -23,6 +23,8 @@ func RunRes(ctx context.Context, cfg server.Config) error {
 		"format", cfg.LogFormat,
 	)
 
+	logger.InfoContext(ctx, "Starting RES server", "nats_url", cfg.NatsURL)
+
 	if cfg.NatsURL == "" {
 		return fmt.Errorf("nats-url is required")
 	}
@@ -45,19 +47,24 @@ func RunRes(ctx context.Context, cfg server.Config) error {
 	defer cancel()
 
 	// Start RES server (blocks until shutdown)
-	go HandleResServer(ctx, cfg.NatsURL, services.Modules, errc, logger)
+	go HandleResServer(ctx, cfg, services.Modules, errc, logger)
 
 	// Wait for signal or context cancellation
 	select {
 	case <-ctx.Done():
 		logger.InfoContext(ctx, "context cancelled")
 	case err := <-errc:
-		logger.InfoContext(ctx, "exiting", "signal", err)
+		errMsg := err.Error()
+		if errMsg == "interrupt" || errMsg == "terminated" {
+			logger.InfoContext(ctx, "exiting", "signal", errMsg)
+		} else {
+			logger.ErrorContext(ctx, "exiting due to error", "error", err)
+		}
 	}
 
 	// Send cancellation signal and wait for HandleResServer to return
 	cancel()
-	
+
 	logger.InfoContext(ctx, "exited")
 	return nil
 }

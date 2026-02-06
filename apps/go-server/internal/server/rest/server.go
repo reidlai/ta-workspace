@@ -9,6 +9,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
+	"github.com/reidlai/ta-workspace/apps/go-server/internal/server"
 	modpkg "github.com/reidlai/virtual-module-core/go/pkg/module"
 	"go.opentelemetry.io/otel/trace"
 	"goa.design/clue/debug"
@@ -16,8 +17,8 @@ import (
 )
 
 // HandleHTTPServer starts configures and starts a HTTP server on the given
-// URL. It blocks until the server shuts down or an error occurs.
-func HandleHTTPServer(ctx context.Context, u *url.URL, modules []modpkg.Registrar, errc chan error, logger *slog.Logger, dbg bool) {
+// configuration. It blocks until the server shuts down or an error occurs.
+func HandleHTTPServer(ctx context.Context, cfg server.Config, u *url.URL, modules []modpkg.Registrar, errc chan error, logger *slog.Logger) {
 	// Create Chi router - this will wrap ALL Goa endpoints
 	// All Chi middleware applied here will affect Goa endpoints too!
 	r := chi.NewRouter()
@@ -25,29 +26,30 @@ func HandleHTTPServer(ctx context.Context, u *url.URL, modules []modpkg.Registra
 	// ============================================================================
 	// GLOBAL MIDDLEWARE STACK (applies to ALL endpoints including Goa)
 	// ============================================================================
-	
+
 	// Core middleware
-	r.Use(chimiddleware.RequestID)                 // Inject unique request ID
-	r.Use(chimiddleware.RealIP)                    // Extract real client IP (behind proxies)
-	r.Use(SlogMiddleware(logger))                  // Structured logging with OpenTelemetry traces
-	r.Use(chimiddleware.Recoverer)                 // Recover from panics gracefully
-	
+	r.Use(chimiddleware.RequestID) // Inject unique request ID
+	r.Use(chimiddleware.RealIP)    // Extract real client IP (behind proxies)
+	r.Use(SlogMiddleware(logger))  // Structured logging with OpenTelemetry traces
+	r.Use(chimiddleware.Recoverer) // Recover from panics gracefully
+
 	// Performance & resilience
 	r.Use(chimiddleware.Compress(5))               // Gzip compression (level 5)
 	r.Use(chimiddleware.Timeout(60 * time.Second)) // Global request timeout
 	r.Use(chimiddleware.Throttle(100))             // Max 100 concurrent requests
-	
-	// TODO: Add production middleware here:
-	// r.Use(CORSMiddleware())                     // CORS headers
-	// r.Use(SecurityHeadersMiddleware())          // Security headers (CSP, HSTS, etc.)
-	// r.Use(RateLimitMiddleware())                // Per-IP rate limiting
-	// r.Use(AuthenticationMiddleware())           // JWT/OAuth validation
-	// r.Use(chimiddleware.AllowContentType(...))  // Content-Type validation
-	
+
+	// Debug-only middleware (MUST be before any routes)
+	if cfg.Debug {
+		r.Use(chimiddleware.Logger) // Console request logger
+		r.Use(func(next http.Handler) http.Handler {
+			return debug.HTTP()(next)
+		})
+	}
+
 	// ============================================================================
 	// PUBLIC ENDPOINTS (no authentication required)
 	// ============================================================================
-	
+
 	// Health check endpoint for Docker/Kubernetes
 	// Docker HEALTHCHECK: curl -f http://localhost:8080/health || exit 1
 	// Kubernetes livenessProbe/readinessProbe: httpGet path=/health port=8080
@@ -57,23 +59,15 @@ func HandleHTTPServer(ctx context.Context, u *url.URL, modules []modpkg.Registra
 		_, _ = w.Write([]byte(`{"status":"healthy","service":"go-server"}`))
 	})
 
-
-	if dbg {
-		// Debug-only middleware and endpoints
-		r.Use(chimiddleware.Logger)                // Console request logger
+	if cfg.Debug {
 		r.Mount("/debug", chimiddleware.Profiler()) // pprof profiling endpoints
-		
-		// Log request/response bodies in debug mode
-		r.Use(func(next http.Handler) http.Handler {
-			return debug.HTTP()(next)
-		})
 	}
 
 	// ============================================================================
 	// GOA MODULE REGISTRATION
 	// ============================================================================
 	// All Goa endpoints will inherit the middleware stack defined above!
-	
+
 	var (
 		dec = goahttp.RequestDecoder
 		enc = goahttp.ResponseEncoder
@@ -84,18 +78,18 @@ func HandleHTTPServer(ctx context.Context, u *url.URL, modules []modpkg.Registra
 	goaMux := goahttp.NewMuxer()
 	hasGoaModules := false
 	eh := errorHandler(ctx, logger)
-	
+
 	for _, mod := range modules {
 		if httpReg, ok := mod.(modpkg.HTTPRegistrar); ok {
 			hasGoaModules = true
 			logger.InfoContext(ctx, "Registering Goa module", "module", mod.Name())
 			mounts := httpReg.RegisterHTTP(goaMux, dec, enc, eh)
-			
+
 			for _, m := range mounts {
-				logger.InfoContext(ctx, "Goa endpoint mounted", 
-					"module", mod.Name(), 
-					"method", m.Method, 
-					"verb", m.Verb, 
+				logger.InfoContext(ctx, "Goa endpoint mounted",
+					"module", mod.Name(),
+					"method", m.Method,
+					"verb", m.Verb,
 					"pattern", m.Pattern)
 			}
 		}
@@ -106,7 +100,7 @@ func HandleHTTPServer(ctx context.Context, u *url.URL, modules []modpkg.Registra
 	if hasGoaModules {
 		r.Mount("/", goaMux)
 	}
-	
+
 	// ============================================================================
 	// PROTECTED ROUTES (example of route-specific middleware)
 	// ============================================================================
@@ -131,11 +125,20 @@ func HandleHTTPServer(ctx context.Context, u *url.URL, modules []modpkg.Registra
 
 	// Start HTTP server in a separate goroutine
 	go func() {
-		logger.InfoContext(ctx, "HTTP server listening", "host", u.Host)
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			serverDone <- err
+		if cfg.Secure {
+			logger.InfoContext(ctx, "HTTPS server listening", "host", u.Host, "cert", cfg.TLSCert)
+			if err := srv.ListenAndServeTLS(cfg.TLSCert, cfg.TLSKey); err != nil && err != http.ErrServerClosed {
+				serverDone <- err
+			} else {
+				serverDone <- nil
+			}
 		} else {
-			serverDone <- nil
+			logger.InfoContext(ctx, "HTTP server listening", "host", u.Host)
+			if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+				serverDone <- err
+			} else {
+				serverDone <- nil
+			}
 		}
 	}()
 

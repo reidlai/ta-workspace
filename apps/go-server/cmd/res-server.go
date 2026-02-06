@@ -25,32 +25,29 @@ func init() {
 	resServerCmd.AddCommand(resStartCmd)
 
 	// Server flags
-	resStartCmd.Flags().String("nats-url", "nats://localhost:4222", "NATS Server URL")
-	resStartCmd.Flags().String("log-level", "INFO", "Log level: DEBUG, INFO, WARN, ERROR")
-	resStartCmd.Flags().String("log-format", "json", "Log format: json, text")
-	resStartCmd.Flags().Bool("debug", false, "Enable debug logging")
+	resStartCmd.Flags().String("res.nats.url", "", "NATS Server URL")
 
 	// Bind flags to Viper (using res-server prefix)
-	if err := viper.BindPFlag("res-server.nats-url", resStartCmd.Flags().Lookup("nats-url")); err != nil {
+	if err := viper.BindPFlag("res.nats.url", resStartCmd.Flags().Lookup("res.nats.url")); err != nil {
 		panic(err)
 	}
-	if err := viper.BindPFlag("res-server.log-level", resStartCmd.Flags().Lookup("log-level")); err != nil {
-		panic(err)
-	}
-	if err := viper.BindPFlag("res-server.log-format", resStartCmd.Flags().Lookup("log-format")); err != nil {
-		panic(err)
-	}
-	if err := viper.BindPFlag("res-server.debug", resStartCmd.Flags().Lookup("debug")); err != nil {
-		panic(err)
-	}
+
+	// Set Default values in Viper (instead of Cobra) to allow ENV overrides
+	viper.SetDefault("res.nats.url", "nats://localhost:4222")
+
+	// Explicit BindEnv for nats-url
+	_ = viper.BindEnv("res.nats.url")
 }
 
 func runResServer(cmd *cobra.Command, args []string) error {
 	cfg := server.Config{
-		NatsURL:   viper.GetString("res-server.nats-url"),
-		LogLevel:  viper.GetString("res-server.log-level"),
-		LogFormat: viper.GetString("res-server.log-format"),
-		Debug:     viper.GetBool("res-server.debug"),
+		NatsURL:   viper.GetString("res.nats.url"),
+		LogLevel:  viper.GetString("server.log-level"),
+		LogFormat: viper.GetString("server.log-format"),
+		Debug:     viper.GetBool("server.debug"),
+		Secure:    viper.GetBool("server.secure"),
+		TLSCert:   viper.GetString("server.tls-cert"),
+		TLSKey:    viper.GetString("server.tls-key"),
 	}
 
 	return res.RunRes(cmd.Context(), cfg)
