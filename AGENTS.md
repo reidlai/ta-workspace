@@ -8,9 +8,6 @@ Before executing any task, identify your runtime environment and load the corres
 
 | Agent Identity  | Command Path          | Config Dir  | Instruction Source           |
 | :-------------- | :-------------------- | :---------- | :--------------------------- |
-| **Gemini CLI**  | `.gemini/commands/`   | `.gemini`   | `GEMINI.md` (Redirects here) |
-| **Claude Code** | `.claude/commands/`   | `.claude`   | `CLAUDE.md` (Redirects here) |
-| **Open Code**   | `.opencode/commands/` | `.opencode` | `AGENTS.md` (Native)         |
 | **Antigravity** | `.agent/workflows/`   | `.agent`    | `AGENTS.md` (Native)         |
 
 **Rule**: Whenever the documentation below refers to `{COMMAND_DIR}`, substitute it with the **Command Path** specific to your identity above.
