@@ -43,7 +43,7 @@
         >Updates sync across all modules watching 'demoState.count'</Card.Description
       >
     </Card.Header>
-    <Card.Content class="space-y-4">
+    <Card.Content>
       <div class="grid w-full max-w-sm items-center gap-1.5">
         <Label for="status">Current Status</Label>
         <Input
