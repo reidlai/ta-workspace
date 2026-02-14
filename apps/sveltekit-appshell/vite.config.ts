@@ -6,6 +6,9 @@ import path from "path";
 export default defineConfig({
   plugins: [tailwindcss(), sveltekit()],
   server: {
+    fs: {
+      allow: [".."],
+    },
     proxy: {
       "/api": {
         target: "http://localhost:8080",
@@ -40,6 +43,21 @@ export default defineConfig({
         __dirname,
         "../../modules/portfolio/ts/src/index.ts",
       ),
+      "$modules/demo": path.resolve(
+        __dirname,
+        "../../modules/demo/sveltekit/src",
+      ),
+      "$modules/portfolio": path.resolve(
+        __dirname,
+        "../../modules/portfolio/sveltekit/src",
+      ),
+      "$modules/watchlist": path.resolve(
+        __dirname,
+        "../../modules/watchlist/sveltekit/src",
+      ),
     },
+  },
+  ssr: {
+    noExternal: ["svelte-sonner"],
   },
 });

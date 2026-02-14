@@ -18,7 +18,7 @@ func init() {
 
 	// Add subcommands
 	RootCmd.AddCommand(apiServerCmd)
-	RootCmd.AddCommand(resServerCmd)
+	// RootCmd.AddCommand(resServerCmd)
 
 	// Global flags
 	RootCmd.PersistentFlags().String("config", "", "config file (default is rest-server.yaml)")

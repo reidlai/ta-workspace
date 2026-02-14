@@ -33,6 +33,9 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - PUBLIC_API_URL=http://ta-goserver:8080
+      - NODE_ENV=development
+      - API_URL=http://ta-goserver:8080
+      - MOCK_DATA=false
+      - LOG_LEVEL=debug
     depends_on:
       - ta-goserver
