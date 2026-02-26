@@ -11,7 +11,6 @@ import (
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
 	"github.com/reidlai/ta-workspace/apps/go-server/internal/server"
 	modpkg "github.com/reidlai/virtual-module-core/go/pkg/module"
-	"go.opentelemetry.io/otel/trace"
 	"goa.design/clue/debug"
 	goahttp "goa.design/goa/v3/http"
 )
@@ -32,6 +31,7 @@ func HandleHTTPServer(ctx context.Context, cfg server.Config, u *url.URL, module
 	r.Use(chimiddleware.RealIP)    // Extract real client IP (behind proxies)
 	r.Use(SlogMiddleware(logger))  // Structured logging with OpenTelemetry traces
 	r.Use(chimiddleware.Recoverer) // Recover from panics gracefully
+	r.Use(CORSMiddleware())        // Enable CORS for cross-origin requests
 
 	// Performance & resilience
 	r.Use(chimiddleware.Compress(5))               // Gzip compression (level 5)
@@ -114,10 +114,10 @@ func HandleHTTPServer(ctx context.Context, cfg server.Config, u *url.URL, module
 	srv := &http.Server{
 		Addr:              u.Host,
 		Handler:           r,
-		ReadHeaderTimeout: 10 * time.Second,
-		WriteTimeout:      60 * time.Second,
-		IdleTimeout:       120 * time.Second,
-		MaxHeaderBytes:    1 << 20, // 1 MB
+		ReadHeaderTimeout: cfg.ReadHeaderTimeout,
+		WriteTimeout:      cfg.WriteTimeout,
+		IdleTimeout:       cfg.IdleTimeout,
+		MaxHeaderBytes:    cfg.MaxHeaderBytes,
 	}
 
 	// Channel to signal when server has stopped
@@ -170,47 +170,5 @@ func HandleHTTPServer(ctx context.Context, cfg server.Config, u *url.URL, module
 func errorHandler(logCtx context.Context, logger *slog.Logger) func(context.Context, http.ResponseWriter, error) {
 	return func(ctx context.Context, w http.ResponseWriter, err error) {
 		logger.ErrorContext(ctx, "HTTP Error", "error", err)
-	}
-}
-
-// SlogMiddleware extracts OTel trace IDs and injects a logger into the context.
-func SlogMiddleware(logger *slog.Logger) func(http.Handler) http.Handler {
-	return func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			ctx := r.Context()
-			span := trace.SpanFromContext(ctx)
-
-			// Inject trace_id and span_id if available (and valid) across all environments
-			reqLogger := logger
-			if span.SpanContext().IsValid() {
-				// We attach the trace info to the logger's attributes.
-				// For the JSON/GCP handler (Phase 3), the ReplaceAttr function handles mapping these keys
-				// to logging.googleapis.com/trace, etc.
-				// For Text/Dev handler (Phase 4), these just appear as normal attributes.
-				traceID := span.SpanContext().TraceID().String()
-				spanID := span.SpanContext().SpanID().String()
-
-				reqLogger = logger.With(
-					slog.String("trace_id", traceID),
-					slog.String("span_id", spanID),
-				)
-			}
-
-			// Log request start
-			reqLogger.InfoContext(ctx, "request started",
-				"method", r.Method,
-				"path", r.URL.Path,
-				"remote_addr", r.RemoteAddr,
-			)
-
-			// Update context with logger
-			// NOTE: We rely on standard context behavior. Services should use slog.Default() or
-			// take explicit logger. If services need to retrieve this logger from context,
-			// we would need a custom context key. For now, we assume simple usage or
-			// explicit passing. Services are refactored in Phase 5 to take *slog.Logger.
-			// Ideally, we'd have a ContextWithLogger helper if deep context extraction is needed.
-
-			next.ServeHTTP(w, r)
-		})
 	}
 }

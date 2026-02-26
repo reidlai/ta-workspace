@@ -1,18 +1,24 @@
 package server
 
 // Config holds the server configuration.
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type Config struct {
-	Host      string
-	Port      int
-	Debug     bool
-	LogLevel  string
-	LogFormat string
-	Secure    bool
-	TLSCert   string
-	TLSKey    string
-	NatsURL   string
+	Host              string
+	Port              int
+	Debug             bool
+	LogLevel          string
+	LogFormat         string
+	Secure            bool
+	TLSCert           string
+	TLSKey            string
+	ReadHeaderTimeout time.Duration
+	WriteTimeout      time.Duration
+	IdleTimeout       time.Duration
+	MaxHeaderBytes    int
 }
 
 // Validate checks if the configuration is valid.

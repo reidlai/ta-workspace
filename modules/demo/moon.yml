@@ -4,7 +4,6 @@ language: "unknown" # Mixed/Polyglot
 
 fileGroups:
   sveltekit: ["sveltekit/**/*", "!sveltekit/node_modules/**", "!sveltekit/dist/**", "**/.*/**"]
-  ts: ["ts/**/*", "!ts/node_modules/**", "**/.*/**"]
 
 tasks:
   # Svelte Frontend
@@ -51,32 +50,10 @@ tasks:
     platform: "node"
     local: true
 
-  # TypeScript Shared Lib
-  ts-build:
-    deps: ["demo-ts:build"]
-    platform: "node"
-
-  ts-lint:
-    deps: ["demo-ts:lint"]
-    platform: "system"
-    options:
-      mergeInputs: 'replace'
-
-  ts-test:
-    deps: ["demo-ts:test"]
-    platform: "node"
-
-  ts-format:
-    deps: ["demo-ts:format"]
-    platform: "system"
-    inputs: ["moon.yml"]
-    options:
-      mergeInputs: 'replace'
-
   # Composite Tasks
   build:
     command: 'echo "Building all components"'
-    deps: ["svelte-build", "ts-build"]
+    deps: ["svelte-build"]
     outputs: []
     platform: "system"
     options:
@@ -86,14 +63,14 @@ tasks:
 
   test:
     command: 'echo "Testing all components"'
-    deps: ["svelte-test", "ts-test", "svelte-check"]
+    deps: ["svelte-test", "svelte-check"]
     platform: "system"
     options:
       mergeArgs: 'replace'
 
   lint:
     command: 'echo "Linting all components"'
-    deps: ["ts-lint", "svelte-lint"]
+    deps: ["svelte-lint"]
     platform: "system"
     inputs: ["moon.yml"]
     options:
@@ -102,7 +79,7 @@ tasks:
 
   format:
     command: 'echo "Formatting all components"'
-    deps: ["ts-format", "svelte-format"]
+    deps: ["svelte-format"]
     platform: "system"
     inputs: ["moon.yml"]
     options:

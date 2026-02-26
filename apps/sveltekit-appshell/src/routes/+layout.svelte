@@ -3,7 +3,7 @@
   import { ModeWatcher } from "mode-watcher";
 
   let favicon = "/favicon.ico";
-  let { children }: { children: any } = $props();
+  let { children } = $props();
 
 </script>
 

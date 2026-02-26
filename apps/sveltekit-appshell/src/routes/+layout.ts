@@ -3,16 +3,23 @@ import { DIContainer } from "virtual-module-core/di";
 import type { LayoutLoad } from "./$types";
 import { ModuleLoader } from "$lib/loader/ModuleLoader";
 import { setAppContainer } from "$lib/registry";
+import pino from "pino";
+
+const logger = pino({
+  name: "appshell",
+  level: "debug",
+  browser: { asObject: true },
+});
 
 export const ssr = false;
 
 export const load: LayoutLoad = async ({ data, fetch }) => {
-  console.log("DEBUG: +layout.ts load start");
+  logger.debug("+layout.ts load start");
   const registry = Registry.getInstance();
 
   // Check if already loaded (client-side nav)
   if (registry.getWidgets().size > 0) {
-    console.log("DEBUG: Modules already loaded");
+    logger.debug("Modules already loaded");
     return { modules: Array.from(registry.getWidgets().values()) };
   }
 
@@ -26,12 +33,13 @@ export const load: LayoutLoad = async ({ data, fetch }) => {
     const moduleConfigs = json.modules;
 
     const container = new DIContainer(appConfig);
+
     setAppContainer(container);
 
     await ModuleLoader.loadModules(container, moduleConfigs);
-    console.log("DEBUG: ModuleLoader done");
+    logger.debug("ModuleLoader done");
   } catch (e) {
-    console.error("Failed to initialize app registry", e);
+    logger.error({ err: e }, "Failed to initialize app registry");
   }
 
   return {

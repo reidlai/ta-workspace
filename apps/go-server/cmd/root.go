@@ -7,6 +7,10 @@ import (
 	"github.com/spf13/viper"
 )
 
+/*
+ * Root command for the application
+ * @return void
+ */
 var RootCmd = &cobra.Command{
 	Use:   "ta-server",
 	Short: "Technical Analysis Assistant API",
@@ -14,13 +18,14 @@ var RootCmd = &cobra.Command{
 }
 
 func init() {
+
+	// Initialize config from file and environment variables
 	cobra.OnInitialize(initConfig)
 
-	// Add subcommands
+	// Add subcommand api-server
 	RootCmd.AddCommand(apiServerCmd)
-	// RootCmd.AddCommand(resServerCmd)
 
-	// Global flags
+	// Define persistent flags
 	RootCmd.PersistentFlags().String("config", "", "config file (default is rest-server.yaml)")
 	RootCmd.PersistentFlags().String("log-level", "", "Log level: DEBUG, INFO, WARN, ERROR")
 	RootCmd.PersistentFlags().String("log-format", "", "Log format: json, text")
@@ -29,6 +34,7 @@ func init() {
 	RootCmd.PersistentFlags().String("tls-cert", "", "Path to TLS certificate file")
 	RootCmd.PersistentFlags().String("tls-key", "", "Path to TLS key file")
 
+	// Bind persistent flags with cobra command line parameters
 	if err := viper.BindPFlag("config", RootCmd.PersistentFlags().Lookup("config")); err != nil {
 		panic(err)
 	}
@@ -55,17 +61,17 @@ func init() {
 // initConfig reads in config file and ENV variables if set.
 // Configuration precedence: Flag > Env > Config File > Default.
 //
-// It searches for "rest-server.yaml" in:
+// It searches for "server.yaml" in:
 // 1. Current directory (".")
-// 2. Home directory ("$HOME/.rest-server")
+// 2. Home directory ("$HOME")
 func initConfig() {
 	if cfgFile := viper.GetString("config"); cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
 	} else {
-		viper.SetConfigName("rest-server")
+		viper.SetConfigName("server")
 		viper.SetConfigType("yaml")
 		viper.AddConfigPath(".")
-		viper.AddConfigPath("$HOME/.rest-server")
+		viper.AddConfigPath("$HOME")
 	}
 
 	// Configuration precedence: Flag > Env > Config File > Default.

@@ -1,8 +1,11 @@
 package rest
 
 import (
+	"log/slog"
 	"net/http"
 	"strings"
+
+	"go.opentelemetry.io/otel/trace"
 )
 
 // CORSMiddleware adds CORS headers for cross-origin requests
@@ -130,6 +133,48 @@ func RequireAuthMiddleware() func(http.Handler) http.Handler {
 			//     http.Error(w, "Authentication required", http.StatusUnauthorized)
 			//     return
 			// }
+
+			next.ServeHTTP(w, r)
+		})
+	}
+}
+
+// SlogMiddleware extracts OTel trace IDs and injects a logger into the context.
+func SlogMiddleware(logger *slog.Logger) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			ctx := r.Context()
+			span := trace.SpanFromContext(ctx)
+
+			// Inject trace_id and span_id if available (and valid) across all environments
+			reqLogger := logger
+			if span.SpanContext().IsValid() {
+				// We attach the trace info to the logger's attributes.
+				// For the JSON/GCP handler (Phase 3), the ReplaceAttr function handles mapping these keys
+				// to logging.googleapis.com/trace, etc.
+				// For Text/Dev handler (Phase 4), these just appear as normal attributes.
+				traceID := span.SpanContext().TraceID().String()
+				spanID := span.SpanContext().SpanID().String()
+
+				reqLogger = logger.With(
+					slog.String("trace_id", traceID),
+					slog.String("span_id", spanID),
+				)
+			}
+
+			// Log request start
+			reqLogger.InfoContext(ctx, "request started",
+				"method", r.Method,
+				"path", r.URL.Path,
+				"remote_addr", r.RemoteAddr,
+			)
+
+			// Update context with logger
+			// NOTE: We rely on standard context behavior. Services should use slog.Default() or
+			// take explicit logger. If services need to retrieve this logger from context,
+			// we would need a custom context key. For now, we assume simple usage or
+			// explicit passing. Services are refactored in Phase 5 to take *slog.Logger.
+			// Ideally, we'd have a ContextWithLogger helper if deep context extraction is needed.
 
 			next.ServeHTTP(w, r)
 		})
