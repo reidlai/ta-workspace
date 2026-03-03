@@ -1,46 +1,46 @@
 language: typescript
 id: "module-workflow"
-type: "tool"
+layer: "tool"
 stack: "systems"
 
 tasks:
   add-module:
     command: "tsx src/bin/module-workflow.ts add-module"
     description: "Add a new feature module from a git repository"
-    platform: node
+    toolchain: node
 
   rename-module:
     command: "tsx src/bin/module-workflow.ts rename-module"
     description: "Rename an existing module and refactor references"
-    platform: node
+    toolchain: node
 
   delete-module:
     command: "tsx src/bin/module-workflow.ts delete-module"
     description: "Delete a module and clean up references"
-    platform: node
+    toolchain: node
 
   build:
     command: "pnpm run build"
-    platform: node
+    toolchain: node
     options:
       mergeArgs: "replace"
 
   test:
     command: "pnpm run test"
-    platform: node
+    toolchain: node
     options:
       mergeArgs: "replace"
 
   lint:
     command: "pnpm run lint"
-    platform: node
+    toolchain: node
     inputs: ["**/*", "!node_modules/**", "**/.*/**"]
     options:
       mergeArgs: "replace"
 
   format:
     command: "prettier --write --ignore-path ../../.prettierignore ."
-    platform: node
+    toolchain: node
     inputs: ["**/*", "!node_modules/**", "**/.*/**"]
     options:
       mergeArgs: "replace"

@@ -11,7 +11,7 @@ services:
       timeout: 5s
       retries: 5
 
-  ta-goserver-api:
+  ta-goserver:
     image: ghcr.io/reidlai/ta-goserver:latest
     ports:
       - "8080:8080"
@@ -22,24 +22,12 @@ services:
       - TA_GOSERVER_SERVER_SECURE=false
       - TA_GOSERVER_REST_HOST=0.0.0.0
       - TA_GOSERVER_REST_PORT=8080
-      - TA_GOSERVER_RES_NATS_URL=nats://nats:4222
     depends_on:
       - nats
     command: api-server start
 
-  ta-goserver-res:
-    image: ghcr.io/reidlai/ta-goserver:latest
-    environment:
-      - TA_GOSERVER_SERVER_LOG_LEVEL=DEBUG
-      - TA_GOSERVER_SERVER_LOG_FORMAT=json
-      - TA_GOSERVER_SERVER_DEBUG=true
-      - TA_GOSERVER_RES_NATS_URL=nats://nats:4222
-    depends_on:
-      - nats
-    command: res-server start
-
   resgate:
-    image: resgate/resgate:latest
+    image: resgateio/resgate:latest
     ports:
       - "8081:8081"
     command: "--nats nats://nats:4222"
@@ -52,11 +40,10 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
-      - API_URL=http://ta-goserver-api:8080
-      - RES_URL=ws://localhost:8081
-      - MOCK_DATA=false
+      - ORIGIN=http://localhost:3000
+      - PUBLIC_API_URL=http://localhost:8080
+      - API_URL=http://ta-goserver:8080
       - LOG_LEVEL=debug
     depends_on:
-      - ta-goserver-api
-      - ta-goserver-res
+      - ta-goserver
       - resgate

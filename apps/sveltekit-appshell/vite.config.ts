@@ -9,13 +9,6 @@ export default defineConfig({
     fs: {
       allow: [".."],
     },
-    proxy: {
-      "/api": {
-        target: "http://localhost:8080",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
-      },
-    },
   },
   test: {
     include: ["src/**/*.{test,spec}.{js,ts}"],

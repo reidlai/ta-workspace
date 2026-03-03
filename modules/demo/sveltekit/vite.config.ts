@@ -1,7 +1,10 @@
 import { defineConfig } from "vitest/config";
 import { sveltekit } from "@sveltejs/kit/vite";
 import tailwindcss from "@tailwindcss/vite";
+import { fileURLToPath } from "url";
 import path from "path";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig(({ mode }) => ({
   plugins: [tailwindcss(), sveltekit()],
@@ -24,7 +27,6 @@ export default defineConfig(({ mode }) => ({
             ),
           }
         : {}),
-      "@modules/demo-ts": path.resolve(__dirname, "../ts/src"),
     },
   },
 }));

@@ -14,7 +14,13 @@
   <!-- Dashboard Gadget Section -->
   <div class="grid gap-4 md:grid-cols-3">
     <div class="h-full rounded-xl bg-accent/33">
+      <DemoWidget />
+    </div>  
+    <div class="h-full rounded-xl bg-accent/33">
       <PortfolioSummaryWidget />
+    </div>
+    <div class="h-full rounded-xl bg-accent/33">
+      <WatchlistSummaryWidget />
     </div>
   </div>
   <div class="grid gap-4 md:grid-cols-2">
