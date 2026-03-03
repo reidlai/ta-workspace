@@ -4,81 +4,58 @@ language: "unknown" # Mixed/Polyglot
 
 fileGroups:
   sveltekit: ["sveltekit/**/*", "!sveltekit/node_modules/**", "!sveltekit/dist/**", "**/.*/**"]
-  ts: ["ts/**/*", "!ts/node_modules/**", "**/.*/**"]
 
 tasks:
   # Svelte Frontend
-  svelte-dev:
+  sveltekit-dev:
     deps: ["demo-sveltekit:dev"]
-    local: true
-    platform: "node"
+    preset: "server"
+    toolchain: "node"
 
-  svelte-build:
+  sveltekit-build:
     deps: ["demo-sveltekit:build"]
-    platform: "node"
+    toolchain: "node"
 
-  svelte-sync:
+  sveltekit-sync:
     deps: ["demo-sveltekit:sync"]
-    platform: "node"
-    local: true
+    toolchain: "node"
+    preset: "server"
     options:
       runInCI: true
       persistent: false
 
-  svelte-check:
+  sveltekit-check:
     deps: ["demo-sveltekit:check"]
-    platform: "node"
+    toolchain: "node"
 
-  svelte-test:
+  sveltekit-test:
     deps: ["demo-sveltekit:test"]
-    platform: "node"
+    toolchain: "node"
 
-  svelte-lint:
+  sveltekit-lint:
     deps: ["demo-sveltekit:lint"]
-    platform: "system"
+    toolchain: "system"
     options:
       mergeInputs: 'replace'
 
-  svelte-format:
+  sveltekit-format:
     deps: ["demo-sveltekit:format"]
-    platform: "system"
+    toolchain: "system"
     inputs: ["moon.yml"]
     options:
       mergeInputs: 'replace'
 
-  svelte-storybook:
+  sveltekit-storybook:
     deps: ["demo-sveltekit:storybook"]
-    platform: "node"
-    local: true
-
-  # TypeScript Shared Lib
-  ts-build:
-    deps: ["demo-ts:build"]
-    platform: "node"
-
-  ts-lint:
-    deps: ["demo-ts:lint"]
-    platform: "system"
-    options:
-      mergeInputs: 'replace'
-
-  ts-test:
-    deps: ["demo-ts:test"]
-    platform: "node"
-
-  ts-format:
-    deps: ["demo-ts:format"]
-    platform: "system"
-    inputs: ["moon.yml"]
-    options:
-      mergeInputs: 'replace'
+    toolchain: "node"
+    preset: "server"
 
   # Composite Tasks
   build:
     command: 'echo "Building all components"'
-    deps: ["svelte-build", "ts-build"]
+    deps: ["sveltekit-build"]
     outputs: []
-    platform: "system"
+    toolchain: "system"
     options:
       mergeArgs: 'replace'
       mergeInputs: 'replace'
@@ -86,15 +63,15 @@ tasks:
 
   test:
     command: 'echo "Testing all components"'
-    deps: ["svelte-test", "ts-test", "svelte-check"]
-    platform: "system"
+    deps: ["sveltekit-test", "sveltekit-check"]
+    toolchain: "system"
     options:
       mergeArgs: 'replace'
 
   lint:
     command: 'echo "Linting all components"'
-    deps: ["ts-lint", "svelte-lint"]
-    platform: "system"
+    deps: ["sveltekit-lint"]
+    toolchain: "system"
     inputs: ["moon.yml"]
     options:
       mergeArgs: 'replace'
@@ -102,14 +79,14 @@ tasks:
 
   format:
     command: 'echo "Formatting all components"'
-    deps: ["ts-format", "svelte-format"]
-    platform: "system"
+    deps: ["sveltekit-format"]
+    toolchain: "system"
     inputs: ["moon.yml"]
     options:
       mergeArgs: 'replace'
       mergeInputs: 'replace'
 
   storybook:
-    deps: ["svelte-storybook"]
-    local: true
-    platform: "system"
+    deps: ["sveltekit-storybook"]
+    preset: "server"
+    toolchain: "system"

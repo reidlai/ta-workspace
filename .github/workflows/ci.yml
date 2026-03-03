@@ -79,18 +79,18 @@ jobs:
           done
 
       - name: Quality - Moon Lint (TS/JS)
-        run: npx @moonrepo/cli run :lint
+        run: pnpm exec moon run :lint
 
       # Stage 4: Unit Tests
       - name: Test - Moon Unit Tests
-        run: npx @moonrepo/cli run :test
+        run: pnpm exec moon run :test
 
       # Stage 5: SAST
       - name: SAST - Gosec (Go)
         run: |
           for dir in apps/go-server modules/portfolio/go modules/watchlist/go; do
             echo "Scanning $dir..."
-            (cd "$dir" && GOTOOLCHAIN=go1.24.13 go run github.com/securego/gosec/v2/cmd/gosec@latest -no-fail ./...)
+            (cd "$dir" && GOTOOLCHAIN=go1.24.13 go run github.com/securego/gosec/v2/cmd/gosec@v2.22.4 -no-fail ./...)
           done
 
       - name: SAST - Semgrep (Polyglot)

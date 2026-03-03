@@ -3,8 +3,19 @@
   import { ModeWatcher } from "mode-watcher";
 
   let favicon = "/favicon.ico";
-  let { children }: { children: any } = $props();
+  let { children, data } = $props();
 
+  import { setContext } from "svelte";
+  import type { DIContainer } from "virtual-module-core/di";
+
+  // The DIContainer is created once per page load, so setting it on init is fine.
+  // We use a derived or effect if it were reactive, but the app context is static per-load.
+  // @ts-ignore - bypass type strictness on dynamic loader data
+  // svelte-ignore state_referenced_locally
+  const appContainer = data.appContainer as DIContainer | undefined;
+  if (appContainer) {
+    setContext("appContainer", appContainer);
+  }
 </script>
 
 <svelte:head>

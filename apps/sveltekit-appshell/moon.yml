@@ -1,12 +1,12 @@
 language: "typescript"
-type: "application"
+layer: "application"
 stack: "frontend"
 id: "sveltekit-appshell"
 
 tasks:
   start:
     command: "vite dev --host"
-    local: true
+    preset: "server"
 
   build:
     command: "pnpm run build"

@@ -47,7 +47,7 @@ tasks:
  
   all-start:
     deps:
-      - 'rest-server:start'
+      - 'go-server:start'
       - 'sveltekit-appshell:start'
     local: true
 

@@ -14,9 +14,6 @@ const config = {
     adapter: adapter(),
     alias: {
       "@/*": "./src/*",
-      "@modules/demo-ts": "../../modules/demo/ts/src/index.ts",
-      "@modules/watchlist-ts": "../../modules/watchlist/ts/src/index.ts",
-      "@modules/portfolio-ts": "../../modules/portfolio/ts/src/index.ts",
       "$modules/demo": "../../modules/demo/sveltekit/src",
       "$modules/portfolio": "../../modules/portfolio/sveltekit/src",
       "$modules/watchlist": "../../modules/watchlist/sveltekit/src",

@@ -22,11 +22,17 @@ services:
       - TA_GOSERVER_SERVER_SECURE=false
       - TA_GOSERVER_REST_HOST=0.0.0.0
       - TA_GOSERVER_REST_PORT=8080
-      - TA_GOSERVER_RES_NATS_URL=nats://nats:4222
     depends_on:
       - nats
-    # command: res-server start
     command: api-server start
+
+  resgate:
+    image: resgateio/resgate:latest
+    ports:
+      - "8081:8081"
+    command: "--nats nats://nats:4222"
+    depends_on:
+      - nats
 
   ta-webserver:
     image: ghcr.io/reidlai/ta-webserver:latest
@@ -34,8 +40,10 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
+      - ORIGIN=http://localhost:3000
+      - PUBLIC_API_URL=http://localhost:8080
       - API_URL=http://ta-goserver:8080
-      - MOCK_DATA=false
       - LOG_LEVEL=debug
     depends_on:
       - ta-goserver
+      - resgate

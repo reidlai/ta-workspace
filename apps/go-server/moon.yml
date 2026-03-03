@@ -1,4 +1,4 @@
-type: "application"
+layer: "application"
 stack: "backend"
 id: "go-server"
 
@@ -10,7 +10,7 @@ tasks:
       - "-o"
       - "bin/go-server"
       - "."
-    platform: "system"
+    toolchain: "system"
     inputs:
       - "**/*.go"
       - "go.mod"
@@ -31,7 +31,7 @@ tasks:
       - "."
       - "./cmd/..."
       - "./internal/..."
-    platform: "system"
+    toolchain: "system"
     inputs:
       - "**/*.go"
       - "go.mod"
@@ -43,11 +43,13 @@ tasks:
 
 
   start:
-    command: "go run . api-server"
+    command: "./bin/go-server api-server start"
+    deps:
+      - "build"
     env:
       TA_SERVER_LOG_LEVEL: "DEBUG"
       TA_SERVER_LOG_FORMAT: "text"
-    local: true
+    preset: "server"
 
   format:
     command: "goimports"
@@ -59,7 +61,7 @@ tasks:
       - "go.mod"
       - "go.sum"
       - "!**/.*/**"
-    platform: "system"
+    toolchain: "system"
     options:
       mergeArgs: "replace"
       mergeInputs: "replace"
@@ -80,7 +82,7 @@ tasks:
     options:
       mergeArgs: "replace"
       mergeInputs: "replace"
-    platform: "system"
+    toolchain: "system"
 
   docker-build:
     command: "../../scripts/docker-build-verify.sh ta-goserver Dockerfile ../.."

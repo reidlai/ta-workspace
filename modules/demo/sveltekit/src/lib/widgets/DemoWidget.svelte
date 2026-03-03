@@ -5,7 +5,7 @@
   import { Label } from "../components/ui/label/index";
 
   import type { IDemoWidgetStory } from "./DemoWidget.types";
-  import { demoState } from "../runes/DemoState.svelte";
+  import { DemoState } from "../states/DemoState.svelte";
 
   let {
     status: statusProp,
@@ -13,6 +13,8 @@
     onIncrement,
     onStatusChange,
   }: IDemoWidgetStory = $props();
+
+  let demoState = DemoState.getInstance();
 
   let status = $derived(statusProp ?? demoState.status ?? "");
   let count = $derived(countProp ?? demoState.count ?? 0);
